@@ -1,0 +1,664 @@
+# schedule_lp_extreme_points.jl
+# --------------------------------------------------------------------
+#  Max‑weight adaptive job‑selection on an m‑slot path – *full version*
+#  – adds enumeration of ALL extreme points, their aggregation to the
+#    x_i^t space, and the convex hull in that projected space.
+#
+#  Requirements (Julia REPL):
+#     ] add JuMP COPT Distributions Polyhedra CDDLib
+#  (replace COPT with another MILP solver if you don’t have it.)
+# --------------------------------------------------------------------
+
+using JuMP
+using COPT               # change if you use another LP solver
+using Distributions
+using Polyhedra
+using CDDLib
+import MathOptInterface as MOI
+using GLPK
+using SparseArrays, LinearAlgebra, Random
+# using Polyhedra: coordinates  # helper accessor
+
+# --------------------------------------------------------------------
+#  Basic container for a job’s distributions
+# --------------------------------------------------------------------
+struct JobDistribution
+    start_dist::UnivariateDistribution
+    end_dist::UnivariateDistribution
+end
+
+# --------------------------------------------------------------------
+#  Bit‑set helpers
+# --------------------------------------------------------------------
+@inline bits_from_set(S::AbstractVector{Int}) =
+    foldl((b,i)->b | (1 << (i-1)), S; init = 0)
+
+function set_from_bits(bits::Int, n::Int)
+    out = Int[]
+    for i in 1:n
+        ((bits >> (i-1)) & 1 == 1) && push!(out,i)
+    end
+    return out
+end
+
+@inline contiguous(v::Vector{Int}) =
+    length(v) ≤ 1 || (maximum(v)-minimum(v)+1 == length(v))
+
+# --------------------------------------------------------------------
+#  Renormalised pmf on a restricted support L
+# --------------------------------------------------------------------
+function renorm(dist::UnivariateDistribution, L_bits::Int, m::Int)
+    supp  = [i for i in 1:m if (L_bits >> (i-1)) & 1 == 1]
+    probs = pdf.(dist, supp)
+    Z = sum(probs)
+    Z == 0 && return Dict{Int,Float64}()
+    return Dict(supp[i] => probs[i]/Z for i in eachindex(supp))
+end
+
+# --------------------------------------------------------------------
+#  Probability that job `job` occupies exactly `occ_bits` ⊆ L′
+# --------------------------------------------------------------------
+function p_occ_exact(job::JobDistribution, occ_bits, Lp_bits, m)
+    occ_bits == 0 && return 0.0
+    # (occ_bits & ~Lp_bits) == 0 || return 0.0
+    iv = set_from_bits(occ_bits,m)
+    contiguous(iv) || return 0.0
+    s = minimum(iv); e = maximum(iv)
+    p_s = renorm(job.start_dist, Lp_bits, m)
+    p_e = renorm(job.end_dist,   Lp_bits, m)
+    return get(p_s,s,0.0)*get(p_e,e,0.0)
+end
+
+# --------------------------------------------------------------------
+#  Probability that job `job` conflicts with `occ_bits` (hence deleted)
+# --------------------------------------------------------------------
+function p_deleted(job::JobDistribution, occ_bits, Lp_bits, m)
+    occ_bits == 0 && return 0.0
+    occ   = Set(set_from_bits(occ_bits,m))
+    p_s   = renorm(job.start_dist, Lp_bits, m)
+    p_e   = renorm(job.end_dist,   Lp_bits, m)
+    p_del = 0.0
+    for (s,ps) in p_s, (e,pe) in p_e
+        e < s && continue
+        intersects = !isempty(intersect(occ, Set(s:e)))
+        intersects || continue
+        p_del += ps*pe
+    end
+    # if p_del > 0
+    #     return 1
+    # end
+    return p_del
+end
+
+@inline (A::Int) ⊆ (B::Int) = (A & B) == A
+
+# --------------------------------------------------------------------
+#  Transition probability  P[(S',L') | (S,L), a]
+# --------------------------------------------------------------------
+function trans_prob(S_bits,L_bits,S1_bits,L1_bits,a,jobs,m)
+    # has_a_in_S1      = ((S1_bits >> (a-1)) & 1) == 1
+    # S1_without_a     = S1_bits & ~(1 << (a-1))
+    # has_a_in_S1 && (S_bits == S1_without_a) || return 0.0
+    n = length(jobs)
+    # isequal(set_from_bits(S1_bits,n), setdiff(set_from_bits(S_bits,n), [a])) || return 0.0
+    (S1_bits & ~S_bits) == 0 && (S_bits != S1_bits) || return 0.0
+    ((S1_bits >> (a - 1)) & 1) == 1 && return 0
+    # if a in set_from_bits(S1_bits,n) return 0 end
+    # (L_bits & ~L1_bits) == 0 || return 0.0
+    if isempty(setdiff(set_from_bits(L_bits,m),set_from_bits(L1_bits,m))) ||  !all(in(set_from_bits(L_bits,m)), set_from_bits(L1_bits,m)) return 0 end
+    occ_bits = L_bits & ~L1_bits             # positions taken by a
+    p_occ = p_occ_exact(jobs[a],occ_bits,L_bits,m)
+    p_occ == 0.0 && return 0.0
+
+    p_survive = 1.0
+    n = length(jobs)
+    for j in set_from_bits(S_bits,n)
+        j==a && continue
+        # in_S  = (S_bits  >> (j-1)) & 1 == 1
+        in_S1 = (S1_bits >> (j-1)) & 1 == 1
+        # in_S || in_S1 || continue
+        p_del = p_deleted(jobs[j],occ_bits,L_bits,m)
+        println("p_del for job $j: ", p_del)
+        # println("\np_del for job $j: ", p_del)
+        p_survive *= in_S1 ? (1-p_del) : p_del
+        # p_survive *= 1-p_del
+    end
+    return p_occ * p_survive
+end
+
+# --------------------------------------------------------------------
+#  Build the JuMP model
+# --------------------------------------------------------------------
+# function build_schedule_lp(jobs::Vector{JobDistribution}, w::Vector{<:Real}, m::Int)
+#     n = length(jobs)
+#     n == length(w) || error("w length ≠ #jobs")
+
+#     allS = (1<<n)-1; allL = (1<<m)-1
+#     job_bits = collect(0:(1<<n)-1)
+#     pos_bits = collect(0:(1<<m)-1)
+
+#     model = Model(COPT.Optimizer)
+#     set_silent(model)
+
+#     # ---------------- variables -----------------
+#     z = Dict{Tuple{Int,Int,Int},VariableRef}()   # state prob
+#     x = Dict{Tuple{Int,Int,Int,Int},VariableRef}() # action
+
+#     for t in 1:m
+#         for S in job_bits, L in pos_bits
+#             z[(t,S,L)] = @variable(model, lower_bound=0.0,
+#                                    base_name="z_t$(t)_S$(S)_L$(L)")
+#             S==0 && continue
+#             for j in set_from_bits(S,n)
+#                 x[(t,S,L,j)] = @variable(model, lower_bound=0.0,
+#                                           base_name="x_t$(t)_S$(S)_L$(L)_j$(j)")
+#             end
+#         end
+#     end
+
+#     # ---------------- objective ------------------
+#     @objective(model, Max, sum(w[j]*xval for ((_,_,_,j),xval) in x))
+
+#     # ---------------- constraints ---------------
+#     @constraint(model, z[(1,allS,allL)] <= 1)
+#     for S in job_bits, L in pos_bits
+#         (S == allS && L == allL) && continue
+#         @constraint(model, z[(1,S,L)] == 0)
+#     end
+
+#     for (t,S,L) in keys(z)
+#         S == 0 && continue
+#         rhs = sum(x[(t,S,L,j)] for j in set_from_bits(S,n))
+#         @constraint(model, rhs == z[(t,S,L)])
+#     end
+
+#     for t in 2:m
+#         for S1 in job_bits, L1 in pos_bits
+#             lhs = z[(t,S1,L1)]
+#             rhs_expr = 0.0
+#             for S in job_bits, L in pos_bits
+#                 if S1 == allS || L1 == allL
+#                     p = 0
+#                     continue
+#                 end
+#                 S==0 && continue
+#                 for a in set_from_bits(S,n)
+#                     key = (t-1,S,L,a); haskey(x,key) || continue
+#                     # println("Processing key: ", key)
+#                     p = trans_prob(S,L,S1,L1,a,jobs,m)
+#                     # println(p)
+#                     # if set_from_bits(L,m) == [1,3] || set_from_bits(L1,m) == [1,3]
+#                     #     p = 0
+#                     # end
+#                     p == 0.0 && continue
+#                     println(p)
+#                     println(set_from_bits(S,n)," ",set_from_bits(L,m)," ",set_from_bits(S1,n)," ",set_from_bits(L1,m),a)
+                    
+#                     rhs_expr += p * x[key]
+#                 end
+#             end
+#             @constraint(model, lhs <= rhs_expr)
+#         end
+#     end
+
+#     return model, x, z
+# end
+
+function build_schedule_lp(jobs::Vector{JobDistribution},
+                               w::Vector{<:Real}, m::Int)
+    n = length(jobs)
+    n == length(w) || error("w length ≠ #jobs")
+
+    allS = (1<<n)-1;   allL = (1<<m)-1
+    job_bits = collect(0:(1<<n)-1)     # all subsets of jobs
+    pos_bits = collect(0:(1<<m)-1)     # all subsets of slots
+
+    model = Model(COPT.Optimizer)
+    set_silent(model)
+    # 1) aggregated variables in the *same* model
+    @variable(model, y[1:m, 1:n] >= 0)
+
+
+
+    # ---------------- variables -----------------
+    x = Dict{NTuple{4,Int}, VariableRef}()     # (t,S,L,j)
+
+    for t in 1:m
+        for S in job_bits, L in pos_bits
+            S == 0 && continue                 # no action if no job alive
+            for j in set_from_bits(S, n)
+                x[(t,S,L,j)] = @variable(model, lower_bound = 0.0,
+                                          base_name = "x_t$(t)_S$(S)_L$(L)_j$(j)")
+            end
+        end
+    end
+
+    # helper: sum of actions taken in state (t,S,L)
+    function xsum_expr(t,S,L)
+        terms = [x[(t,S,L,j)] for j in set_from_bits(S,n)
+                              if haskey(x,(t,S,L,j))]
+        return isempty(terms) ? 0.0 : sum(terms)
+    end
+
+    # ---------------- objective -----------------
+    @objective(model, Max,
+        sum(w[j] * xval  for ((_,_,_,j), xval) in x))
+
+    # ---------------- constraints ---------------
+    # 1.  initial‑state reachability
+    @constraint(model,  xsum_expr(1, allS, allL)  <= 1)
+    for S in job_bits, L in pos_bits
+        (S == allS && L == allL) && continue
+        @constraint(model,  xsum_expr(1,S,L) == 0)
+    end
+
+    # 2.  flow constraints without z
+    for t in 2:m
+        for S1 in job_bits, L1 in pos_bits
+            lhs = xsum_expr(t, S1, L1)
+
+            # build RHS = Σ p * x_{t-1,S,L,a}
+            rhs = AffExpr()
+            for S in job_bits, L in pos_bits
+                S == 0 && continue
+                for a in set_from_bits(S,n)
+                    key = (t-1,S,L,a)
+                    haskey(x, key) || continue
+                    p = trans_prob(S, L, S1, L1, a, jobs, m)
+                    p == 0.0 && continue
+                    rhs += p * x[key]
+                end
+            end
+            @constraint(model, lhs <= rhs)
+        end
+    end
+    # 2) equality  y[t,j] = Σ_{S,L} x[t,S,L,j]
+    for t in 1:m, j in 1:n
+        terms = [x[(t,S,L,j)] for ((tt,S,L,jj), xvar) in x if tt == t && jj == j]
+        isempty(terms) && continue                 # no action variables for this (t,j)
+        @constraint(model, y[t,j] - sum(terms) == 0)
+    end
+
+    return model, x
+end
+
+
+# --------------------------------------------------------------------
+#  Utility: aggregate x over S,L  →  matrix (t,i)
+# --------------------------------------------------------------------
+function aggregate_x(xdict, m, n)
+    # Return matrix with **rows = jobs (n)** and **columns = time (m)**
+    mat = zeros(n, m)
+    for ((t,_,_,j), var) in xdict
+        mat[j, t] += value(var)
+    end
+    return mat
+end
+
+# --------------------------------------------------------------------
+#  === NEW SECTION ===  Extreme‑point enumeration helpers
+# --------------------------------------------------------------------
+
+"Return the Polyhedra polyhedron of the LP (all constraints) via MOI + CDDLib."
+# ----------------------------------------------------------------------
+#  Build a Polyhedra polyhedron directly from the JuMP model
+# ----------------------------------------------------------------------
+function lp_polyhedron(model::JuMP.Model)
+    # Polyhedra has a JuMP extension that converts a (linear) JuMP model
+    # straight into an H‑representation.  We simply choose CDDLib as the
+    # backend enumerator.
+    # NOTE:  The call needs the *JuMP.Model* itself, **not** its MOI
+    #        backend/cached optimiser.  Passing the backend causes the
+    #        MethodError you hit.
+    #
+    #        polyhedron(model, backend) is provided by
+    #        PolyhedraJuMPExt (loaded automatically when Polyhedra is
+    #        imported), so no extra `using` is required.
+    return Polyhedra.polyhedron(model, CDDLib.Library())
+# end = JuMP.backend(model)  # MOI model behind JuMP
+#     return Polyhedra.polyhedron(backend, CDDLib.Library())
+end
+
+"Map each x‑variable to its column index in the coordinate vector."
+function x_index_map(xdict)
+    idx_to_key = Dict{Int,Tuple{Int,Int,Int,Int}}()
+    for (key, var) in xdict
+        idx_to_key[JuMP.index(var).value] = key   # MOI index → variable key
+    end
+    return idx_to_key
+end
+
+# Convert a vertex coordinate vector → x_i^t matrix
+function vertex_to_xt(coords::Vector{<:Real}, idx_to_key, m, n)
+    # rows = jobs, cols = time
+    mat = zeros(n, m)
+    for (idx, key) in idx_to_key
+        t = key[1]   # time index
+        j = key[4]   # job index
+        mat[j, t] += coords[idx]
+    end
+    return mat
+end
+function coords_to_xt!(mat, coords, pair)
+    fill!(mat, 0.0)
+    for k in eachindex(coords)
+        j, t = pair[k]
+        mat[j, t] += coords[k]
+    end
+    return mat
+end
+
+"Enumerate all vertices, aggregate to x_i^t matrices, return list & hull."
+function extreme_xit_matrices(model, xdict, m, n)
+    poly = lp_polyhedron(model)
+    idx_map = x_index_map(xdict)
+    # Prow = Int[]        # row = job index for each coord
+    # Pcol = Int[]        # col = time index for each coord
+    # for idx in keys(idx_map)
+    #     push!(Prow, idx_map[idx][4])   # j
+    #     push!(Pcol, idx_map[idx][1])   # Polyhedra.linear_mapt
+    # end
+    # # Optionally,  convert to StaticArrays or plain tuples for speed:
+    # pair = collect(zip(Prow, Pcol))       # Vector{Tuple{Int,Int}}
+    # p          = n*m 
+
+    # hspace = Polyhedra.halfspaces(poly)
+    # k          = length(hspace)                # number of inequalities
+    
+    # A = zeros(Float64, k, p)
+    # b = zeros(Float64, k)
+    # mat = zeros(n, m)  # matrix to fill with coords_to_xt!
+    # for (idx, hs) in enumerate(hspace)
+    #     A[idx, :] = vec(coords_to_xt!(mat, hs.a, pair))'  # fill one row
+    #     b[idx]    = hs.β
+    # end
+
+    # hplane = Polyhedra.hyperplanes(poly)
+    # k_eq = length(hplane)                # number of equalities
+    # A_eq = zeros(Float64, k_eq, p)
+    # b_eq = zeros(Float64, k_eq)
+
+    # for (idx, hs) in enumerate(hplane)
+    #     A_eq[idx, :] = vec(coords_to_xt!(mat, hs.a, pair))'  # fill one row
+    #     b_eq[idx]    = hs.β
+    # end
+
+    # # Half‑spaces  a⋅x ≤ β
+    # half_vec  = [HalfSpace(A[i, :], b[i])       for i in 1:size(A,1)]
+
+    # # Hyper‑planes a⋅x = β
+    # plane_vec = [HyperPlane(A_eq[i, :], b_eq[i]) for i in 1:size(A_eq,1)]
+    # H_eq = hrep(plane_vec)   # your Equalities
+    # H_ieq = hrep(half_vec)    # your Inequalities
+    # H  = hrep(plane_vec, half_vec)   # your Intersection
+
+    # poly  = polyhedron(H, CDDLib.Library())   # cddlib removes redundant rows
+    # Hred  = Polyhedra.hrep(poly)       # ← no crash
+    # Hred is now irredundant
+
+    # poly  = polyhedron(Hred, CDDLib.Library())              # minimal H‑rep
+    # verts = Polyhedra.points(poly)  
+
+
+
+    mats = [vertex_to_xt(v, idx_map, m, n) for v in Polyhedra.points(poly)]
+    
+    # Convex hull in the projected space
+    pts = [vec(mat') for mat in mats]
+    uniq_tuples = Set(map(x -> Tuple(x), pts))              # drop repeats
+    pts = [collect(t) for t in uniq_tuples] 
+    map_matrix = kron(sparse(I, n, n), ones(1, m))
+    pts2 = [map_matrix * p for p in pts]  # convert to x_i space
+    # vrep = Polyhedra.vrep([Polyhedra.point(p) for p in pts])
+    vrep = Polyhedra.vrep(pts)
+    vrep2 = Polyhedra.vrep(pts2)
+    # removevredundancy!(vrep)  # remove redundant vertices
+    hull = Polyhedra.polyhedron(vrep, CDDLib.Library())
+    hull2 = Polyhedra.polyhedron(vrep2, CDDLib.Library())
+    # removehredundancy!(hull)  # remove redundant halfspaces
+    # removevredundancy!(hull)  # remove redundant vertices
+    return vrep,hull, vrep2, hull2
+#     poly_big = Polyhedra.polyhedron(model, CDDLib.Library())
+
+#     x_cols = collect(keys(idx_map))             # positions of old x’s
+#     pdim   = n*m                                  # keep y‑columns 1:pdim
+#     keep   = 1:pdim                               # they were created first
+#     poly_xt = Polyhedra.eliminate(poly_big, x_cols)
+
+#     H_xt     = Polyhedra.hrep(poly_xt)            # inequalities in (t,j)
+end
+function generate_job_distributions(n,k; start_type=:uniform, end_type=:uniform, 
+    start_params=Nothing, end_params=Nothing, 
+    weight_dist=Uniform(1, 10))
+    jobs = JobDistribution[]
+    for i in 1:n
+    # Setup start distribution
+    if start_type == :uniform
+    s_params = start_params === Nothing ? (1, floor(k/2)) : start_params[i]
+    start_dist = DiscreteUniform(s_params...)
+    elseif start_type == :normal
+    s_params = start_params === Nothing ? (floor(k/4), 2.0) : start_params[i]
+    start_dist = truncated(Normal(s_params...), 0, Inf)  # ensure positivity
+    elseif start_type == :constant
+    s_params = start_params === Nothing ? (1,) : start_params[i]
+    start_dist = Dirac(s_params[1])  # constant distribution
+    else
+    error("Unknown start_type: $start_type")
+    end
+
+    # Setup end distribution
+    if end_type == :uniform
+    e_params = end_params === Nothing ? (ceil(k/2), k) : end_params[i]
+    end_dist = DiscreteUniform(e_params...)
+    elseif end_type == :normal
+    e_params = end_params === Nothing ? (floor(3*k/4), 2.0) : end_params[i]
+    end_dist = truncated(Normal(e_params...), 0, Inf)
+    elseif end_type == :constant
+    e_params = end_params === Nothing ? (k,) : end_params[i]
+    println("Using constant end distribution with parameter: ", e_params)
+    end_dist = Dirac(e_params[1])  # constant distribution
+    else
+    error("Unknown end_type: $end_type")
+    end
+
+    push!(jobs, JobDistribution(start_dist, end_dist))
+    end
+    job_weights = rand(1.0:10.0, n)
+    return jobs, job_weights
+end
+_pick_r(mode, rmax, rng) = mode === :max ? rmax :
+                           mode isa Integer ? max(0, min(mode, rmax)) :
+                           (rmax == 0 ? 0 : rand(rng, 0:rmax))
+
+function centered_discrete_uniform_pair(μs::Int, μe::Int, k::Int;
+    rng = Random.GLOBAL_RNG, start_halfwidth = :random, end_halfwidth = :random)
+
+    (1 ≤ μs ≤ k) || throw(ArgumentError("μs must be in 1..k"))
+    (1 ≤ μe ≤ k) || throw(ArgumentError("μe must be in 1..k"))
+    μe ≥ μs      || throw(ArgumentError("need μe ≥ μs (nonnegative length)"))
+
+    # boundary-limited symmetric radii (no `_` usage)
+    rmax_s = max(0, min(μs - 1, k - μs))
+    rmax_e = max(0, min(μe - 1, k - μe))
+    gap    = μe - μs  # = ℓ - 1
+
+    # choose end radius first, then fit start into leftover to ensure no overlap
+    r_e_max = min(rmax_e, gap)
+    r_e = _pick_r(end_halfwidth, r_e_max, rng)
+
+    r_s_max = min(rmax_s, gap - r_e)
+    r_s = _pick_r(start_halfwidth, r_s_max, rng)
+
+    a_s, b_s = μs - r_s, μs + r_s
+    a_e, b_e = μe - r_e, μe + r_e
+    @assert b_s <= a_e  # guaranteed by construction
+
+    return DiscreteUniform(a_s, b_s), DiscreteUniform(a_e, b_e)
+end
+function generate_job_distributions_from_lengths(n::Int, k::Int, lengths::AbstractVector{<:Integer};
+    rng = Random.GLOBAL_RNG,
+    length_probs::Union{Nothing,AbstractVector{<:Real}} = nothing,
+    start_halfwidth = :random,  # Int, :random, or :max
+    end_halfwidth   = :random,  # Int, :random, or :max
+    weight_dist = Uniform(1, 10),
+)
+    # sanitize lengths
+    valid_lengths = filter(ℓ -> 1 <= ℓ <= k, lengths)
+    isempty(valid_lengths) && error("No valid lengths (must be between 1 and k).")
+
+    # sampler for ℓ
+    pick_len = if isnothing(length_probs)
+        () -> rand(rng, valid_lengths)
+    else
+        length(length_probs) == length(lengths) || error("length_probs must match `lengths`.")
+        probs = collect(length_probs)
+        sum(probs) > 0 || error("length_probs must have positive sum.")
+        probs ./= sum(probs)
+        w = Weights(probs)
+        () -> lengths[rand(rng, w)]
+    end
+
+    jobs = JobDistribution[]
+    chosen_lengths = Vector{Int}(undef, n)
+    s_means = Vector{Int}(undef, n)
+    e_means = Vector{Int}(undef, n)
+
+    for i in 1:n
+        ℓ = pick_len()
+        ℓ > k && (ℓ = k)  # just in case
+        # pick start mean so that end mean stays within 1..k
+        μs = rand(rng, 1:(k - ℓ + 1))
+        μe = μs + ℓ - 1
+
+        sd, ed = centered_discrete_uniform_pair(μs, μe, k;
+    rng=rng, start_halfwidth=start_halfwidth, end_halfwidth=end_halfwidth)
+
+        push!(jobs, JobDistribution(sd, ed))
+        chosen_lengths[i] = ℓ
+        s_means[i] = μs
+        e_means[i] = μe
+    end
+
+    # weights
+    job_weights = rand(rng, weight_dist, n)
+
+    meta = (lengths = chosen_lengths, s_means = s_means, e_means = e_means)
+    return jobs, job_weights, meta
+end
+function random_param(n::Integer, k::Integer; rng = Random.GLOBAL_RNG)
+    k ≥ 4 || throw(ArgumentError("k must be at least 2"))
+    v1 = Vector{NTuple{2,Int}}(undef, n)
+    v2 = Vector{NTuple{2,Int}}(undef, n)
+
+    for i in 1:n
+        # --- first pair (a, b) with a ≤ b < k -----------------------------
+        a = rand(rng, 1:k-3)         # leave room so b < k
+        b = rand(rng, (a+1):k-2)
+        v1[i] = (a, b)
+
+        # --- second pair (c, d) with c > b, c ≤ d ≤ k ---------------------
+        c = rand(rng, b+1:k-1)         # b+1 … k is non-empty because b < k
+        d = rand(rng, (c+1):k)
+        v2[i] = (c, d)
+    end
+
+    return v1, v2
+end
+
+# --------------------------------------------------------------------
+#  Tiny driver (example) – can be wrapped in `main()`
+# --------------------------------------------------------------------
+
+# m = 3
+# jobs = JobDistribution[
+#     JobDistribution(DiscreteNonParametric([1,2],[0.5,0.5]), DiscreteNonParametric([2,3],[0.5,0.5])),
+#     JobDistribution(Dirac(1), Dirac(3)),
+# ]
+# w = [1.0, 2.0]
+
+
+# m = 3
+# jobs = JobDistribution[
+#     JobDistribution(Dirac(1), Dirac(1)),
+#     JobDistribution(DiscreteNonParametric([1,2],[0.4,0.6]), DiscreteNonParametric([2,3],[0.7,0.3])),
+#     JobDistribution(Dirac(3), Dirac(3))
+#     # JobDistribution(Dirac(3), Dirac(4))
+# ]
+# weights = [1,2,1] 
+# m = 4
+# jobs = JobDistribution[
+#     JobDistribution(Dirac(1), Dirac(1)),
+#     JobDistribution(DiscreteNonParametric([1,2],[0.5,0.5]), DiscreteNonParametric([2,3],[0.5,0.5])),
+#     JobDistribution(Dirac(3), Dirac(3)),
+#     # JobDistribution(Dirac(3), Dirac(4)),
+#     JobDistribution(DiscreteNonParametric([2,3,4],[0.5,0.25,0.25]), Dirac(4))
+# ]
+# weights = [1,2,1,2] 
+# jobs = JobDistribution[
+#     JobDistribution(Dirac(1), DiscreteNonParametric([1,2],[0.5,0.5])),
+#     JobDistribution(DiscreteNonParametric([2,3],[0.5,0.5]), Dirac(3))
+# ]
+# w = [1,1]
+
+n = 5
+m = 8
+# start_params = [(1,2),(2,4),(3,4),(4,6),(7,8)]        # per-job uniform start
+# end_params   = [(2,3),(5,6),(5,6),(6,7),(7,8)]      # per-job uniform end
+start_params = [(2,2),(2,4),(3,4),(4,5),(7,7)]        # per-job uniform start
+end_params   = [(2,3),(5,6),(5,6),(6,7),(8,8)]      # per-job uniform end
+# start_params = [(i,2) for i in 1:n]        # per-job uniform start
+# end_params   = [(i+2,2) for i in 1:n]      # per-job uniform end
+# start_params = [1,3,4,6,6,7,7,7,8,5]
+# end_params   = [2,3,6,6,7,7,7,8,8,6]
+Random.seed!(42)  # For reproducibility
+# start_params, end_params = random_param(n, k)
+
+# Step 1: Define job distributions
+# start_params = [(1,1+1e-10),(1,2),(3,3+1e-10)]
+# end_params = [(1,1+1e-10),(2,3),(3,3+1e-10)]
+
+# jobs, weights = generate_job_distributions(n,m, start_type=:normal, end_type=:normal,
+                                                # start_params=start_params, end_params=end_params)
+jobs, weights = generate_job_distributions(n,m, start_type=:uniform, end_type=:uniform,
+                                                start_params=start_params, end_params=end_params)                                                
+# jobs, weights = generate_job_distributions(n,m, start_type=:constant, end_type=:constant,
+                                                # start_params=start_params, end_params=end_params)
+
+Random.seed!(42)
+lengths = rand(1:Int(floor(k/2)), n)  # Random lengths for each job
+                                                
+jobs, weights, _ = generate_job_distributions_from_lengths(
+    n, k, lengths;
+    start_halfwidth = :random,      # or an Int (e.g., 1) or :max
+    end_halfwidth   = :random,
+)
+                                                weights = ones(n)  # uniform weights
+
+model, xdict= build_schedule_lp(jobs, weights, m)
+optimize!(model)
+println("Status: ", termination_status(model))
+# if termination_status(model) == MOI.OPTIMAL
+    n = length(jobs)
+    println("Objective value: ", objective_value(model))
+    println("Optimal x_i^t (rows=jobs, cols=time):\n", aggregate_x(xdict, m,n))
+
+    # EXT, hull, EXT_i,hull_i = extreme_xit_matrices(model, xdict, m, n)
+    # # VREP,hull = extreme_xit_matrices(model, xdict, m, n)
+    # # println("\n# Extreme points found: ", length(mats))
+    # # for (k, mat) in enumerate(mats)
+    # #     println("Extreme point $k:\n", mat)
+    # # end
+    # println("\n# Vertices of convex hull in x_i^t space: ", length(Polyhedra.points(hull)))
+    # HREP = Polyhedra.hrep(hull)
+    # println("
+    # Convex‑hull inequalities  A·x ≤ b  (in flattened x_i^t order):")
+    # for hs in halfspaces(HREP)
+    #     println(hs.a, " ≤ ", hs.β)
+    # end
+
+    #  println("Convex‑hull equalities  A·x = b  (in flattened x_i^t order):")
+    # for hs in hyperplanes(HREP)
+    #     println(hs.a, " = ", hs.β)
+    # end
+
+# end
