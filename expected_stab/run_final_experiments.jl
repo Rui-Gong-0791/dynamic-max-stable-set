@@ -281,7 +281,7 @@ function simulate_policy_original(jobs::Vector{JobDistribution}, weights::Abstra
 end
 
 function simulate_policy_conservative(jobs::Vector{JobDistribution}, weights::AbstractVector, k::Int;
-    policy::Symbol = :weight, num_samples::Int=500, L::Union{Nothing,AbstractVector}=nothing, rng=Random.GLOBAL_RNG)
+    policy::Symbol = :weight, num_samples::Int=1000, L::Union{Nothing,AbstractVector}=nothing, rng=Random.GLOBAL_RNG)
     n = length(jobs)
     A_L, A_R = compute_A_intervals(jobs, k)
     L === nothing && (L = estimate_position_probabilities(jobs, k; num_samples=1000)[4])
@@ -311,7 +311,7 @@ function simulate_policy_conservative(jobs::Vector{JobDistribution}, weights::Ab
     return mean(all_weights), all_weights
 end
 
-function simulate_optimal_expected(jobs::Vector{JobDistribution}, weights::AbstractVector, k::Int; num_samples::Int=500)
+function simulate_optimal_expected(jobs::Vector{JobDistribution}, weights::AbstractVector, k::Int; num_samples::Int=1000)
     vals = zeros(Float64, num_samples)
     for s in 1:num_samples
         starts, ends = sample_job_intervals(jobs, k)
@@ -328,9 +328,9 @@ function run_final_experiments(; rng_seed=38072,
     # dist_types = (:uniform, :normal, :exp),
     dist_types = (:uniform, :normal),
     num_instances=1,
-    num_samples_bounds=200,
-    num_samples_policy=80,
-    num_samples_opt=120)
+    num_samples_bounds=1000,
+    num_samples_policy=1000,
+    num_samples_opt=2000)
 
     Random.seed!(rng_seed)
     rows = Dict[]
@@ -348,7 +348,7 @@ function run_final_experiments(; rng_seed=38072,
         println("Finish simulating original greedy policy (weight).")
         orig_r, _ = simulate_policy_original(jobs, w, m; policy=:ratio,  num_samples=num_samples_policy, L=bounds.L)
         println("Finish simulating original greedy policy (ratio).")
-        orig_s, _ = simulate_policy_original(jobs, w, m; policy=:shortest, num_samples=num_samples_policy, L=bounds.L)
+        # orig_s, _ = simulate_policy_original(jobs, w, m; policy=:shortest, num_samples=num_samples_policy, L=bounds.L)
         opt_mc, _ = simulate_optimal_expected(jobs, w, m; num_samples=num_samples_opt)
         println("Finish simulating optimal expected stability number.")
         P_s, P_e, P_occ, _ = estimate_position_probabilities(jobs, m; num_samples=num_samples_bounds)
@@ -385,22 +385,22 @@ function run_final_experiments(; rng_seed=38072,
         xticks = collect(1:nrow(sub))
 
         # DSRSE plot (original)
-        p_dsrse = plot(xticks, sub.opt_mc; lw=2, marker=:circle, label="opt_mc",
+        p_dsrse = plot(xticks, sub.opt_mc; lw=2, marker=:circle, label="expected_stab",
             xlabel="instance", xticks=(xticks, xlabels), xrotation=45,
             ylabel="value", title="DSRSE vs size (dist=$(dt))")
         plot!(p_dsrse, xticks, sub.alpha_pes; lw=2, marker=:square, label="α_pes")
-        plot!(p_dsrse, xticks, sub.lp_orig; lw=2, marker=:utriangle, label="LP DSRSE")
+        plot!(p_dsrse, xticks, sub.lp_orig; lw=2, marker=:utriangle, label="DLP-P")
         plot!(p_dsrse, xticks, sub.dsrse_weight; lw=2, marker=:dtriangle, label="DSRSE weight")
         plot!(p_dsrse, xticks, sub.dsrse_ratio; lw=2, marker=:diamond, label="DSRSE ratio")
         savefig(p_dsrse, "plot_dsrse_$(dt).png")
         display(p_dsrse)
 
         # CDSRSE plot (conservative)
-        p_cdsrse = plot(xticks, sub.opt_mc; lw=2, marker=:circle, label="opt_mc",
+        p_cdsrse = plot(xticks, sub.opt_mc; lw=2, marker=:circle, label="expected_stab",
             xlabel="instance", xticks=(xticks, xlabels), xrotation=45,
             ylabel="value", title="CDSRSE vs size (dist=$(dt))")
         plot!(p_cdsrse, xticks, sub.alpha_pes; lw=2, marker=:square, label="α_pes")
-        plot!(p_cdsrse, xticks, sub.lp_cons; lw=2, marker=:utriangle, label="LP CDSRSE")
+        plot!(p_cdsrse, xticks, sub.lp_cons; lw=2, marker=:utriangle, label="CDLP-P")
         plot!(p_cdsrse, xticks, sub.cdsrse_weight; lw=2, marker=:dtriangle, label="CDSRSE weight")
         plot!(p_cdsrse, xticks, sub.cdsrse_ratio; lw=2, marker=:diamond, label="CDSRSE ratio")
         savefig(p_cdsrse, "plot_cdsrse_$(dt).png")
@@ -416,4 +416,3 @@ if abspath(PROGRAM_FILE) == @__FILE__
     println("Finished experiments. Rows: ", nrow(df))
     println(df)
 end
-
