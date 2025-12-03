@@ -1,7 +1,26 @@
 using Random, Distributions, StatsBase
-using Convex, LightGraphs, LinearAlgebra, Random, Statistics
-using JuMP, COPT, Ipopt, Gurobi, SCS, Mosek, MosekTools
+using LinearAlgebra, Random, Statistics
+
+begin
+    try
+        using Convex
+    catch e
+        @warn "Convex not available; skipping" exception=e
+    end
+    try
+        using LightGraphs
+    catch e
+        @warn "LightGraphs not available; skipping" exception=e
+    end
+    try
+        using JuMP
+    catch e
+        @warn "JuMP not available; skipping" exception=e
+    end
+end
+
 using DataFrames
+using CSV
 using Plots          # or: using StatsPlots
 using MathOptInterface
 const MOI = MathOptInterface
@@ -1350,6 +1369,375 @@ function simulate_greedy_policy_support(
     end
 
     return mean(all_weights), all_weights
+end
+
+# ---------------------------
+# Experiment scaffolding
+# ---------------------------
+
+"Generate start/end supports with controllable overlap and distribution family."
+function generate_support_instance(n::Int,
+                                   m::Int;
+                                   overlap::Symbol = :moderate,
+                                   weight_mode::Symbol = :uniform,
+                                   dist_type::Symbol = :uniform,
+                                   sigma::Real = 2.0,
+                                   rng = Random.GLOBAL_RNG)
+    jobs = JobDistribution[]
+    weights = zeros(Float64, n)
+
+    # crude knobs for overlap: how wide supports are and how concentrated starts are
+    function pick_start_anchor()
+        if overlap == :sparse
+            return rand(rng, 1:2: max(1, m - 1))
+        elseif overlap == :heavy
+            return rand(rng, 1:max(1, ceil(Int, m ÷ 3)))
+        else
+            return rand(rng, 1:m)
+        end
+    end
+
+    for i in 1:n
+        anchor = pick_start_anchor()
+        max_start_len = max(1, m - anchor + 1)
+        start_len = rand(rng, 1:max_start_len)
+        a = clamp(anchor, 1, m)
+        b = clamp(a + start_len - 1, 1, m)
+
+        max_end_len = max(1, m - b + 1)
+        end_len = rand(rng, start_len:max(start_len, max_end_len))
+        c = clamp(b, 1, m)
+        d = clamp(c + end_len - 1, c, m)
+
+        start_dist = if dist_type == :uniform
+            DiscreteUniform(a, b)
+        elseif dist_type == :normal
+            truncated(Normal((a + b) / 2, sigma), 1, m)
+        elseif dist_type == :exp
+            truncated(Exponential(1.0 / max(1, (a + b) / 2)), 1, m)
+        elseif dist_type == :constant
+            Dirac(a)
+        else
+            error("unknown dist_type: $dist_type")
+        end
+
+        end_dist = if dist_type == :uniform
+            DiscreteUniform(c, d)
+        elseif dist_type == :normal
+            truncated(Normal((c + d) / 2, sigma), 1, m)
+        elseif dist_type == :exp
+            truncated(Exponential(1.0 / max(1, (c + d) / 2)), 1, m)
+        elseif dist_type == :constant
+            Dirac(d)
+        else
+            error("unknown dist_type: $dist_type")
+        end
+
+        push!(jobs, JobDistribution(start_dist, end_dist))
+
+        weights[i] = weight_mode == :uniform ? 1.0 :
+                     weight_mode == :uniform01 ? rand(rng) :
+                     weight_mode == :exp1 ? rand(rng, Exponential(1.0)) :
+                     rand(rng)  # default
+    end
+    meta = (overlap = overlap, weight_mode = weight_mode, dist_type = dist_type)
+    return jobs, weights, meta
+end
+
+# Backward-compatible alias
+generate_uniform_support_instance(args...; kwargs...) = generate_support_instance(args...; kwargs...)
+
+"Compute pessimist bound and simple dual bounds for conservative model."
+function conservative_bounds(jobs::Vector{JobDistribution},
+                             weights::AbstractVector,
+                             m::Int;
+                             num_samples::Int = 5000)
+    n = length(jobs)
+    P_s, P_e, P_occ, L = estimate_position_probabilities(jobs, m; num_samples=num_samples)
+    A_L, A_R = compute_A_intervals(jobs, m)
+
+    α_pes = weighted_interval_scheduling(A_L, A_R, weights)
+
+    p_star = minimum(filter(>(0.0), P_occ))
+    upper_pstar = isfinite(p_star) && p_star > 0 ? α_pes / p_star : Inf
+
+    # Dual 1: μ_r = max_i { w_i / Σ_k P^o_{ik} : P^o_{ir} > 0 }
+    total_len = sum(P_occ, dims=2)
+    dual1 = 0.0
+    for r in 1:m
+        vals = Float64[]
+        for i in 1:n
+            if P_occ[i, r] > 0 && total_len[i] > 0
+                push!(vals, weights[i] / total_len[i])
+            end
+        end
+        dual1 += isempty(vals) ? 0.0 : maximum(vals)
+    end
+
+    # Dual 2: μ_r = max_i { P^o_{ir} * w_i / Σ_k (P^o_{ik})^2 : P^o_{ir} > 0 }
+    total_sq = sum(P_occ .^ 2, dims=2)
+    dual2 = 0.0
+    for r in 1:m
+        vals = Float64[]
+        for i in 1:n
+            if P_occ[i, r] > 0 && total_sq[i] > 0
+                push!(vals, P_occ[i, r] * weights[i] / total_sq[i])
+            end
+        end
+        dual2 += isempty(vals) ? 0.0 : maximum(vals)
+    end
+
+    return (α_pes = α_pes,
+            p_star = p_star,
+            upper_pstar = upper_pstar,
+            dual1 = dual1,
+            dual2 = dual2,
+            P_occ = P_occ,
+            L = vec(L))
+end
+
+"Monte Carlo estimate of conservative OPT via per-sample MIP."
+function estimate_conservative_opt(jobs::Vector{JobDistribution},
+                                   weights::Vector{Float64},
+                                   m::Int;
+                                   num_samples::Int = 200)
+    avg, allw = simulate_jobs_conserv(jobs, weights, m, num_samples)
+    return avg, allw
+end
+
+"Simulate original dynamic process with different policies."
+function simulate_policy_original(jobs::Vector{JobDistribution},
+                                  weights::AbstractVector,
+                                  k::Int;
+                                  policy::Symbol = :ratio,
+                                  num_samples::Int = 500,
+                                  L::Union{Nothing,AbstractVector} = nothing,
+                                  rng = Random.GLOBAL_RNG)
+    n = length(jobs)
+    L === nothing && (L = estimate_position_probabilities(jobs, k; num_samples=2000)[4])
+
+    all_weights = zeros(Float64, num_samples)
+    for sim in 1:num_samples
+        remaining = collect(1:n)
+        total = 0.0
+        while !isempty(remaining)
+            scores = zeros(Float64, length(remaining))
+            for (idx, i) in pairs(remaining)
+                if policy == :ratio
+                    scores[idx] = weights[i] / max(1e-9, L[i])
+                elseif policy == :weight
+                    scores[idx] = weights[i]
+                elseif policy == :shortest
+                    scores[idx] = -L[i]
+                elseif policy == :random
+                    scores[idx] = rand(rng)
+                else
+                    scores[idx] = weights[i]
+                end
+            end
+            pick_idx = argmax(scores)
+            i_sel = remaining[pick_idx]
+
+            # realize interval
+            s_i, e_i = sample_job_intervals([jobs[i_sel]], k)
+            s_i = s_i[1]; e_i = e_i[1]
+            total += weights[i_sel]
+
+            # delete conflicting remaining jobs using realized interval
+            new_remaining = Int[]
+            for j in remaining
+                if j == i_sel; continue; end
+                s_j, e_j = sample_job_intervals([jobs[j]], k)
+                s_j = s_j[1]; e_j = e_j[1]
+                if max(s_i, s_j) > min(e_i, e_j)
+                    push!(new_remaining, j)
+                end
+            end
+            remaining = new_remaining
+        end
+        all_weights[sim] = total
+    end
+    return mean(all_weights), all_weights
+end
+
+"Simulate conservative greedy policies: delete any job whose support intersects a realized interval."
+function simulate_policy_conservative(jobs::Vector{JobDistribution},
+                                      weights::AbstractVector,
+                                      k::Int;
+                                      policy::Symbol = :weight,
+                                      num_samples::Int = 500,
+                                      L::Union{Nothing,AbstractVector} = nothing,
+                                      rng = Random.GLOBAL_RNG)
+    n = length(jobs)
+    A_L, A_R = compute_A_intervals(jobs, k)
+    L === nothing && (L = estimate_position_probabilities(jobs, k; num_samples=2000)[4])
+    all_weights = zeros(Float64, num_samples)
+
+    for sim in 1:num_samples
+        remaining = collect(1:n)
+        total = 0.0
+        while !isempty(remaining)
+            scores = zeros(Float64, length(remaining))
+            for (idx, i) in pairs(remaining)
+                if policy == :ratio
+                    scores[idx] = weights[i] / max(1e-9, L[i])
+                elseif policy == :weight
+                    scores[idx] = weights[i]
+                else
+                    scores[idx] = weights[i]
+                end
+            end
+            pick_idx = argmax(scores)
+            i_sel = remaining[pick_idx]
+
+            # realize interval
+            s_i, e_i = sample_job_intervals([jobs[i_sel]], k)
+            s_i = s_i[1]; e_i = e_i[1]
+            total += weights[i_sel]
+
+            new_remaining = Int[]
+            for j in remaining
+                if j == i_sel; continue; end
+                # conservative delete if support intersects realized [s_i,e_i]
+                if A_R[j] < s_i || A_L[j] > e_i
+                    push!(new_remaining, j)
+                end
+            end
+            remaining = new_remaining
+        end
+        all_weights[sim] = total
+    end
+    return mean(all_weights), all_weights
+end
+
+"Run a small suite of conservative-bound metrics on one instance."
+function run_conservative_instance(n::Int, m::Int;
+                                   overlap::Symbol = :moderate,
+                                   weight_mode::Symbol = :uniform,
+                                   dist_type::Symbol = :uniform,
+                                   sigma::Real = 2.0,
+                                   num_samples_bounds::Int = 2000,
+                                   num_samples_opt::Int = 200)
+    jobs, weights, meta = generate_support_instance(n, m;
+        overlap=overlap, weight_mode=weight_mode, dist_type=dist_type, sigma=sigma)
+    bounds = conservative_bounds(jobs, weights, m; num_samples=num_samples_bounds)
+    est_opt, _ = estimate_conservative_opt(jobs, weights, m; num_samples=num_samples_opt)
+
+    return Dict(
+        "n" => n,
+        "m" => m,
+        "overlap" => overlap,
+        "weight_mode" => weight_mode,
+        "dist_type" => dist_type,
+        "alpha_pes" => bounds.α_pes,
+        "upper_pstar" => bounds.upper_pstar,
+        "dual1" => bounds.dual1,
+        "dual2" => bounds.dual2,
+        "p_star" => bounds.p_star,
+        "est_opt" => est_opt,
+        "alpha_pes_over_opt" => bounds.α_pes / max(1e-9, est_opt),
+        "upper_over_opt" => bounds.upper_pstar / max(1e-9, est_opt),
+        "dual1_over_opt" => bounds.dual1 / max(1e-9, est_opt),
+        "dual2_over_opt" => bounds.dual2 / max(1e-9, est_opt)
+    )
+end
+
+# Batch driver: generate many instances, compute bounds, return DataFrame and optional CSV.
+function run_conservative_batch(num_instances::Int;
+                                n::Int = 10,
+                                m::Int = 15,
+                                overlaps = (:sparse, :moderate, :heavy),
+                                weight_modes = (:uniform, :uniform01, :exp1),
+                                dist_types = (:uniform, :normal, :constant),
+                                num_samples_bounds::Int = 2000,
+                                num_samples_opt::Int = 200,
+                                rng = Random.GLOBAL_RNG,
+                                save_csv::Union{Nothing,String} = nothing)
+    rows = Dict[]
+    idx = 1
+    for ov in overlaps, wm in weight_modes, dt in dist_types, _ in 1:num_instances
+        push!(rows, run_conservative_instance(n, m;
+                                              overlap=ov,
+                                              weight_mode=wm,
+                                              dist_type=dt,
+                                              num_samples_bounds=num_samples_bounds,
+                                              num_samples_opt=num_samples_opt))
+    end
+    df = DataFrame(rows)
+    if save_csv !== nothing
+        CSV.write(save_csv, df)
+    end
+    return df
+end
+
+"Summaries of UB/OPT ratios over a DataFrame produced by run_conservative_batch."
+function summarize_bound_ratios(df::DataFrame)
+    cols = [:alpha_pes_over_opt, :upper_over_opt, :dual1_over_opt, :dual2_over_opt]
+    stats = Dict{Symbol,Dict{String,Float64}}()
+    for c in cols
+        vals = skipmissing(df[!, c])
+        stats[c] = Dict("mean" => mean(vals), "max" => maximum(vals), "min" => minimum(vals))
+    end
+    return stats
+end
+
+"Quick bar plot of mean UB/OPT ratios."
+function plot_bound_means(df::DataFrame)
+    cols = [:alpha_pes_over_opt, :upper_over_opt, :dual1_over_opt, :dual2_over_opt]
+    means = [mean(skipmissing(df[!, c])) for c in cols]
+    labels = ["α_pes/opt", "p*-ub/opt", "dual1/opt", "dual2/opt"]
+    bar(labels, means; legend=false, ylabel="mean(UB / est_opt)", xticks=(1:length(labels), labels))
+end
+
+# ---------------------------
+# Full experiment runner (conservative vs original policies)
+# ---------------------------
+"Run experiments over grids of (n,m, overlap, weight_mode, dist_type); return DataFrame and optional CSV."
+function run_full_batch(num_instances::Int;
+                        n_grid = (10, 15),
+                        m_grid = (10, 20),
+                        overlaps = (:sparse, :moderate, :heavy),
+                        weight_modes = (:uniform, :uniform01, :exp1),
+                        dist_types = (:uniform, :normal, :constant),
+                        num_samples_bounds::Int = 2000,
+                        num_samples_opt::Int = 200,
+                        num_samples_policy::Int = 500,
+                        rng = Random.GLOBAL_RNG,
+                        save_csv::Union{Nothing,String} = nothing)
+
+    rows = Dict[]
+    for n in n_grid, m in m_grid, ov in overlaps, wm in weight_modes, dt in dist_types, _ in 1:num_instances
+        jobs, weights, meta = generate_support_instance(n, m; overlap=ov, weight_mode=wm, dist_type=dt, rng=rng)
+        bounds = conservative_bounds(jobs, weights, m; num_samples=num_samples_bounds)
+        optc, _ = estimate_conservative_opt(jobs, weights, m; num_samples=num_samples_opt)
+
+        L = estimate_position_probabilities(jobs, m; num_samples=2000)[4]
+        pol_ratio, _ = simulate_policy_original(jobs, weights, m; policy=:ratio, num_samples=num_samples_policy, L=L)
+        pol_weight, _ = simulate_policy_original(jobs, weights, m; policy=:weight, num_samples=num_samples_policy, L=L)
+        pol_short, _ = simulate_policy_original(jobs, weights, m; policy=:shortest, num_samples=num_samples_policy, L=L)
+
+        push!(rows, Dict(
+            :n => n, :m => m, :overlap => ov, :weight_mode => wm, :dist_type => dt,
+            :alpha_pes => bounds.α_pes, :upper_pstar => bounds.upper_pstar,
+            :dual1 => bounds.dual1, :dual2 => bounds.dual2, :p_star => bounds.p_star,
+            :opt_conserv => optc,
+            :alpha_pes_over_opt => bounds.α_pes / max(1e-9, optc),
+            :upper_over_opt => bounds.upper_pstar / max(1e-9, optc),
+            :dual1_over_opt => bounds.dual1 / max(1e-9, optc),
+            :dual2_over_opt => bounds.dual2 / max(1e-9, optc),
+            :pol_ratio => pol_ratio,
+            :pol_weight => pol_weight,
+            :pol_short => pol_short,
+            :opt_over_ratio => optc / max(1e-9, pol_ratio),
+            :opt_over_weight => optc / max(1e-9, pol_weight),
+            :opt_over_short => optc / max(1e-9, pol_short)
+        ))
+    end
+    df = DataFrame(rows)
+    if save_csv !== nothing
+        CSV.write(save_csv, df)
+    end
+    return df
 end
 
 """
@@ -3171,99 +3559,111 @@ function plot_lp_vs_mc(lp_value::Real, inst::StarInstance; N::Int=100_000, label
     return plt, (mc_mean, mc_se), X
 end
 
-
-# # # --- choose sizes to sweep ---
-# n_list = [5, 8, 10, 12, 18, 25, 30, 37, 43, 47, 52, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100]
-# k_list = [8, 10, 12, 18, 25, 30, 37, 43, 47, 52, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100]
-n_list = [5, 8, 10,12,18,25,30]
-k_list = [8, 10,12,18,25,30]
-# n_list = [5]
-# k_list = [8]
-seeds   = 1:4                     # or e.g. 1:5 to average over randomness
-num_samples = 1000
+# (disabled) old ad-hoc runs
+# df_cons = run_conservative_batch(20; n=10, m=15, dist_types=(:uniform,:normal,:constant), save_csv="cons.csv")
+# df_full = run_full_batch(10; n_grid=(8,12), m_grid=(10,20), save_csv="full.csv")
+# p = plot_bound_means(df_cons); savefig(p, "ub_means.png")
 
 
-# # run and collect
-rows = DataFrame(n=Int[], k=Int[], seed=Int[], mean_weight=Float64[], mean_weight_conserv=Float64[], opt_stab = Float64[], two_median_stab= Float64[], obj_it=Float64[], obj_SDP=Float64[], LP_obj=Float64[], obj_new_LP = Float64[], obj_new_SDP = Float64[], obj_org_LP = Float64[], greedy = Float64[])
-gap_rows = DataFrame(n=Int[], k=Int[], seed=Int[], dual_gap=Float64[], ab_gap=Float64[])
-for n in n_list, k in k_list, s in seeds
-    if n <= k
-        # try 
-            println(k)
-            r = run_instance(n, k; seed=s, num_samples=num_samples)
-            push!(rows, (n=r.n, k=r.k, seed=s, mean_weight=r.mean_weight, mean_weight_conserv = r.mean_weight_conserv, opt_stab = r.opt_stab, two_median_stab = r.two_median_stab, obj_it=r.obj_it, obj_SDP=r.obj_SDP, LP_obj=r.LP_obj, obj_new_LP = r.obj_new_LP, obj_new_SDP = r.obj_new_SDP, obj_org_LP = r.obj_org_LP, greedy = r.greedy))
-            push!(gap_rows, (n=r.n, k=r.k, seed=s, dual_gap=r.dual_gap, ab_gap=r.ab_gap))
-        # catch err
-            # @warn "Instance failed" n k s err
-        # end
-    end
-end
+# # # # --- choose sizes to sweep ---
+# # n_list = [5, 8, 10, 12, 18, 25, 30, 37, 43, 47, 52, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100]
+# # k_list = [8, 10, 12, 18, 25, 30, 37, 43, 47, 52, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100]
+# n_list = [5, 8, 10,12,18,25,30]
+# k_list = [8, 10,12,18,25,30]
+# # n_list = [5]
+# # k_list = [8]
+# seeds   = 1:4                     # or e.g. 1:5 to average over randomness
+# num_samples = 1000
 
 
-# if you used multiple seeds, average them here
-results = combine(groupby(rows, [:n, :k])) do df
-    (; mean_weight = mean(df.mean_weight),
-        mean_weight_conserv = mean(df.mean_weight_conserv),
-        opt_stab = mean(df.opt_stab),
-        two_median_stab = mean(df.two_median_stab),
-       obj_it      = mean(df.obj_it),
-       obj_SDP      = mean(df.obj_SDP),
-       LP_obj      = mean(df.LP_obj),
-       obj_new_LP  = mean(df.obj_new_LP),
-       obj_new_SDP  = mean(df.obj_new_SDP),
-         obj_org_LP  = mean(df.obj_org_LP),
-       greedy      = mean(df.greedy))
-end
+# # # run and collect
+# rows = DataFrame(n=Int[], k=Int[], seed=Int[], mean_weight=Float64[], mean_weight_conserv=Float64[], opt_stab = Float64[], two_median_stab= Float64[], obj_it=Float64[], obj_SDP=Float64[], LP_obj=Float64[], obj_new_LP = Float64[], obj_new_SDP = Float64[], obj_org_LP = Float64[], greedy = Float64[])
+# gap_rows = DataFrame(n=Int[], k=Int[], seed=Int[], dual_gap=Float64[], ab_gap=Float64[])
+# for n in n_list, k in k_list, s in seeds
+#     if n <= k
+#         # try 
+#             println(k)
+#             r = run_instance(n, k; seed=s, num_samples=num_samples)
+#             push!(rows, (n=r.n, k=r.k, seed=s, mean_weight=r.mean_weight, mean_weight_conserv = r.mean_weight_conserv, opt_stab = r.opt_stab, two_median_stab = r.two_median_stab, obj_it=r.obj_it, obj_SDP=r.obj_SDP, LP_obj=r.LP_obj, obj_new_LP = r.obj_new_LP, obj_new_SDP = r.obj_new_SDP, obj_org_LP = r.obj_org_LP, greedy = r.greedy))
+#             push!(gap_rows, (n=r.n, k=r.k, seed=s, dual_gap=r.dual_gap, ab_gap=r.ab_gap))
+#         # catch err
+#             # @warn "Instance failed" n k s err
+#         # end
+#     end
+# end
 
-gaps = combine(groupby(gap_rows, [:n, :k])) do df
-    (; dual_gap = mean(df.dual_gap),
-       ab_gap   = mean(df.ab_gap))
-end
 
-# # long form for plotting
-# long = stack(results, [:mean_weight, :obj_it, :LP_obj], variable_name=:metric, value_name=:value)
-# long.label = string.("n=", long.n, ", k=", long.k)
+# # if you used multiple seeds, average them here
+# results = combine(groupby(rows, [:n, :k])) do df
+#     (; mean_weight = mean(df.mean_weight),
+#         mean_weight_conserv = mean(df.mean_weight_conserv),
+#         opt_stab = mean(df.opt_stab),
+#         two_median_stab = mean(df.two_median_stab),
+#        obj_it      = mean(df.obj_it),
+#        obj_SDP      = mean(df.obj_SDP),
+#        LP_obj      = mean(df.LP_obj),
+#        obj_new_LP  = mean(df.obj_new_LP),
+#        obj_new_SDP  = mean(df.obj_new_SDP),
+#          obj_org_LP  = mean(df.obj_org_LP),
+#        greedy      = mean(df.greedy))
+# end
 
-# # --- Plot: grouped bars per (n,k) comparing the three metrics ---
-# # With Plots.jl:
-# group_order = unique(long.label)
-# metric_order = ["mean_weight", "obj_it", "LP_obj"]
+# gaps = combine(groupby(gap_rows, [:n, :k])) do df
+#     (; dual_gap = mean(df.dual_gap),
+#        ab_gap   = mean(df.ab_gap))
+# end
 
-# plotdata = [long[(long.label .== lbl) .& (long.metric .== metric), :value][1]
-#             for lbl in group_order, metric in metric_order]
+# # # long form for plotting
+# # long = stack(results, [:mean_weight, :obj_it, :LP_obj], variable_name=:metric, value_name=:value)
+# # long.label = string.("n=", long.n, ", k=", long.k)
 
-# bar(group_order, plotdata;
-#     group = metric_order,
-#     legend = :topleft,
-#     xlabel = "Instance (n,k)",
-#     ylabel = "Value",
-#     title  = "Mean weight vs. relaxation vs. LP",
-#     lw=0.5, framestyle=:box, size=(900,420), dpi=150,
-# )
+# # # --- Plot: grouped bars per (n,k) comparing the three metrics ---
+# # # With Plots.jl:
+# # group_order = unique(long.label)
+# # metric_order = ["mean_weight", "obj_it", "LP_obj"]
 
-x = 1:nrow(results)
-labels = ["$(results.n[i]), $(results.k[i])" for i in 1:nrow(results)]
+# # plotdata = [long[(long.label .== lbl) .& (long.metric .== metric), :value][1]
+# #             for lbl in group_order, metric in metric_order]
 
-step = max(1, round(Int, length(x) / 10))  # ~10 ticks total
-sel  = 1:step:length(x)
+# # bar(group_order, plotdata;
+# #     group = metric_order,
+# #     legend = :topleft,
+# #     xlabel = "Instance (n,k)",
+# #     ylabel = "Value",
+# #     title  = "Mean weight vs. relaxation vs. LP",
+# #     lw=0.5, framestyle=:box, size=(900,420), dpi=150,
+# # )
 
-plot(x, results.mean_weight; label="mean_weight", marker=:auto,
-     xticks=(x[sel], labels[sel]), xrotation=30, xlabel="(n,k)",
-     legend=:topleft, framestyle=:box)
+# x = 1:nrow(results)
+# labels = ["$(results.n[i]), $(results.k[i])" for i in 1:nrow(results)]
+
+# step = max(1, round(Int, length(x) / 10))  # ~10 ticks total
+# sel  = 1:step:length(x)
+
+# plot(x, results.mean_weight; label="mean_weight", marker=:auto,
+#      xticks=(x[sel], labels[sel]), xrotation=30, xlabel="(n,k)",
+#      legend=:topleft, framestyle=:box)
+# # plot!(x, results.LP_obj;  label="LP_obj",  marker=:auto)
+# plot!(x, results.mean_weight_conserv;  label="mean_weight_conserv",  marker=:auto)
+# plot!(x, results.opt_stab;  label="opt_stab",  marker=:auto)
+# plot!(x, results.two_median_stab;  label="two_median_stab",  marker=:auto)
+# plot!(x, results.greedy;  label="greedy",  marker=:auto)
+# plot!(x, results.obj_it;  label="obj_it",  marker=:auto)
+# plot!(x, results.obj_SDP;  label="obj_SDP",  marker=:auto)
 # plot!(x, results.LP_obj;  label="LP_obj",  marker=:auto)
-plot!(x, results.mean_weight_conserv;  label="mean_weight_conserv",  marker=:auto)
-plot!(x, results.opt_stab;  label="opt_stab",  marker=:auto)
-plot!(x, results.two_median_stab;  label="two_median_stab",  marker=:auto)
-plot!(x, results.greedy;  label="greedy",  marker=:auto)
-plot!(x, results.obj_it;  label="obj_it",  marker=:auto)
-plot!(x, results.obj_SDP;  label="obj_SDP",  marker=:auto)
-plot!(x, results.LP_obj;  label="LP_obj",  marker=:auto)
-plot!(x, results.obj_new_LP;  label="obj_new_LP",  marker=:auto)
-plot!(x, results.obj_new_SDP;  label="obj_new_SDP",  marker=:auto)
-plot!(x, results.obj_org_LP;  label="obj_org_LP",  marker=:auto)
-savefig("comparison_new_LP.pdf")
+# plot!(x, results.obj_new_LP;  label="obj_new_LP",  marker=:auto)
+# plot!(x, results.obj_new_SDP;  label="obj_new_SDP",  marker=:auto)
+# plot!(x, results.obj_org_LP;  label="obj_org_LP",  marker=:auto)
+# savefig("comparison_new_LP.pdf")
 
-println(gap_rows)
+# println(gap_rows)
+
+
+
+
+
+
+
 # n = 10
 # k = n
 # P2 = 1/n * (ones(n,n)-I(n))
