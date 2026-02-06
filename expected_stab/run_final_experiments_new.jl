@@ -43,7 +43,6 @@ end
 #   - alpha_pes: pessimistic interval bound (deterministic widest support).
 #   - dual1, dual2: simple occupancy-based dual bounds from note (using P^o).
 #   - opt_mc: Monte Carlo estimate of true expected optimum (exact WIS on each draw).
-# LP bound you mentioned (p*-scaled upper bound) is currently commented out/omitted; add if needed.
 struct JobDistribution
     start_dist::UnivariateDistribution
     end_dist::UnivariateDistribution
@@ -168,6 +167,45 @@ function weighted_interval_scheduling(starts::Vector{<:Real}, ends::Vector{<:Rea
     return opt[n+1]
 end
 
+function wis_dual_mu(A_L::Vector{Int}, A_R::Vector{Int}, weights::AbstractVector, m::Int)
+    optimizer = _lp_optimizer()
+    optimizer === nothing && return nothing, NaN
+    n = length(weights)
+    model = Model(optimizer)
+    @variable(model, μ[1:m] >= 0)
+    @constraint(model, [i=1:n], sum(μ[r] for r in A_L[i]:A_R[i]) >= weights[i])
+    @objective(model, Min, sum(μ))
+    optimize!(model)
+    return value.(μ), objective_value(model)
+end
+
+function mu_pes_bound_nonconservative(mu::AbstractVector, jobs::Vector{JobDistribution},
+    P_occ::AbstractMatrix, m::Int)
+    n = length(jobs)
+    a = Vector{Int}(undef, n); b = Vector{Int}(undef, n)
+    c = Vector{Int}(undef, n); d = Vector{Int}(undef, n)
+    for i in 1:n
+        a[i], b[i] = interval_bounds(jobs[i].start_dist, m)
+        c[i], d[i] = interval_bounds(jobs[i].end_dist, m)
+    end
+
+    total = 0.0
+    for r in 1:m
+        sum_s = 0.0
+        sum_e = 0.0
+        for i in 1:n
+            if a[i] <= r <= b[i]
+                sum_s += 1 - P_occ[i, r]
+            end
+            if c[i] <= r <= d[i]
+                sum_e += 1 - P_occ[i, r]
+            end
+        end
+        total += mu[r] * (1 + sum_s + sum_e)
+    end
+    return total
+end
+
 function generate_base_supports(n::Int, m::Int; rng=Random.GLOBAL_RNG)
     supports = Array{Int}(undef, n, 4)
     for i in 1:n
@@ -279,7 +317,10 @@ function conservative_bounds(jobs::Vector{JobDistribution}, weights::AbstractVec
     P_s, P_e, P_occ, L = estimate_position_probabilities(jobs, m; num_samples=num_samples)
     A_L, A_R = compute_A_intervals(jobs, m)
     α_pes = weighted_interval_scheduling(A_L, A_R, weights)  # pessimistic bound
+    mu_pes, _ = wis_dual_mu(A_L, A_R, weights, m)
+    mu_bound = isnothing(mu_pes) ? NaN : mu_pes_bound_nonconservative(mu_pes, jobs, P_occ, m)
     p_star = minimum(filter(>(0.0), P_occ))                  # min positive occupancy
+    alpha_pes_over_pstar = p_star > 0 ? α_pes / p_star : NaN
     total_len = sum(P_occ, dims=2)
     dual1 = 0.0
     for r in 1:m
@@ -292,7 +333,8 @@ function conservative_bounds(jobs::Vector{JobDistribution}, weights::AbstractVec
         vals = [P_occ[i,r]*weights[i]/total_sq[i] for i in 1:n if P_occ[i,r]>0 && total_sq[i]>0]
         dual2 += isempty(vals) ? 0.0 : maximum(vals)
     end
-    return (α_pes=α_pes, p_star=p_star, dual1=dual1, dual2=dual2, L=vec(L))
+    return (α_pes=α_pes, p_star=p_star, dual1=dual1, dual2=dual2, L=vec(L),
+            mu_pes_bound=mu_bound, alpha_pes_over_pstar=alpha_pes_over_pstar)
 end
 
 # LP for conservative case (CDLP-P): max Σ w_i x_i s.t. Σ_i P_occ[i,k] x_i ≤ 1, x ≥ 0
@@ -418,15 +460,41 @@ end
 
 function add_ratio_columns!(df::DataFrame)
     df.alpha_over_opt = df.alpha_pes ./ max.(df.opt_mc, 1e-9)
+    if :alpha_pes_over_pstar in names(df)
+        df.alpha_pes_over_pstar_over_opt = df.alpha_pes_over_pstar ./ max.(df.opt_mc, 1e-9)
+    end
     df.lp_cons_over_opt = df.lp_cons ./ max.(df.opt_mc, 1e-9)
     df.lp_orig_over_opt = df.lp_orig ./ max.(df.opt_mc, 1e-9)
     df.sdp_orig_over_opt = df.sdp_orig ./ max.(df.opt_mc, 1e-9)
     df.dual1_over_opt = df.dual1 ./ max.(df.opt_mc, 1e-9)
     df.dual2_over_opt = df.dual2 ./ max.(df.opt_mc, 1e-9)
+    if :mu_pes_bound in names(df)
+        df.mu_pes_bound_over_opt = df.mu_pes_bound ./ max.(df.opt_mc, 1e-9)
+    end
     df.cdsrse_w_over_opt = df.cdsrse_weight ./ max.(df.opt_mc, 1e-9)
     df.cdsrse_r_over_opt = df.cdsrse_ratio ./ max.(df.opt_mc, 1e-9)
     df.dsrse_w_over_opt = df.dsrse_weight ./ max.(df.opt_mc, 1e-9)
     df.dsrse_r_over_opt = df.dsrse_ratio ./ max.(df.opt_mc, 1e-9)
+    return df
+end
+
+function add_gap_columns!(df::DataFrame)
+    df.alpha_gap = abs.(1 .- df.alpha_over_opt)
+    if :alpha_pes_over_pstar_over_opt in names(df)
+        df.alpha_pes_over_pstar_gap = abs.(1 .- df.alpha_pes_over_pstar_over_opt)
+    end
+    df.lp_cons_gap = abs.(1 .- df.lp_cons_over_opt)
+    df.lp_orig_gap = abs.(1 .- df.lp_orig_over_opt)
+    df.sdp_orig_gap = abs.(1 .- df.sdp_orig_over_opt)
+    df.dual1_gap = abs.(1 .- df.dual1_over_opt)
+    df.dual2_gap = abs.(1 .- df.dual2_over_opt)
+    if :mu_pes_bound_over_opt in names(df)
+        df.mu_pes_bound_gap = abs.(1 .- df.mu_pes_bound_over_opt)
+    end
+    df.cdsrse_w_gap = abs.(1 .- df.cdsrse_w_over_opt)
+    df.cdsrse_r_gap = abs.(1 .- df.cdsrse_r_over_opt)
+    df.dsrse_w_gap = abs.(1 .- df.dsrse_w_over_opt)
+    df.dsrse_r_gap = abs.(1 .- df.dsrse_r_over_opt)
     return df
 end
 
@@ -540,16 +608,17 @@ function run_final_experiments_design(; rng_seed=38072,
     m_grid = (10, 15, 20, 25, 30),
     size_pairs = [(8, 12), (10, 15), (12, 18), (14, 21), (16, 24), (18, 27), (19, 29),
                   (20, 30), (40, 60), (80, 120)],
-    weight_modes = (:uniform,),
+    weight_modes = (:uniform01,),
     dist_types = (:uniform,),
     densities = (:dense, :sparse),
     lengths = (:short, :long),
     sdp_n_max = 12,
+    run_sdp = false,
     num_instances=30,
     num_samples_bounds=1000,
     num_samples_overlap=500,
     num_samples_policy=1000,
-    num_samples_opt=2000)
+    num_samples_opt=1000)
 
     Random.seed!(rng_seed)
     rows = Dict[]
@@ -594,7 +663,7 @@ function run_final_experiments_design(; rng_seed=38072,
                         num_samples=num_samples_bounds)
                     lp_cons = lp_bound_conservative(P_occ, weights_use)
                     lp_orig = lp_bound_original(jobs, P_s, P_e, weights_use, m_used)
-                    sdp_orig = length(weights_use) <= sdp_n_max ?
+                    sdp_orig = (run_sdp && length(weights_use) <= sdp_n_max) ?
                         sdp_bound_original(jobs, P_s, P_e, weights_use, m_used) : NaN
 
                     push!(rows, Dict(
@@ -604,7 +673,9 @@ function run_final_experiments_design(; rng_seed=38072,
                         :density=>dens, :length=>len,
                         :weight_mode=>wm, :dist_type=>dt,
                         :alpha_pes=>bounds.α_pes, :p_star=>bounds.p_star,
+                        :alpha_pes_over_pstar=>bounds.alpha_pes_over_pstar,
                         :dual1=>bounds.dual1, :dual2=>bounds.dual2,
+                        :mu_pes_bound=>bounds.mu_pes_bound,
                         :opt_mc=>opt_mc,
                         :lp_cons=>lp_cons, :lp_orig=>lp_orig, :sdp_orig=>sdp_orig,
                         :cdsrse_weight=>cons_w, :cdsrse_ratio=>cons_r,
@@ -617,17 +688,38 @@ function run_final_experiments_design(; rng_seed=38072,
 
     df_raw = DataFrame(rows)
     add_ratio_columns!(df_raw)
+    add_gap_columns!(df_raw)
     CSV.write("final_experiment_new_raw.csv", df_raw)
 
     group_cols = [:n_base, :m_base, :density, :length, :weight_mode, :dist_type]
-    ratio_cols = [:alpha_over_opt, :lp_cons_over_opt, :lp_orig_over_opt, :sdp_orig_over_opt,
-                  :dual1_over_opt, :dual2_over_opt, :cdsrse_w_over_opt, :cdsrse_r_over_opt,
+    ratio_cols = [:alpha_over_opt, :alpha_pes_over_pstar_over_opt, :lp_cons_over_opt,
+                  :lp_orig_over_opt, :sdp_orig_over_opt, :dual1_over_opt, :dual2_over_opt,
+                  :mu_pes_bound_over_opt, :cdsrse_w_over_opt, :cdsrse_r_over_opt,
                   :dsrse_w_over_opt, :dsrse_r_over_opt]
     num_cols = names(df_raw, Number)
     value_cols = setdiff(num_cols, union(group_cols, ratio_cols, [:instance_id]))
     df_avg = combine(groupby(df_raw, group_cols), value_cols .=> mean .=> value_cols)
     add_ratio_columns!(df_avg)
     CSV.write("final_experiment_new.csv", df_avg)
+
+    function series_extrema(sub::DataFrame, cols::Vector{Symbol})
+        minv = Inf
+        maxv = -Inf
+        for col in cols
+            if String(col) in names(sub)
+                for v in sub[!, col]
+                    if isfinite(v)
+                        minv = v < minv ? v : minv
+                        maxv = v > maxv ? v : maxv
+                    end
+                end
+            end
+        end
+        if minv == Inf
+            return (0.0, 1.0)
+        end
+        return (minv, maxv)
+    end
 
     for dt in unique(df_avg.dist_type), dens in unique(df_avg.density), len in unique(df_avg.length)
         sub = df_avg[(df_avg.dist_type .== dt) .& (df_avg.density .== dens) .& (df_avg.length .== len), :]
@@ -636,24 +728,49 @@ function run_final_experiments_design(; rng_seed=38072,
         xlabels = ["n=$(sub.n_base[i]), m=$(sub.m_base[i])" for i in 1:nrow(sub)]
         xticks = collect(1:nrow(sub))
 
-        p_dsrse = plot(xticks, sub.opt_mc; lw=2, marker=:circle, label="expected_stab",
+        expected_line = ones(nrow(sub))
+        dsrse_cols = [:alpha_over_opt, :lp_orig_over_opt, :dsrse_w_over_opt, :dsrse_r_over_opt]
+        if "mu_pes_bound_over_opt" in names(sub)
+            push!(dsrse_cols, :mu_pes_bound_over_opt)
+        end
+        minv, maxv = series_extrema(sub, dsrse_cols)
+        minv = min(minv, 1.0)
+        maxv = max(maxv, 1.0)
+        pad = 0.05 * (maxv - minv)
+        pad = pad == 0.0 ? 0.1 * maxv : pad
+        ylims = (minv - pad, maxv + pad)
+
+        p_dsrse = plot(xticks, expected_line; lw=2, marker=:circle, label="expected_stab",
             xlabel="instance", xticks=(xticks, xlabels), xrotation=45,
-            ylabel="value", title="DSRSE ($(dens), $(len), dist=$(dt))")
-        plot!(p_dsrse, xticks, sub.alpha_pes; lw=2, marker=:square, label="α_pes")
-        plot!(p_dsrse, xticks, sub.lp_orig; lw=2, marker=:utriangle, label="DLP-P")
-        plot!(p_dsrse, xticks, sub.sdp_orig; lw=2, marker=:hexagon, label="SDP-P")
-        plot!(p_dsrse, xticks, sub.dsrse_weight; lw=2, marker=:dtriangle, label="DSRSE weight")
-        plot!(p_dsrse, xticks, sub.dsrse_ratio; lw=2, marker=:diamond, label="DSRSE ratio")
+            ylabel="value / expected_stab", title="DSRSE ($(dens), $(len), dist=$(dt))",
+            legend=:outertopright, ylims=ylims)
+        plot!(p_dsrse, xticks, sub.alpha_over_opt; lw=2, marker=:square, label="α_pes")
+        plot!(p_dsrse, xticks, sub.lp_orig_over_opt; lw=2, marker=:utriangle, label="DLP-P")
+        if "mu_pes_bound_over_opt" in names(sub) &&
+           any(x -> isfinite(x), skipmissing(sub.mu_pes_bound_over_opt))
+            plot!(p_dsrse, xticks, sub.mu_pes_bound_over_opt; lw=2, marker=:star5, label="μ_pes bound")
+        end
+        plot!(p_dsrse, xticks, sub.dsrse_w_over_opt; lw=2, marker=:dtriangle, label="DSRSE weight")
+        plot!(p_dsrse, xticks, sub.dsrse_r_over_opt; lw=2, marker=:diamond, label="DSRSE ratio")
         savefig(p_dsrse, "plot_dsrse_$(dens)_$(len)_$(dt).png")
         display(p_dsrse)
 
-        p_cdsrse = plot(xticks, sub.opt_mc; lw=2, marker=:circle, label="expected_stab",
+        cdsrse_cols = [:alpha_over_opt, :lp_cons_over_opt, :cdsrse_w_over_opt, :cdsrse_r_over_opt]
+        minv, maxv = series_extrema(sub, cdsrse_cols)
+        minv = min(minv, 1.0)
+        maxv = max(maxv, 1.0)
+        pad = 0.05 * (maxv - minv)
+        pad = pad == 0.0 ? 0.1 * maxv : pad
+        ylims = (minv - pad, maxv + pad)
+
+        p_cdsrse = plot(xticks, expected_line; lw=2, marker=:circle, label="expected_stab",
             xlabel="instance", xticks=(xticks, xlabels), xrotation=45,
-            ylabel="value", title="CDSRSE ($(dens), $(len), dist=$(dt))")
-        plot!(p_cdsrse, xticks, sub.alpha_pes; lw=2, marker=:square, label="α_pes")
-        plot!(p_cdsrse, xticks, sub.lp_cons; lw=2, marker=:utriangle, label="CDLP-P")
-        plot!(p_cdsrse, xticks, sub.cdsrse_weight; lw=2, marker=:dtriangle, label="CDSRSE weight")
-        plot!(p_cdsrse, xticks, sub.cdsrse_ratio; lw=2, marker=:diamond, label="CDSRSE ratio")
+            ylabel="value / expected_stab", title="CDSRSE ($(dens), $(len), dist=$(dt))",
+            legend=:outertopright, ylims=ylims)
+        plot!(p_cdsrse, xticks, sub.alpha_over_opt; lw=2, marker=:square, label="α_pes")
+        plot!(p_cdsrse, xticks, sub.lp_cons_over_opt; lw=2, marker=:utriangle, label="CDLP-P")
+        plot!(p_cdsrse, xticks, sub.cdsrse_w_over_opt; lw=2, marker=:dtriangle, label="CDSRSE weight")
+        plot!(p_cdsrse, xticks, sub.cdsrse_r_over_opt; lw=2, marker=:diamond, label="CDSRSE ratio")
         savefig(p_cdsrse, "plot_cdsrse_$(dens)_$(len)_$(dt).png")
         display(p_cdsrse)
     end
