@@ -1,0 +1,269 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc} % allow utf-8 input
+\usepackage[T1]{fontenc}    % use 8-bit T1 fonts
+\usepackage{hyperref}       % hyperlinks
+\usepackage{url}            % simple URL typesetting
+\usepackage{booktabs}       % professional-quality tables
+\usepackage{amsfonts}       % blackboard math symbols
+\usepackage{nicefrac}       % compact symbols for 1/2, etc.
+\usepackage{microtype}      % microtypography
+\usepackage{graphicx}
+\usepackage{ifthen}
+\usepackage{tikz}
+\usepackage{eso-pic}
+\usepackage{color}
+\usepackage{float}
+\usepackage{multicol}
+\usepackage{setspace}
+\usepackage{mathptmx}
+%\usepackage{mathpazo}
+\usepackage[theorems]{tcolorbox}
+\usepackage{mdframed}
+\usepackage{amsmath,amsthm,amssymb,mathtools,flexisym,bbm}
+\usepackage{xcolor,paralist,hyperref,fancyhdr,etoolbox}
+\usepackage{mathrsfs}
+\usepackage{pgfplots}
+\usepackage{xcolor}
+\usepackage[shortlabels]{enumitem}
+\usepackage{algorithm}
+\usepackage[noend]{algpseudocode}
+\usepackage{cite}
+\usepackage{multirow}
+\usepackage[font=scriptsize]{caption}
+\usepackage{subcaption}
+\usepackage{comment}
+\usepackage{xspace}
+\usepackage{environ}
+\usepackage{longtable}
+% \baselineskip=16pt
+\usepackage{indentfirst,csquotes}
+\usepackage{array}
+
+
+\usepackage[margin=1in]{geometry}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\newtheorem*{claim}{Claim}
+\newtheorem{remark}[theorem]{Remark}
+
+
+\newcolumntype{H}{>{\setbox0=\hbox\bgroup}c<{\egroup}@{}}
+\hypersetup{colorlinks=true, linkcolor=black, filecolor=black, urlcolor=black }
+% \def\proof{\noindent {\it Proof. $\, $}}
+% \def\endproof{\hfill $\Box$ \vskip 5 pt }
+
+
+%Define some symbols
+\DeclarePairedDelimiter\abs{\lvert}{\rvert}%
+\DeclarePairedDelimiter\norm{\lVert}{\rVert}%
+
+\newcommand{\PI}{\textbf{Phase~I}\xspace}
+\newcommand{\PII}{\textbf{Phase~II}\xspace}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\F}{\mathbb{F}}
+\newcommand{\Z}{\mathbb{Z}}
+%\newcommand{\R}{\mathbb{R}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\B}{\mathbb{B}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\T}{\mathbb{T}}
+\newcommand{\barS}{\bar{S}}
+\newcommand{\calU}{\mathcal{U}}
+\newcommand{\tr}{\operatorname{tr}}
+\newcommand{\Diag}{\operatorname{Diag}}
+\newcommand{\TriDiag}{\operatorname{TriDiag}}
+\newcommand{\tridiag}{\operatorname{tridiag}}
+\newcommand{\BiDiag}{\operatorname{BiDiag}}
+\newcommand{\bidiag}{\operatorname{bidiag}}
+\newcommand{\diag}{\operatorname{diag}}
+\newcommand{\vectorize}{\operatorname{vec}}
+\newcommand{\adj}{\operatorname{adj}}
+\newcommand{\svec}{\operatorname{svec}}
+\newcommand{\symm}{\mathbb{S}}
+\renewcommand{\symm}{\mathbb{S}}
+\newcommand{\PSD}{\mathbb{S}_{+}}
+\newcommand{\PD}{\mathbb{S}_{++}}
+\newcommand{\rank}{\operatorname{rank}}
+\newcommand{\proj}{\mathbf{P}}
+\newcommand{\algo}{{\color{red}\emph{algorithm-name} }}
+\newcommand{\calV}{\mathcal{V}}
+\newcommand{\SDP}{\text{SDP}}
+\newcommand{\LP}{\text{LP}}
+\DeclareMathOperator{\Null}{Null}
+\DeclareMathOperator{\range}{Range}
+\DeclareMathOperator{\rint}{rint}
+\DeclareMathOperator{\dom}{dom}
+\DeclareMathOperator{\row}{row}
+\DeclareMathOperator{\spn}{span}
+\DeclareMathOperator{\conv}{conv}
+\DeclareMathOperator{\SM}{SparseMat}
+\DeclareMathOperator{\CLQ}{CLQ}
+\DeclareMathOperator{\thbody}{TH}
+\DeclareMathOperator{\STAB}{STAB}
+\DeclareMathOperator{\supp}{supp}
+\renewcommand{\algorithmicrequire}{\textbf{Input:}}
+\renewcommand{\algorithmicensure}{\textbf{Output:}}
+
+\renewcommand{\subset}{\subseteq}
+\renewcommand{\supset}{\supseteq}
+\DeclareMathOperator*{\argmax}{arg\,max}
+\DeclareMathOperator*{\argmin}{arg\,min}
+
+
+\begin{document}
+\title{Dynamic Interval Scheduling with\\Random Start and End Times}
+\author{Rui Gong\\
+Advisors: Alejandro Toriello}
+\maketitle
+\vspace{-20pt}
+\paragraph{\textbf{Introduction:}}
+The \emph{interval scheduling problem} is a well-studied problem in operations research and computer science.
+Such problems consider a set of tasks $N:=[n]$ and a set of consecutive time slots $M:=[m]$.
+Each task is represented by an interval $[s_i,e_i]$ describing the time in which it needs to be processed on servers (or, scheduled on some resource).
+The classical \emph{maximum interval scheduling problem} aims to find a set of pairwise nonoverlapping intervals (a \emph{scheduling}) of the maximum size.
+If all tasks have the same weight, then a simple greedy algorithm which always picks the task with the earliest ending time and deletes all conflicting tasks returns an optimal solution.
+For the weighted version, there is an algorithm solving the problem in $\Theta(n)$ time \cite{Kleinberg+Tardos:06a}.
+
+An \emph{interval graph} is an undirected graph representing intervals on a line, where each vertex corresponds to an interval and an edge connects two vertices if their intervals overlap.
+Thus, a scheduling of tasks is represented exactly by an independent set of the corresponding interval graph.
+Since all interval graphs are perfect, the maximum interval scheduling problem can be represented by the clique LP pair of the interval graph $G=(N,E)$,
+\vspace{-7pt}
+\begin{multicols}{2}
+    \noindent
+    \begin{align}
+\label{LP-P}
+\tag{LP-P}
+\begin{split}
+    \max_{x\in\R^{n},X\in\symm^{n}}\quad &w^T x\\
+    \text{s.t.}\quad &\sum_{i\in C}x_i\leq 1, \forall C\in\mathcal{C}(G)\\
+    &x\geq 0
+\end{split}
+\end{align}
+\columnbreak
+\begin{align}
+\label{LP-D}
+\tag{LP-D}
+\begin{split}
+    \min_{\mu}\quad &\sum_{C\in\mathcal{C}(G)}\mu_C\\
+    \text{s.t.}\quad &\sum_{C\ni i}\mu_C\geq w_i,~\forall i\in N\\
+    &\mu_C\geq 0 ,
+\end{split}
+\end{align}
+\end{multicols}
+\vspace{-15pt}
+\noindent
+where $\mathcal{C}(G)$ is the set of all maximal cliques of $G$.
+For perfect graphs,~\eqref{LP-P} and~\eqref{LP-D} are tight relaxations but not guaranteed to be solvable in polynomial time because there are possibly exponentially many maximal cliques.
+For an interval graph, the number of maximal cliques is at most $\min\{m, n\}$.
+Thus, the deterministic maximum interval scheduling problem can be solved efficiently either directly or using the LP relaxations. 
+Our goal is to extend the problem to consider uncertainty and dynamics, considering polynomial relaxations and algorithms.
+\paragraph{\textbf{Existing work:}} Different stochastic interval scheduling models are studied.
+A classical one is \emph{online interval scheduling}~\cite{Lipton1994OnlineIS}, where intervals with a given length are presented to the scheduler in
+the order of their starting time.
+The scheduler must decide to accept/reject an interval irrevocably.
+The objective is to maximize
+total weights of the accepted intervals while ensuring that no pair of accepted
+intervals overlap.
+Similar studies are conducted recently, including online interval scheduling with predictions of the upcoming intervals~\cite{boyar2025onlineintervalschedulingpredictions}, and online interval scheduling problems allowing overlaps but maximizing satisfaction of the scheduler~\cite{KOBAYASHI2020673}.
+Other variant models include interval scheduling with random delays~\cite{BRANDA2024106542} and scheduling where jobs may depart at an unknown point in time and service times are stochastic~\cite{xu2024stochasticschedulingabandonmentsgreedy}.
+\paragraph{\textbf{Research objective:}} Motivated by various applications in dynamic scheduling, we propose a new stochastic model:
+We're given a set of tasks $N:=[n]$ and the set of time slots $M=[m]$, where each task $i\in[n]$ has a weight $w_i$, and distributions $D^s_i$ and $D^e_i$ supported on $M$ for the starting time and ending time $s_i,e_i$ respectively.
+For any $i\in N$, assume that $u\leq v$ for every $u\in\supp(D^s_i),v\in\supp(D^e_i)$ and $D^s_i,D^e_i$ are independent of other tasks.
+Our goal is to schedule tasks sequentially and maximize the expected total weight of scheduled tasks.
+In particular, the scheduler does not know the actual starting and ending times of each task until it is irrevocably scheduled.
+Once the scheduler commits to a task, its start and end times are revealed. 
+For each remaining task, its start and end time distributions determine whether it conflicts with the committed task: if it conflicts, it is deleted and cannot be scheduled; otherwise, it remains available and we update its distributions to condition on the slots occupied by the committed task. 
+%For each remaining task,  according to their distributions of starting and ending time, independently determine whether they conflict with the just scheduled task, if they conflict, delete the unscheduled tasks, otherwise, update their distributions to the distributions given they do not occupy the slots taken by the scheduled tasks.
+%After each task commitment, the set of remaining tasks is random. Also, after deleting conflicting tasks, the distributions of the remaining ones are updated.
+
+Consider a simple example with $N=\{1,2\}$, $M=\{1,2,3\}$ and unit weights, where $D_1^s=\mathbbm{1}_{\{1\}},D_1^e=\mathbbm{1}_{\{2\}}$, $D_2^s=U(\{2,3\}),D_2^e=\mathbbm{1}_{\{3\}}$.
+If the scheduler commits to task $1$ first, then task $1$ occupies $[1,2]$, and task $2$ has probability $1/2$ to be deleted and $1/2$ to remain.
+If it remains, task $2$'s distributions are updated as $D_2^s=\mathbbm{1}_{\{3\}},D_2^e=\mathbbm{1}_{\{3\}}$.
+On the other hand, if task $2$ is scheduled first, then if it is realized as $[2,3]$, task $1$ is deleted; if it is realized as $[3]$, task $1$ remains.
+
+Such problems can be formulated as a dynamic program with a Bellman recursion,
+\[\max_{\pi\in \Pi}\E_\pi\left[V^\pi(N,M,w,D)\right];\quad~ V^*(N,M,w,D):=\max_i\{w_i+\E[V^*(N',M',w,D')]\},\]
+where $\Pi$ is the set of all policies and $V^\pi(N,M,w,D)$ is a random variable representing the total weight of scheduled tasks under policy $\pi\in\Pi$.
+$V^*$ is the optimal value of the dynamic programming problem, and $N',M',w,D'$ are the random variables representing the resulting state after scheduling task $i$.
+Like many dynamic programming problems, this problem has exponentially many states and each state has $O(n)$ actions, so it is unreasonable to solve it directly.
+We have proven that this problem is NP-hard in general using techniques analogous to the proof of~\cite[Theorem 3.2]{DNP}.
+
+Our main focus is to derive strong convex relaxations to approximate optimal values of these problems and rounding procedures to compute a good policy;
+similar research has been conducted by the applicant before in~\cite{gong2025roundinglovaszthetafunction}.
+In that paper, the applicant introduces a \emph{value function approximation} (VFA) for the stability number of perfect graphs such that for almost all perfect graphs, a maximum independent set is returned by a rounding procedure that uses the Lov{\'a}sz $\vartheta$ function. % once and does some basic linear algebra computations.
+For this project, we propose to consider the following LP relaxation and its dual for the problem, and to apply similar rounding procedures,
+\begin{multicols}{2}
+\noindent
+    \begin{align*}
+    \begin{split}
+            \max_{x\geq 0}~&\sum_t \sum_i x_{i}^{t}\\
+    &x_i^t =\sum_{k=1}^{m}x_{ik}^{ts}=\sum_{k=1}^{m}x_{ik}^{te}, \forall i\in N,\forall t\in T\\
+    &x_{ik}^{ts}=0,\forall t\in T,\forall k\notin [a_i,b_i]\\
+    &x_{ik}^{te}=0,\forall t\in T,\forall k\notin [c_i,d_i]\\
+    &\sum_{t}\left(\sum_{i, a_i\leq k\leq d_i} x_i^t-\sum_{i,a_i\leq k\leq b_i}\sum_{\ell = k+1}^{b_i}x_{i\ell}^{ts}-\sum_{i,c_i\leq k\leq d_i}\sum_{\ell =c_i}^{k-1}x_{i\ell}^{te}\right)\leq 1\\
+    &\sum_{t}x_{ik}^{ts}\leq P_{ik}^{s},~\sum_{t}x_{ik}^{te}\leq P_{ik}^{e},\forall i\in N,\forall k\in M\\
+    \end{split}
+\end{align*}
+\columnbreak
+\begin{align*}
+\begin{split}
+\min_{\mu,\nu,u\geq 0,\alpha,\beta}\quad 
+& \sum_{r=1}^{m} \mu_r
+  + \sum_{i=1}^{n}\sum_{k\in S_i} P^s_{ik}\,\nu^s_{ik}
+  + \sum_{i=1}^{n}\sum_{k\in E_i} P^e_{ik}\,\nu^e_{ik}
+  + \sum_{i=1}^{n}\sum_{t=1}^{T} u_{it}\\
+\text{s.t.}\quad 
+& \alpha_{it} + \beta_{it} + u_{it} + \sum_{r\in K_i} \mu_r \geq 1,
+\forall\, i\in N,\ \forall\, t\in T, \\
+& -\alpha_{it} -\sum_{r=a_i}^{k-1} \mu_r+\nu^s_{ik}\geq0,\forall\, i\in N,\ \forall\, t\in T,\ \forall\, k\in S_i, \\
+& -\beta_{it}-\sum_{r=k+1}^{d_i} \mu_r+\nu^e_{ik}\geq 0,\forall\, i\in N,\ \forall\, t\in T,\ \forall\, k\in E_i,
+\end{split}
+\end{align*}
+\noindent
+\end{multicols}
+\vspace{-20pt}
+\noindent
+where 
+\(
+S_i=\supp(D_i^s)=\{a_i,\ldots,b_i\},~
+E_i=\supp(D_i^e)=\{c_i,\ldots,d_i\},~
+K_i:=[a_i,\ldots,d_i],~
+T:=[\min\{n,m\}],~a_i\leq\cdots b_i\leq c_i\leq \cdots \leq d_i.
+\) For $i\in N,k\in M$, $P_{ik}^s, P_{ik}^e, P_{ik}^o$ are the probabilities of task $i$ starting at, ending at and occupying $k$, respectively, %with respect to their original distributions 
+and $x_{ik}^{ts}, x_{ik}^{te}$ represent the probability of scheduling task $i$  starting and ending at stage $t$, %and starting, ending at $k$ 
+respectively.
+At this moment, we show that the relaxation is upper bounded by $\sum_{r=1}^{m}\hat{\mu}_r+\sum_{i=1}^{n}(\sum_{r=a_i}^{b_i-1}\hat{\mu}_r+\sum_{r=c_i+1}^{d_i}\hat{\mu}_r)$ where $\hat{\mu}$ is the optimal solution of~\eqref{LP-D} with each task realized as $[a_i,d_i]$.
+We propose to use these relaxations as a VFA and apply the Bellman recursion.
+
+A conservative version of the above problem is also considered, where a task is deleted whenever it possibly conflicts with the scheduled tasks. 
+Using the above example, if task $1$ is scheduled, then task $2$ is always deleted since task $1$ occupies slot $2$ for sure and task $2$ might occupy slot $2$ as well.
+Thus, if a task is not deleted, then there is no need to update its distributions.
+This version is also proven to be NP-hard using the same techniques.
+However, unlike the general version, it has a stronger and simpler LP relaxation,
+\[
+    \max_{x\geq 0}~\sum_{i=1}^{n}w_ix_i~
+    \text{s.t. }\sum_{i=1}^{n}P_{ik}^o x_i\leq1~\forall k\in M;\quad 
+    \min_{\gamma\geq 0}~\sum_{k=1}^{m}\gamma_k~
+    \text{s.t. }\sum_{k=1}^{m}P^o_{ik}\gamma_k\geq w_i~\forall i\in N ,
+\]
+which gives an upper bound $\frac{1}{\min\{P_{ik}^o:P_{ik}^o>0\}}\sum_{r=1}^{m}\hat{\mu}_r$. 
+This primal-dual pair has a similar structure to \eqref{LP-P} and~\eqref{LP-D}.
+Preliminary experiments suggest the pair yields a bound close to the optimal value.
+
+We will analyze the structure of these relaxations and develop a similar rounding procedure as we do in~\cite{gong2025roundinglovaszthetafunction}.
+The key structure of~\eqref{LP-P} for interval graphs is that it constrains each slot to be occupied by at most one task.
+Our relaxations applies a similar idea: the probability of each slot being occupied by some jobs is at most $1$.
+We expect to derive theoretical results using this fact and design rounding procedures based on that. 
+
+\newpage
+\bibliography{SDPVFA}
+\bibliographystyle{plain}
+\end{document}

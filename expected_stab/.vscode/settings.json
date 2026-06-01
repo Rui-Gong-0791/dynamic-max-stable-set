@@ -3,6 +3,14 @@
         "editor.lineHighlightBorder": "#9fced11f",
         "activityBar.background": "#4C2206",
         "titleBar.activeBackground": "#6B2F08",
-        "titleBar.activeForeground": "#FEFAF7"
+        "titleBar.activeForeground": "#FEFAF7",
+        "titleBar.inactiveBackground": "#853B0A",
+        "titleBar.inactiveForeground": "#FEFAF7",
+        "statusBar.background": "#853B0A",
+        "statusBar.foreground": "#FEFAF7",
+        "statusBar.debuggingBackground": "#853B0A",
+        "statusBar.debuggingForeground": "#FEFAF7",
+        "statusBar.noFolderBackground": "#853B0A",
+        "statusBar.noFolderForeground": "#FEFAF7"
     }
 }

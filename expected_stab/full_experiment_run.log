@@ -1,0 +1,447 @@
+Instance: n=8, m=12, length=short, density=dense, dist=uniform, rep=1
+Instance: n=8, m=12, length=short, density=sparse, dist=uniform, rep=1
+Instance: n=8, m=12, length=long, density=dense, dist=uniform, rep=1
+Instance: n=8, m=12, length=long, density=sparse, dist=uniform, rep=1
+Instance: n=8, m=12, length=short, density=dense, dist=uniform, rep=2
+Instance: n=8, m=12, length=short, density=sparse, dist=uniform, rep=2
+Instance: n=8, m=12, length=long, density=dense, dist=uniform, rep=2
+Instance: n=8, m=12, length=long, density=sparse, dist=uniform, rep=2
+Instance: n=8, m=12, length=short, density=dense, dist=uniform, rep=3
+Instance: n=8, m=12, length=short, density=sparse, dist=uniform, rep=3
+Instance: n=8, m=12, length=long, density=dense, dist=uniform, rep=3
+Instance: n=8, m=12, length=long, density=sparse, dist=uniform, rep=3
+Instance: n=8, m=12, length=short, density=dense, dist=uniform, rep=4
+Instance: n=8, m=12, length=short, density=sparse, dist=uniform, rep=4
+Instance: n=8, m=12, length=long, density=dense, dist=uniform, rep=4
+Instance: n=8, m=12, length=long, density=sparse, dist=uniform, rep=4
+Instance: n=8, m=12, length=short, density=dense, dist=uniform, rep=5
+Instance: n=8, m=12, length=short, density=sparse, dist=uniform, rep=5
+Instance: n=8, m=12, length=long, density=dense, dist=uniform, rep=5
+Instance: n=8, m=12, length=long, density=sparse, dist=uniform, rep=5
+Instance: n=8, m=12, length=short, density=dense, dist=uniform, rep=6
+Instance: n=8, m=12, length=short, density=sparse, dist=uniform, rep=6
+Instance: n=8, m=12, length=long, density=dense, dist=uniform, rep=6
+Instance: n=8, m=12, length=long, density=sparse, dist=uniform, rep=6
+Instance: n=8, m=12, length=short, density=dense, dist=uniform, rep=7
+Instance: n=8, m=12, length=short, density=sparse, dist=uniform, rep=7
+Instance: n=8, m=12, length=long, density=dense, dist=uniform, rep=7
+Instance: n=8, m=12, length=long, density=sparse, dist=uniform, rep=7
+Instance: n=8, m=12, length=short, density=dense, dist=uniform, rep=8
+Instance: n=8, m=12, length=short, density=sparse, dist=uniform, rep=8
+Instance: n=8, m=12, length=long, density=dense, dist=uniform, rep=8
+Instance: n=8, m=12, length=long, density=sparse, dist=uniform, rep=8
+Instance: n=8, m=12, length=short, density=dense, dist=uniform, rep=9
+Instance: n=8, m=12, length=short, density=sparse, dist=uniform, rep=9
+Instance: n=8, m=12, length=long, density=dense, dist=uniform, rep=9
+Instance: n=8, m=12, length=long, density=sparse, dist=uniform, rep=9
+Instance: n=8, m=12, length=short, density=dense, dist=uniform, rep=10
+Instance: n=8, m=12, length=short, density=sparse, dist=uniform, rep=10
+Instance: n=8, m=12, length=long, density=dense, dist=uniform, rep=10
+Instance: n=8, m=12, length=long, density=sparse, dist=uniform, rep=10
+Instance: n=10, m=15, length=short, density=dense, dist=uniform, rep=1
+Instance: n=10, m=15, length=short, density=sparse, dist=uniform, rep=1
+Instance: n=10, m=15, length=long, density=dense, dist=uniform, rep=1
+Instance: n=10, m=15, length=long, density=sparse, dist=uniform, rep=1
+Instance: n=10, m=15, length=short, density=dense, dist=uniform, rep=2
+Instance: n=10, m=15, length=short, density=sparse, dist=uniform, rep=2
+Instance: n=10, m=15, length=long, density=dense, dist=uniform, rep=2
+Instance: n=10, m=15, length=long, density=sparse, dist=uniform, rep=2
+Instance: n=10, m=15, length=short, density=dense, dist=uniform, rep=3
+Instance: n=10, m=15, length=short, density=sparse, dist=uniform, rep=3
+Instance: n=10, m=15, length=long, density=dense, dist=uniform, rep=3
+Instance: n=10, m=15, length=long, density=sparse, dist=uniform, rep=3
+Instance: n=10, m=15, length=short, density=dense, dist=uniform, rep=4
+Instance: n=10, m=15, length=short, density=sparse, dist=uniform, rep=4
+Instance: n=10, m=15, length=long, density=dense, dist=uniform, rep=4
+Instance: n=10, m=15, length=long, density=sparse, dist=uniform, rep=4
+Instance: n=10, m=15, length=short, density=dense, dist=uniform, rep=5
+Instance: n=10, m=15, length=short, density=sparse, dist=uniform, rep=5
+Instance: n=10, m=15, length=long, density=dense, dist=uniform, rep=5
+Instance: n=10, m=15, length=long, density=sparse, dist=uniform, rep=5
+Instance: n=10, m=15, length=short, density=dense, dist=uniform, rep=6
+Instance: n=10, m=15, length=short, density=sparse, dist=uniform, rep=6
+Instance: n=10, m=15, length=long, density=dense, dist=uniform, rep=6
+Instance: n=10, m=15, length=long, density=sparse, dist=uniform, rep=6
+Instance: n=10, m=15, length=short, density=dense, dist=uniform, rep=7
+Instance: n=10, m=15, length=short, density=sparse, dist=uniform, rep=7
+Instance: n=10, m=15, length=long, density=dense, dist=uniform, rep=7
+Instance: n=10, m=15, length=long, density=sparse, dist=uniform, rep=7
+Instance: n=10, m=15, length=short, density=dense, dist=uniform, rep=8
+Instance: n=10, m=15, length=short, density=sparse, dist=uniform, rep=8
+Instance: n=10, m=15, length=long, density=dense, dist=uniform, rep=8
+Instance: n=10, m=15, length=long, density=sparse, dist=uniform, rep=8
+Instance: n=10, m=15, length=short, density=dense, dist=uniform, rep=9
+Instance: n=10, m=15, length=short, density=sparse, dist=uniform, rep=9
+Instance: n=10, m=15, length=long, density=dense, dist=uniform, rep=9
+Instance: n=10, m=15, length=long, density=sparse, dist=uniform, rep=9
+Instance: n=10, m=15, length=short, density=dense, dist=uniform, rep=10
+Instance: n=10, m=15, length=short, density=sparse, dist=uniform, rep=10
+Instance: n=10, m=15, length=long, density=dense, dist=uniform, rep=10
+Instance: n=10, m=15, length=long, density=sparse, dist=uniform, rep=10
+Instance: n=12, m=18, length=short, density=dense, dist=uniform, rep=1
+Instance: n=12, m=18, length=short, density=sparse, dist=uniform, rep=1
+Instance: n=12, m=18, length=long, density=dense, dist=uniform, rep=1
+Instance: n=12, m=18, length=long, density=sparse, dist=uniform, rep=1
+Instance: n=12, m=18, length=short, density=dense, dist=uniform, rep=2
+Instance: n=12, m=18, length=short, density=sparse, dist=uniform, rep=2
+Instance: n=12, m=18, length=long, density=dense, dist=uniform, rep=2
+Instance: n=12, m=18, length=long, density=sparse, dist=uniform, rep=2
+Instance: n=12, m=18, length=short, density=dense, dist=uniform, rep=3
+Instance: n=12, m=18, length=short, density=sparse, dist=uniform, rep=3
+Instance: n=12, m=18, length=long, density=dense, dist=uniform, rep=3
+Instance: n=12, m=18, length=long, density=sparse, dist=uniform, rep=3
+Instance: n=12, m=18, length=short, density=dense, dist=uniform, rep=4
+Instance: n=12, m=18, length=short, density=sparse, dist=uniform, rep=4
+Instance: n=12, m=18, length=long, density=dense, dist=uniform, rep=4
+Instance: n=12, m=18, length=long, density=sparse, dist=uniform, rep=4
+Instance: n=12, m=18, length=short, density=dense, dist=uniform, rep=5
+Instance: n=12, m=18, length=short, density=sparse, dist=uniform, rep=5
+Instance: n=12, m=18, length=long, density=dense, dist=uniform, rep=5
+Instance: n=12, m=18, length=long, density=sparse, dist=uniform, rep=5
+Instance: n=12, m=18, length=short, density=dense, dist=uniform, rep=6
+Instance: n=12, m=18, length=short, density=sparse, dist=uniform, rep=6
+Instance: n=12, m=18, length=long, density=dense, dist=uniform, rep=6
+Instance: n=12, m=18, length=long, density=sparse, dist=uniform, rep=6
+Instance: n=12, m=18, length=short, density=dense, dist=uniform, rep=7
+Instance: n=12, m=18, length=short, density=sparse, dist=uniform, rep=7
+Instance: n=12, m=18, length=long, density=dense, dist=uniform, rep=7
+Instance: n=12, m=18, length=long, density=sparse, dist=uniform, rep=7
+Instance: n=12, m=18, length=short, density=dense, dist=uniform, rep=8
+Instance: n=12, m=18, length=short, density=sparse, dist=uniform, rep=8
+Instance: n=12, m=18, length=long, density=dense, dist=uniform, rep=8
+Instance: n=12, m=18, length=long, density=sparse, dist=uniform, rep=8
+Instance: n=12, m=18, length=short, density=dense, dist=uniform, rep=9
+Instance: n=12, m=18, length=short, density=sparse, dist=uniform, rep=9
+Instance: n=12, m=18, length=long, density=dense, dist=uniform, rep=9
+Instance: n=12, m=18, length=long, density=sparse, dist=uniform, rep=9
+Instance: n=12, m=18, length=short, density=dense, dist=uniform, rep=10
+Instance: n=12, m=18, length=short, density=sparse, dist=uniform, rep=10
+Instance: n=12, m=18, length=long, density=dense, dist=uniform, rep=10
+Instance: n=12, m=18, length=long, density=sparse, dist=uniform, rep=10
+Instance: n=14, m=21, length=short, density=dense, dist=uniform, rep=1
+Instance: n=14, m=21, length=short, density=sparse, dist=uniform, rep=1
+Instance: n=14, m=21, length=long, density=dense, dist=uniform, rep=1
+Instance: n=14, m=21, length=long, density=sparse, dist=uniform, rep=1
+Instance: n=14, m=21, length=short, density=dense, dist=uniform, rep=2
+Instance: n=14, m=21, length=short, density=sparse, dist=uniform, rep=2
+Instance: n=14, m=21, length=long, density=dense, dist=uniform, rep=2
+Instance: n=14, m=21, length=long, density=sparse, dist=uniform, rep=2
+Instance: n=14, m=21, length=short, density=dense, dist=uniform, rep=3
+Instance: n=14, m=21, length=short, density=sparse, dist=uniform, rep=3
+Instance: n=14, m=21, length=long, density=dense, dist=uniform, rep=3
+Instance: n=14, m=21, length=long, density=sparse, dist=uniform, rep=3
+Instance: n=14, m=21, length=short, density=dense, dist=uniform, rep=4
+Instance: n=14, m=21, length=short, density=sparse, dist=uniform, rep=4
+Instance: n=14, m=21, length=long, density=dense, dist=uniform, rep=4
+Instance: n=14, m=21, length=long, density=sparse, dist=uniform, rep=4
+Instance: n=14, m=21, length=short, density=dense, dist=uniform, rep=5
+Instance: n=14, m=21, length=short, density=sparse, dist=uniform, rep=5
+Instance: n=14, m=21, length=long, density=dense, dist=uniform, rep=5
+Instance: n=14, m=21, length=long, density=sparse, dist=uniform, rep=5
+Instance: n=14, m=21, length=short, density=dense, dist=uniform, rep=6
+Instance: n=14, m=21, length=short, density=sparse, dist=uniform, rep=6
+Instance: n=14, m=21, length=long, density=dense, dist=uniform, rep=6
+Instance: n=14, m=21, length=long, density=sparse, dist=uniform, rep=6
+Instance: n=14, m=21, length=short, density=dense, dist=uniform, rep=7
+Instance: n=14, m=21, length=short, density=sparse, dist=uniform, rep=7
+Instance: n=14, m=21, length=long, density=dense, dist=uniform, rep=7
+Instance: n=14, m=21, length=long, density=sparse, dist=uniform, rep=7
+Instance: n=14, m=21, length=short, density=dense, dist=uniform, rep=8
+Instance: n=14, m=21, length=short, density=sparse, dist=uniform, rep=8
+Instance: n=14, m=21, length=long, density=dense, dist=uniform, rep=8
+Instance: n=14, m=21, length=long, density=sparse, dist=uniform, rep=8
+Instance: n=14, m=21, length=short, density=dense, dist=uniform, rep=9
+Instance: n=14, m=21, length=short, density=sparse, dist=uniform, rep=9
+Instance: n=14, m=21, length=long, density=dense, dist=uniform, rep=9
+Instance: n=14, m=21, length=long, density=sparse, dist=uniform, rep=9
+Instance: n=14, m=21, length=short, density=dense, dist=uniform, rep=10
+Instance: n=14, m=21, length=short, density=sparse, dist=uniform, rep=10
+Instance: n=14, m=21, length=long, density=dense, dist=uniform, rep=10
+Instance: n=14, m=21, length=long, density=sparse, dist=uniform, rep=10
+Instance: n=16, m=24, length=short, density=dense, dist=uniform, rep=1
+Instance: n=16, m=24, length=short, density=sparse, dist=uniform, rep=1
+Instance: n=16, m=24, length=long, density=dense, dist=uniform, rep=1
+Instance: n=16, m=24, length=long, density=sparse, dist=uniform, rep=1
+Instance: n=16, m=24, length=short, density=dense, dist=uniform, rep=2
+Instance: n=16, m=24, length=short, density=sparse, dist=uniform, rep=2
+Instance: n=16, m=24, length=long, density=dense, dist=uniform, rep=2
+Instance: n=16, m=24, length=long, density=sparse, dist=uniform, rep=2
+Instance: n=16, m=24, length=short, density=dense, dist=uniform, rep=3
+Instance: n=16, m=24, length=short, density=sparse, dist=uniform, rep=3
+Instance: n=16, m=24, length=long, density=dense, dist=uniform, rep=3
+Instance: n=16, m=24, length=long, density=sparse, dist=uniform, rep=3
+Instance: n=16, m=24, length=short, density=dense, dist=uniform, rep=4
+Instance: n=16, m=24, length=short, density=sparse, dist=uniform, rep=4
+Instance: n=16, m=24, length=long, density=dense, dist=uniform, rep=4
+Instance: n=16, m=24, length=long, density=sparse, dist=uniform, rep=4
+Instance: n=16, m=24, length=short, density=dense, dist=uniform, rep=5
+Instance: n=16, m=24, length=short, density=sparse, dist=uniform, rep=5
+Instance: n=16, m=24, length=long, density=dense, dist=uniform, rep=5
+Instance: n=16, m=24, length=long, density=sparse, dist=uniform, rep=5
+Instance: n=16, m=24, length=short, density=dense, dist=uniform, rep=6
+Instance: n=16, m=24, length=short, density=sparse, dist=uniform, rep=6
+Instance: n=16, m=24, length=long, density=dense, dist=uniform, rep=6
+Instance: n=16, m=24, length=long, density=sparse, dist=uniform, rep=6
+Instance: n=16, m=24, length=short, density=dense, dist=uniform, rep=7
+Instance: n=16, m=24, length=short, density=sparse, dist=uniform, rep=7
+Instance: n=16, m=24, length=long, density=dense, dist=uniform, rep=7
+Instance: n=16, m=24, length=long, density=sparse, dist=uniform, rep=7
+Instance: n=16, m=24, length=short, density=dense, dist=uniform, rep=8
+Instance: n=16, m=24, length=short, density=sparse, dist=uniform, rep=8
+Instance: n=16, m=24, length=long, density=dense, dist=uniform, rep=8
+Instance: n=16, m=24, length=long, density=sparse, dist=uniform, rep=8
+Instance: n=16, m=24, length=short, density=dense, dist=uniform, rep=9
+Instance: n=16, m=24, length=short, density=sparse, dist=uniform, rep=9
+Instance: n=16, m=24, length=long, density=dense, dist=uniform, rep=9
+Instance: n=16, m=24, length=long, density=sparse, dist=uniform, rep=9
+Instance: n=16, m=24, length=short, density=dense, dist=uniform, rep=10
+Instance: n=16, m=24, length=short, density=sparse, dist=uniform, rep=10
+Instance: n=16, m=24, length=long, density=dense, dist=uniform, rep=10
+Instance: n=16, m=24, length=long, density=sparse, dist=uniform, rep=10
+Instance: n=18, m=27, length=short, density=dense, dist=uniform, rep=1
+Instance: n=18, m=27, length=short, density=sparse, dist=uniform, rep=1
+Instance: n=18, m=27, length=long, density=dense, dist=uniform, rep=1
+Instance: n=18, m=27, length=long, density=sparse, dist=uniform, rep=1
+Instance: n=18, m=27, length=short, density=dense, dist=uniform, rep=2
+Instance: n=18, m=27, length=short, density=sparse, dist=uniform, rep=2
+Instance: n=18, m=27, length=long, density=dense, dist=uniform, rep=2
+Instance: n=18, m=27, length=long, density=sparse, dist=uniform, rep=2
+Instance: n=18, m=27, length=short, density=dense, dist=uniform, rep=3
+Instance: n=18, m=27, length=short, density=sparse, dist=uniform, rep=3
+Instance: n=18, m=27, length=long, density=dense, dist=uniform, rep=3
+Instance: n=18, m=27, length=long, density=sparse, dist=uniform, rep=3
+Instance: n=18, m=27, length=short, density=dense, dist=uniform, rep=4
+Instance: n=18, m=27, length=short, density=sparse, dist=uniform, rep=4
+Instance: n=18, m=27, length=long, density=dense, dist=uniform, rep=4
+Instance: n=18, m=27, length=long, density=sparse, dist=uniform, rep=4
+Instance: n=18, m=27, length=short, density=dense, dist=uniform, rep=5
+Instance: n=18, m=27, length=short, density=sparse, dist=uniform, rep=5
+Instance: n=18, m=27, length=long, density=dense, dist=uniform, rep=5
+Instance: n=18, m=27, length=long, density=sparse, dist=uniform, rep=5
+Instance: n=18, m=27, length=short, density=dense, dist=uniform, rep=6
+Instance: n=18, m=27, length=short, density=sparse, dist=uniform, rep=6
+Instance: n=18, m=27, length=long, density=dense, dist=uniform, rep=6
+Instance: n=18, m=27, length=long, density=sparse, dist=uniform, rep=6
+Instance: n=18, m=27, length=short, density=dense, dist=uniform, rep=7
+Instance: n=18, m=27, length=short, density=sparse, dist=uniform, rep=7
+Instance: n=18, m=27, length=long, density=dense, dist=uniform, rep=7
+Instance: n=18, m=27, length=long, density=sparse, dist=uniform, rep=7
+Instance: n=18, m=27, length=short, density=dense, dist=uniform, rep=8
+Instance: n=18, m=27, length=short, density=sparse, dist=uniform, rep=8
+Instance: n=18, m=27, length=long, density=dense, dist=uniform, rep=8
+Instance: n=18, m=27, length=long, density=sparse, dist=uniform, rep=8
+Instance: n=18, m=27, length=short, density=dense, dist=uniform, rep=9
+Instance: n=18, m=27, length=short, density=sparse, dist=uniform, rep=9
+Instance: n=18, m=27, length=long, density=dense, dist=uniform, rep=9
+Instance: n=18, m=27, length=long, density=sparse, dist=uniform, rep=9
+Instance: n=18, m=27, length=short, density=dense, dist=uniform, rep=10
+Instance: n=18, m=27, length=short, density=sparse, dist=uniform, rep=10
+Instance: n=18, m=27, length=long, density=dense, dist=uniform, rep=10
+Instance: n=18, m=27, length=long, density=sparse, dist=uniform, rep=10
+Instance: n=19, m=29, length=short, density=dense, dist=uniform, rep=1
+Instance: n=19, m=29, length=short, density=sparse, dist=uniform, rep=1
+Instance: n=19, m=29, length=long, density=dense, dist=uniform, rep=1
+Instance: n=19, m=29, length=long, density=sparse, dist=uniform, rep=1
+Instance: n=19, m=29, length=short, density=dense, dist=uniform, rep=2
+Instance: n=19, m=29, length=short, density=sparse, dist=uniform, rep=2
+Instance: n=19, m=29, length=long, density=dense, dist=uniform, rep=2
+Instance: n=19, m=29, length=long, density=sparse, dist=uniform, rep=2
+Instance: n=19, m=29, length=short, density=dense, dist=uniform, rep=3
+Instance: n=19, m=29, length=short, density=sparse, dist=uniform, rep=3
+Instance: n=19, m=29, length=long, density=dense, dist=uniform, rep=3
+Instance: n=19, m=29, length=long, density=sparse, dist=uniform, rep=3
+Instance: n=19, m=29, length=short, density=dense, dist=uniform, rep=4
+Instance: n=19, m=29, length=short, density=sparse, dist=uniform, rep=4
+Instance: n=19, m=29, length=long, density=dense, dist=uniform, rep=4
+Instance: n=19, m=29, length=long, density=sparse, dist=uniform, rep=4
+Instance: n=19, m=29, length=short, density=dense, dist=uniform, rep=5
+Instance: n=19, m=29, length=short, density=sparse, dist=uniform, rep=5
+Instance: n=19, m=29, length=long, density=dense, dist=uniform, rep=5
+Instance: n=19, m=29, length=long, density=sparse, dist=uniform, rep=5
+Instance: n=19, m=29, length=short, density=dense, dist=uniform, rep=6
+Instance: n=19, m=29, length=short, density=sparse, dist=uniform, rep=6
+Instance: n=19, m=29, length=long, density=dense, dist=uniform, rep=6
+Instance: n=19, m=29, length=long, density=sparse, dist=uniform, rep=6
+Instance: n=19, m=29, length=short, density=dense, dist=uniform, rep=7
+Instance: n=19, m=29, length=short, density=sparse, dist=uniform, rep=7
+Instance: n=19, m=29, length=long, density=dense, dist=uniform, rep=7
+Instance: n=19, m=29, length=long, density=sparse, dist=uniform, rep=7
+Instance: n=19, m=29, length=short, density=dense, dist=uniform, rep=8
+Instance: n=19, m=29, length=short, density=sparse, dist=uniform, rep=8
+Instance: n=19, m=29, length=long, density=dense, dist=uniform, rep=8
+Instance: n=19, m=29, length=long, density=sparse, dist=uniform, rep=8
+Instance: n=19, m=29, length=short, density=dense, dist=uniform, rep=9
+Instance: n=19, m=29, length=short, density=sparse, dist=uniform, rep=9
+Instance: n=19, m=29, length=long, density=dense, dist=uniform, rep=9
+Instance: n=19, m=29, length=long, density=sparse, dist=uniform, rep=9
+Instance: n=19, m=29, length=short, density=dense, dist=uniform, rep=10
+Instance: n=19, m=29, length=short, density=sparse, dist=uniform, rep=10
+Instance: n=19, m=29, length=long, density=dense, dist=uniform, rep=10
+Instance: n=19, m=29, length=long, density=sparse, dist=uniform, rep=10
+Instance: n=20, m=30, length=short, density=dense, dist=uniform, rep=1
+Instance: n=20, m=30, length=short, density=sparse, dist=uniform, rep=1
+Instance: n=20, m=30, length=long, density=dense, dist=uniform, rep=1
+Instance: n=20, m=30, length=long, density=sparse, dist=uniform, rep=1
+Instance: n=20, m=30, length=short, density=dense, dist=uniform, rep=2
+Instance: n=20, m=30, length=short, density=sparse, dist=uniform, rep=2
+Instance: n=20, m=30, length=long, density=dense, dist=uniform, rep=2
+Instance: n=20, m=30, length=long, density=sparse, dist=uniform, rep=2
+Instance: n=20, m=30, length=short, density=dense, dist=uniform, rep=3
+Instance: n=20, m=30, length=short, density=sparse, dist=uniform, rep=3
+Instance: n=20, m=30, length=long, density=dense, dist=uniform, rep=3
+Instance: n=20, m=30, length=long, density=sparse, dist=uniform, rep=3
+Instance: n=20, m=30, length=short, density=dense, dist=uniform, rep=4
+Instance: n=20, m=30, length=short, density=sparse, dist=uniform, rep=4
+Instance: n=20, m=30, length=long, density=dense, dist=uniform, rep=4
+Instance: n=20, m=30, length=long, density=sparse, dist=uniform, rep=4
+Instance: n=20, m=30, length=short, density=dense, dist=uniform, rep=5
+Instance: n=20, m=30, length=short, density=sparse, dist=uniform, rep=5
+Instance: n=20, m=30, length=long, density=dense, dist=uniform, rep=5
+Instance: n=20, m=30, length=long, density=sparse, dist=uniform, rep=5
+Instance: n=20, m=30, length=short, density=dense, dist=uniform, rep=6
+Instance: n=20, m=30, length=short, density=sparse, dist=uniform, rep=6
+Instance: n=20, m=30, length=long, density=dense, dist=uniform, rep=6
+Instance: n=20, m=30, length=long, density=sparse, dist=uniform, rep=6
+Instance: n=20, m=30, length=short, density=dense, dist=uniform, rep=7
+Instance: n=20, m=30, length=short, density=sparse, dist=uniform, rep=7
+Instance: n=20, m=30, length=long, density=dense, dist=uniform, rep=7
+Instance: n=20, m=30, length=long, density=sparse, dist=uniform, rep=7
+Instance: n=20, m=30, length=short, density=dense, dist=uniform, rep=8
+Instance: n=20, m=30, length=short, density=sparse, dist=uniform, rep=8
+Instance: n=20, m=30, length=long, density=dense, dist=uniform, rep=8
+Instance: n=20, m=30, length=long, density=sparse, dist=uniform, rep=8
+Instance: n=20, m=30, length=short, density=dense, dist=uniform, rep=9
+Instance: n=20, m=30, length=short, density=sparse, dist=uniform, rep=9
+Instance: n=20, m=30, length=long, density=dense, dist=uniform, rep=9
+Instance: n=20, m=30, length=long, density=sparse, dist=uniform, rep=9
+Instance: n=20, m=30, length=short, density=dense, dist=uniform, rep=10
+Instance: n=20, m=30, length=short, density=sparse, dist=uniform, rep=10
+Instance: n=20, m=30, length=long, density=dense, dist=uniform, rep=10
+Instance: n=20, m=30, length=long, density=sparse, dist=uniform, rep=10
+Instance: n=40, m=60, length=short, density=dense, dist=uniform, rep=1
+Instance: n=40, m=60, length=short, density=sparse, dist=uniform, rep=1
+Instance: n=40, m=60, length=long, density=dense, dist=uniform, rep=1
+Instance: n=40, m=60, length=long, density=sparse, dist=uniform, rep=1
+Instance: n=40, m=60, length=short, density=dense, dist=uniform, rep=2
+Instance: n=40, m=60, length=short, density=sparse, dist=uniform, rep=2
+Instance: n=40, m=60, length=long, density=dense, dist=uniform, rep=2
+Instance: n=40, m=60, length=long, density=sparse, dist=uniform, rep=2
+Instance: n=40, m=60, length=short, density=dense, dist=uniform, rep=3
+Instance: n=40, m=60, length=short, density=sparse, dist=uniform, rep=3
+Instance: n=40, m=60, length=long, density=dense, dist=uniform, rep=3
+Instance: n=40, m=60, length=long, density=sparse, dist=uniform, rep=3
+Instance: n=40, m=60, length=short, density=dense, dist=uniform, rep=4
+Instance: n=40, m=60, length=short, density=sparse, dist=uniform, rep=4
+Instance: n=40, m=60, length=long, density=dense, dist=uniform, rep=4
+Instance: n=40, m=60, length=long, density=sparse, dist=uniform, rep=4
+Instance: n=40, m=60, length=short, density=dense, dist=uniform, rep=5
+Instance: n=40, m=60, length=short, density=sparse, dist=uniform, rep=5
+Instance: n=40, m=60, length=long, density=dense, dist=uniform, rep=5
+Instance: n=40, m=60, length=long, density=sparse, dist=uniform, rep=5
+Instance: n=40, m=60, length=short, density=dense, dist=uniform, rep=6
+Instance: n=40, m=60, length=short, density=sparse, dist=uniform, rep=6
+Instance: n=40, m=60, length=long, density=dense, dist=uniform, rep=6
+Instance: n=40, m=60, length=long, density=sparse, dist=uniform, rep=6
+Instance: n=40, m=60, length=short, density=dense, dist=uniform, rep=7
+Instance: n=40, m=60, length=short, density=sparse, dist=uniform, rep=7
+Instance: n=40, m=60, length=long, density=dense, dist=uniform, rep=7
+Instance: n=40, m=60, length=long, density=sparse, dist=uniform, rep=7
+Instance: n=40, m=60, length=short, density=dense, dist=uniform, rep=8
+Instance: n=40, m=60, length=short, density=sparse, dist=uniform, rep=8
+Instance: n=40, m=60, length=long, density=dense, dist=uniform, rep=8
+Instance: n=40, m=60, length=long, density=sparse, dist=uniform, rep=8
+Instance: n=40, m=60, length=short, density=dense, dist=uniform, rep=9
+Instance: n=40, m=60, length=short, density=sparse, dist=uniform, rep=9
+Instance: n=40, m=60, length=long, density=dense, dist=uniform, rep=9
+Instance: n=40, m=60, length=long, density=sparse, dist=uniform, rep=9
+Instance: n=40, m=60, length=short, density=dense, dist=uniform, rep=10
+Instance: n=40, m=60, length=short, density=sparse, dist=uniform, rep=10
+Instance: n=40, m=60, length=long, density=dense, dist=uniform, rep=10
+Instance: n=40, m=60, length=long, density=sparse, dist=uniform, rep=10
+Instance: n=80, m=120, length=short, density=dense, dist=uniform, rep=1
+Instance: n=80, m=120, length=short, density=sparse, dist=uniform, rep=1
+Instance: n=80, m=120, length=long, density=dense, dist=uniform, rep=1
+Instance: n=80, m=120, length=long, density=sparse, dist=uniform, rep=1
+Instance: n=80, m=120, length=short, density=dense, dist=uniform, rep=2
+Instance: n=80, m=120, length=short, density=sparse, dist=uniform, rep=2
+Instance: n=80, m=120, length=long, density=dense, dist=uniform, rep=2
+Instance: n=80, m=120, length=long, density=sparse, dist=uniform, rep=2
+Instance: n=80, m=120, length=short, density=dense, dist=uniform, rep=3
+Instance: n=80, m=120, length=short, density=sparse, dist=uniform, rep=3
+Instance: n=80, m=120, length=long, density=dense, dist=uniform, rep=3
+Instance: n=80, m=120, length=long, density=sparse, dist=uniform, rep=3
+Instance: n=80, m=120, length=short, density=dense, dist=uniform, rep=4
+Instance: n=80, m=120, length=short, density=sparse, dist=uniform, rep=4
+Instance: n=80, m=120, length=long, density=dense, dist=uniform, rep=4
+Instance: n=80, m=120, length=long, density=sparse, dist=uniform, rep=4
+Instance: n=80, m=120, length=short, density=dense, dist=uniform, rep=5
+Instance: n=80, m=120, length=short, density=sparse, dist=uniform, rep=5
+Instance: n=80, m=120, length=long, density=dense, dist=uniform, rep=5
+Instance: n=80, m=120, length=long, density=sparse, dist=uniform, rep=5
+Instance: n=80, m=120, length=short, density=dense, dist=uniform, rep=6
+Instance: n=80, m=120, length=short, density=sparse, dist=uniform, rep=6
+Instance: n=80, m=120, length=long, density=dense, dist=uniform, rep=6
+Instance: n=80, m=120, length=long, density=sparse, dist=uniform, rep=6
+Instance: n=80, m=120, length=short, density=dense, dist=uniform, rep=7
+Instance: n=80, m=120, length=short, density=sparse, dist=uniform, rep=7
+Instance: n=80, m=120, length=long, density=dense, dist=uniform, rep=7
+Instance: n=80, m=120, length=long, density=sparse, dist=uniform, rep=7
+Instance: n=80, m=120, length=short, density=dense, dist=uniform, rep=8
+Instance: n=80, m=120, length=short, density=sparse, dist=uniform, rep=8
+Instance: n=80, m=120, length=long, density=dense, dist=uniform, rep=8
+Instance: n=80, m=120, length=long, density=sparse, dist=uniform, rep=8
+Instance: n=80, m=120, length=short, density=dense, dist=uniform, rep=9
+Instance: n=80, m=120, length=short, density=sparse, dist=uniform, rep=9
+Instance: n=80, m=120, length=long, density=dense, dist=uniform, rep=9
+Instance: n=80, m=120, length=long, density=sparse, dist=uniform, rep=9
+Instance: n=80, m=120, length=short, density=dense, dist=uniform, rep=10
+Instance: n=80, m=120, length=short, density=sparse, dist=uniform, rep=10
+Instance: n=80, m=120, length=long, density=dense, dist=uniform, rep=10
+Instance: n=80, m=120, length=long, density=sparse, dist=uniform, rep=10
+Finished experiments (averaged). Rows: 40
+40×52 DataFrame
+ Row │ n_base  m_base  density  length  weight_mode  dist_type  dual2     n        mu_pes_bound  dsrse_ratio  lp_orig  cdsrse_weight  cdsrse_ratio  dual1     opt_mc    cdsrse_lp_adaptive  sdp_orig  lp_cons  dsrse_lp_adaptive  alpha_pes_over_pstar  p_star   m        dsrse_weight  alpha_pes  alpha_gap  alpha_pes_over_pstar_gap  lp_cons_gap  lp_orig_gap  sdp_orig_gap  dual1_gap  dual2_gap  mu_pes_bound_gap  cdsrse_w_gap  cdsrse_r_gap  dsrse_w_gap  dsrse_r_gap  cdsrse_lp_adaptive_gap  dsrse_lp_adaptive_gap  alpha_over_opt  alpha_pes_over_pstar_over_opt  lp_cons_over_opt  lp_orig_over_opt  sdp_orig_over_opt  dual1_over_opt  dual2_over_opt  mu_pes_bound_over_opt  cdsrse_w_over_opt  cdsrse_r_over_opt  dsrse_w_over_opt  dsrse_r_over_opt  cdsrse_lp_adaptive_over_opt  dsrse_lp_adaptive_over_opt
+     │ Int64   Int64   Symbol   Symbol  Symbol       Symbol     Float64   Float64  Float64       Float64      Float64  Float64        Float64       Float64   Float64   Float64             Float64   Float64  Float64            Float64               Float64  Float64  Float64       Float64    Float64    Float64                   Float64      Float64      Float64       Float64    Float64    Float64           Float64       Float64       Float64      Float64      Float64                 Float64                Float64         Float64                        Float64           Float64           Float64            Float64         Float64         Float64                Float64            Float64            Float64           Float64           Float64                      Float64
+─────┼──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+   1 │      8      12  dense    short   uniform01    uniform     2.5077       8.0           NaN     1.88923       NaN       1.81599       1.7356     2.72182  1.96773             1.69708        NaN      NaN           1.80058               10.4628    0.1876     12.0      1.94767    1.79285   0.092775                    4.43671          NaN          NaN           NaN   0.41683    0.303232               NaN     0.0887196      0.128552   0.0106384     0.047967                0.137585              0.0831335         0.911127                        5.3172                NaN               NaN                NaN         1.38323         1.27442                    NaN           0.922887           0.882034          0.989807          0.960108                     0.862456                    0.915058
+   2 │      8      12  sparse   short   uniform01    uniform     1.49426      4.0           NaN     1.1619        NaN       1.09928       1.06048    1.62564  1.17894             1.13048        NaN      NaN           1.17185                5.18864   0.2505     12.0      1.1722     1.08838   0.0836185                   3.46775          NaN          NaN           NaN   0.402868   0.284761               NaN     0.0718102      0.113838   0.00873855    0.0219702               0.0476929             0.00751955        0.923186                        4.40112               NaN               NaN                NaN         1.3789          1.26746                    NaN           0.932433           0.899522          0.994289          0.985547                     0.958899                    0.993989
+   3 │      8      12  dense    long    uniform01    uniform     2.34257      8.0           NaN     1.48263       NaN       1.42588       1.41384    2.77948  1.58282             1.34198        NaN      NaN           1.42304               14.9029    0.1051     20.2      1.51844    1.38293   0.137685                    8.51947          NaN          NaN           NaN   0.792243   0.501334               NaN     0.104506       0.118736   0.0464343     0.0759113               0.155438              0.100138          0.873713                        9.41539               NaN               NaN                NaN         1.75603         1.48                       NaN           0.900849           0.893243          0.959325          0.936704                     0.847841                    0.899056
+   4 │      8      12  sparse   long    uniform01    uniform     1.43269      4.0           NaN     0.908243      NaN       0.918459      0.868135   1.69954  0.957808            0.924261       NaN      NaN           0.947538               7.52511   0.1506     20.2      0.954879   0.888475  0.0676207                   7.18977          NaN          NaN           NaN   0.81762    0.521216               NaN     0.0436389      0.106169   0.00505506    0.0645189               0.037009              0.0126753         0.927613                        7.85659               NaN               NaN                NaN         1.77441         1.4958                     NaN           0.958918           0.906377          0.996942          0.948251                     0.964975                    0.989278
+   5 │     10      15  dense    short   uniform01    uniform     2.81666     10.0           NaN     2.02767       NaN       1.91422       1.6902     2.94907  2.1678              1.87211        NaN      NaN           2.03911               14.9132    0.125      15.0      2.09303    1.75996   0.190426                    6.34278          NaN          NaN           NaN   0.363778   0.306987               NaN     0.126797       0.22711    0.0416353     0.0661504               0.147062              0.0658671         0.811864                        6.87942               NaN               NaN                NaN         1.3604          1.29932                    NaN           0.883025           0.779685          0.96551           0.935359                     0.863601                    0.940638
+   6 │     10      15  sparse   short   uniform01    uniform     2.05709      5.0           NaN     1.53526       NaN       1.40531       1.36659    2.23786  1.56345             1.44487        NaN      NaN           1.5329                 9.14617   0.1643     15.0      1.54532    1.37294   0.133293                    5.26384          NaN          NaN           NaN   0.468479   0.338668               NaN     0.101908       0.132233   0.0149542     0.0201158               0.0739907             0.0225549         0.878145                        5.84999               NaN               NaN                NaN         1.43136         1.31574                    NaN           0.898853           0.874088          0.988405          0.981967                     0.924155                    0.980458
+   7 │     10      15  dense    long    uniform01    uniform     2.49374     10.0           NaN     1.52991       NaN       1.51268       1.35094    2.90238  1.75392             1.48342        NaN      NaN           1.61477               21.7426    0.071      26.4      1.69178    1.49335   0.162214                   12.0926           NaN          NaN           NaN   0.698718   0.437156               NaN     0.149967       0.255563   0.0366109     0.147076                0.165659              0.0887243         0.85144                        12.3966                NaN               NaN                NaN         1.6548          1.42181                    NaN           0.862457           0.770243          0.964574          0.872282                     0.845778                    0.920667
+   8 │     10      15  sparse   long    uniform01    uniform     1.85871      5.0           NaN     1.19295       NaN       1.17768       1.11172    2.16839  1.26761             1.1808         NaN      NaN           1.24062               13.9576    0.0847     26.4      1.25089    1.10632   0.145876                   10.7805           NaN          NaN           NaN   0.818922   0.532665               NaN     0.0837467      0.14349    0.0158743     0.0654349               0.0818296             0.0270607         0.872761                       11.011                 NaN               NaN                NaN         1.71061         1.46631                    NaN           0.929052           0.877019          0.98681           0.941103                     0.931515                    0.978709
+   9 │     12      18  dense    short   uniform01    uniform     3.12582     12.0           NaN     1.96923       NaN       1.86564       1.71318    3.3027   2.25424             1.71703        NaN      NaN           1.94999               16.9569    0.1121     18.0      2.09145    1.83656   0.182574                    6.41501          NaN          NaN           NaN   0.462671   0.392674               NaN     0.170023       0.247154   0.0737611     0.132024                0.240491              0.142372          0.814716                        7.52225               NaN               NaN                NaN         1.46511         1.38664                    NaN           0.827614           0.75998           0.927785          0.87357                      0.76169                     0.865033
+  10 │     12      18  sparse   short   uniform01    uniform     2.13403      6.0           NaN     1.48948       NaN       1.50486       1.37559    2.34349  1.5966              1.49114        NaN      NaN           1.54162               10.399     0.1441     18.0      1.57827    1.46549   0.0856868                   5.49754          NaN          NaN           NaN   0.466361   0.340342               NaN     0.0596746      0.145365   0.0113854     0.0681823               0.0735075             0.0405498         0.917881                        6.51321               NaN               NaN                NaN         1.4678          1.33661                    NaN           0.942541           0.86157           0.98852           0.932904                     0.933945                    0.96556
+  11 │     12      18  dense    long    uniform01    uniform     2.69872     12.0           NaN     1.51967       NaN       1.49566       1.32943    3.04539  1.73612             1.22829        NaN      NaN           1.39928               24.1404    0.06       30.0      1.64448    1.38495   0.189355                   13.0131           NaN          NaN           NaN   0.749008   0.558453               NaN     0.129545       0.235781   0.0518479     0.132306                0.290168              0.200745          0.797729                       13.9048                NaN               NaN                NaN         1.75414         1.55446                    NaN           0.861501           0.765752          0.947219          0.875325                     0.707495                    0.805986
+  12 │     12      18  sparse   long    uniform01    uniform     1.92885      6.0           NaN     1.22407       NaN       1.26898       1.17587    2.17938  1.32759             1.22553        NaN      NaN           1.26748               15.9077    0.0816     30.0      1.30439    1.22249   0.0817577                  10.8717           NaN          NaN           NaN   0.6529     0.476343               NaN     0.044204       0.129611   0.0156928     0.0861478               0.0771018             0.0459829         0.920834                       11.9824                NaN               NaN                NaN         1.64161         1.4529                     NaN           0.955854           0.885722          0.982529          0.922025                     0.923124                    0.954726
+  13 │     14      21  dense    short   uniform01    uniform     3.48224     14.0           NaN     2.40858       NaN       2.08969       2.10148    3.78031  2.62089             2.10868        NaN      NaN           2.33165               23.0532    0.0927     21.0      2.45827    2.1107    0.1981                      8.02127          NaN          NaN           NaN   0.453225   0.338364               NaN     0.208367       0.208957   0.0637656     0.0869846               0.199822              0.109156          0.805339                        8.79593               NaN               NaN                NaN         1.44238         1.32865                    NaN           0.797321           0.801818          0.937951          0.918992                     0.804565                    0.88964
+  14 │     14      21  sparse   short   uniform01    uniform     2.39372      7.0           NaN     1.65321       NaN       1.45831       1.43862    2.66004  1.75804             1.48435        NaN      NaN           1.5958                13.1072    0.1166     21.0      1.72885    1.43215   0.17306                     7.0093           NaN          NaN           NaN   0.560033   0.39231                NaN     0.169103       0.176904   0.0167441     0.0665574               0.144723              0.0804639         0.814627                        7.45559               NaN               NaN                NaN         1.51307         1.36158                    NaN           0.82951            0.81831           0.983393          0.940371                     0.844318                    0.907716
+  15 │     14      21  dense    long    uniform01    uniform     3.05941     14.0           NaN     1.88623       NaN       1.84384       1.71827    3.67522  2.05499             1.5184         NaN      NaN           1.62905               34.2301    0.0525     35.4      1.96795    1.76906   0.133643                   15.8487           NaN          NaN           NaN   0.837118   0.522351               NaN     0.104934       0.16968    0.0458669     0.0900422               0.246601              0.191116          0.860861                       16.6571                NaN               NaN                NaN         1.78844         1.48877                    NaN           0.89725            0.836148          0.957646          0.917878                     0.738886                    0.792729
+  16 │     14      21  sparse   long    uniform01    uniform     2.14621      7.0           NaN     1.3301        NaN       1.29284       1.22535    2.61054  1.44099             1.12209        NaN      NaN           1.19921               22.9217    0.0603     35.4      1.37468    1.25051   0.127502                   15.7282           NaN          NaN           NaN   0.875953   0.527168               NaN     0.102919       0.164001   0.0501601     0.0878146               0.199675              0.134412          0.867817                       15.9069                NaN               NaN                NaN         1.81163         1.4894                     NaN           0.897187           0.850353          0.953984          0.923045                     0.778697                    0.832214
+  17 │     16      24  dense    short   uniform01    uniform     3.59994     16.0           NaN     2.49199       NaN       2.23098       2.14795    3.84074  2.6675              2.24576        NaN      NaN           2.49199               28.1384    0.0823     24.0      2.45308    2.20575   0.18254                     9.52243          NaN          NaN           NaN   0.443146   0.354702               NaN     0.172973       0.211675   0.0852939     0.0696864               0.164541              0.0680153         0.826895                       10.5486                NaN               NaN                NaN         1.43983         1.34955                    NaN           0.836353           0.805228          0.919618          0.934201                     0.841896                    0.934204
+  18 │     16      24  sparse   short   uniform01    uniform     2.5734       8.0           NaN     1.77975       NaN       1.72193       1.58506    2.83018  1.88827             1.71973        NaN      NaN           1.86161               18.1278    0.0998     24.0      1.8573     1.66477   0.133888                    8.5884           NaN          NaN           NaN   0.518092   0.383722               NaN     0.104791       0.183852   0.0191064     0.0654697               0.105226              0.0187998         0.881641                        9.60024               NaN               NaN                NaN         1.49882         1.36283                    NaN           0.911907           0.839426          0.983601          0.942529                     0.910745                    0.985881
+  19 │     16      24  dense    long    uniform01    uniform     3.02208     16.0           NaN     1.84519       NaN       1.74091       1.57203    3.60627  2.06629             1.65828        NaN      NaN           1.86654               38.7428    0.045      41.5      1.9189     1.69577   0.188082                   17.629            NaN          NaN           NaN   0.757054   0.469203               NaN     0.166796       0.26505    0.0788356     0.119283                0.210476              0.101263          0.820682                       18.7499                NaN               NaN                NaN         1.74529         1.46256                    NaN           0.84253            0.760799          0.928669          0.892994                     0.80254                     0.903329
+  20 │     16      24  sparse   long    uniform01    uniform     2.2937       8.0           NaN     1.44942       NaN       1.35176       1.29669    2.72857  1.55606             1.37304        NaN      NaN           1.52258               28.9337    0.0519     41.5      1.5291     1.30951   0.153812                   17.5982           NaN          NaN           NaN   0.789634   0.49984                NaN     0.12928        0.177108   0.01909       0.0766975               0.117128              0.0200432         0.841557                       18.5942                NaN               NaN                NaN         1.75351         1.47404                    NaN           0.868704           0.833312          0.982672          0.931467                     0.882381                    0.978484
+  21 │     18      27  dense    short   uniform01    uniform     3.96559     18.0           NaN     2.61577       NaN       2.34305       2.25941    4.24877  2.88088             2.35947        NaN      NaN           2.59678               34.9771    0.0702     27.0      2.67432    2.37322   0.179865                   11.0285           NaN          NaN           NaN   0.499089   0.389219               NaN     0.202679       0.240986   0.0787001     0.102326                0.18748               0.108442          0.823783                       12.1411                NaN               NaN                NaN         1.47481         1.37652                    NaN           0.813311           0.784277          0.928298          0.907974                     0.819008                    0.901384
+  22 │     18      27  sparse   short   uniform01    uniform     2.9371       9.0           NaN     1.95863       NaN       1.93505       1.85102    3.36206  2.11465             1.95926        NaN      NaN           2.06172               23.6995    0.0854     27.0      2.05861    1.94623   0.0797472                  10.6016           NaN          NaN           NaN   0.661209   0.436317               NaN     0.0879908      0.12822    0.0315127     0.0766392               0.0790106             0.0332385         0.920356                       11.2073                NaN               NaN                NaN         1.58989         1.38893                    NaN           0.91507            0.875331          0.973499          0.926219                     0.926519                    0.974972
+  23 │     18      27  dense    long    uniform01    uniform     3.42256     18.0           NaN     2.02322       NaN       1.8728        1.80213    4.08497  2.23487             1.8335         NaN      NaN           2.00862               56.5514    0.0376     51.1      2.05166    1.87016   0.166498                   23.4107           NaN          NaN           NaN   0.868918   0.557241               NaN     0.173042       0.205123   0.0924223     0.111546                0.188991              0.116824          0.836807                       25.3041                NaN               NaN                NaN         1.82783         1.53143                    NaN           0.837988           0.806368          0.918023          0.905297                     0.820403                    0.898762
+  24 │     18      27  sparse   long    uniform01    uniform     2.67505      9.0           NaN     1.60703       NaN       1.52609       1.41075    3.23655  1.73678             1.51558        NaN      NaN           1.62797               39.7759    0.0415     51.1      1.68963    1.5186    0.131361                   22.4439           NaN          NaN           NaN   0.928507   0.573793               NaN     0.123651       0.202747   0.031452      0.0814956               0.128505              0.0679593         0.874375                       22.9021                NaN               NaN                NaN         1.86353         1.54024                    NaN           0.878691           0.812278          0.972851          0.925296                     0.872636                    0.93735
+  25 │     19      29  dense    short   uniform01    uniform     4.21185     19.0           NaN     2.60431       NaN       2.58359       2.24987    4.58398  2.9324              2.33204        NaN      NaN           2.55889               33.3917    0.0721     29.0      2.77217    2.32279   0.212527                   10.2995           NaN          NaN           NaN   0.58379    0.449718               NaN     0.117076       0.241605   0.0579861     0.113272                0.217257              0.150072          0.792115                       11.3872                NaN               NaN                NaN         1.56322         1.43631                    NaN           0.881051           0.767245          0.945358          0.888116                     0.795269                    0.872629
+  26 │     19      29  sparse   short   uniform01    uniform     2.93722      9.0           NaN     1.93254       NaN       1.84641       1.69741    3.27556  2.06301             1.82839        NaN      NaN           1.9603                20.1453    0.0893     29.0      2.02409    1.70252   0.164226                    8.83411          NaN          NaN           NaN   0.681353   0.493516               NaN     0.101948       0.173453   0.0217045     0.0717742               0.111255              0.0568588         0.825263                        9.76503               NaN               NaN                NaN         1.58776         1.42375                    NaN           0.895011           0.822783          0.981136          0.93676                      0.886272                    0.950212
+  27 │     19      29  dense    long    uniform01    uniform     3.65224     19.0           NaN     2.13596       NaN       2.08828       1.91507    4.35102  2.37615             1.70294        NaN      NaN           1.93819               59.5468    0.0346     51.5      2.27782    1.98419   0.172342                   23.9785           NaN          NaN           NaN   0.865692   0.559701               NaN     0.123745       0.206639   0.041506      0.10888                 0.282108              0.190387          0.835044                       25.0602                NaN               NaN                NaN         1.83112         1.53704                    NaN           0.878852           0.805958          0.958618          0.898917                     0.716683                    0.815687
+  28 │     19      29  sparse   long    uniform01    uniform     2.57174      9.0           NaN     1.58912       NaN       1.5984        1.50317    3.06788  1.70711             1.37446        NaN      NaN           1.46569               39.5302    0.0436     51.5      1.64014    1.56277   0.081836                   22.0107           NaN          NaN           NaN   0.890764   0.568134               NaN     0.0575511      0.126028   0.032679      0.0765989               0.176969              0.134147          0.915448                       23.1561                NaN               NaN                NaN         1.79711         1.50648                    NaN           0.936314           0.880531          0.960769          0.930878                     0.805137                    0.858579
+  29 │     20      30  dense    short   uniform01    uniform     4.58336     20.0           NaN     3.11449       NaN       2.76916       2.72604    4.9077   3.33762             2.45361        NaN      NaN           2.69346               48.5228    0.0571     30.0      3.09977    2.63266   0.22441                    13.1908           NaN          NaN           NaN   0.475904   0.374622               NaN     0.178796       0.190285   0.077117      0.0689334               0.261798              0.189497          0.788785                       14.5382                NaN               NaN                NaN         1.47042         1.37324                    NaN           0.829683           0.816761          0.928738          0.933147                     0.735139                    0.807001
+  30 │     20      30  sparse   short   uniform01    uniform     3.10841     10.0           NaN     1.95013       NaN       1.83646       1.70567    3.43822  2.15014             1.90291        NaN      NaN           2.03012               28.6158    0.0645     30.0      2.04702    1.70925   0.201274                   12.1266           NaN          NaN           NaN   0.618042   0.453494               NaN     0.153648       0.209797   0.0487385     0.10037                 0.113106              0.0566722         0.794946                       13.3088                NaN               NaN                NaN         1.59907         1.44568                    NaN           0.854111           0.793281          0.952038          0.906979                     0.885015                    0.944182
+  31 │     20      30  dense    long    uniform01    uniform     3.95296     20.0           NaN     2.36008       NaN       2.17284       2.08114    4.85386  2.61505             1.57223        NaN      NaN           1.68199               76.6425    0.0307     60.3      2.43113    2.16978   0.183474                   27.2891           NaN          NaN           NaN   0.899031   0.535532               NaN     0.17411        0.220278   0.0753338     0.114032                0.378953              0.333708          0.829728                       29.3082                NaN               NaN                NaN         1.85612         1.51162                    NaN           0.830898           0.795829          0.929666          0.902497                     0.601221                    0.643197
+  32 │     20      30  sparse   long    uniform01    uniform     2.66465     10.0           NaN     1.53754       NaN       1.44901       1.44284    3.32853  1.68651             1.38261        NaN      NaN           1.42495               57.4237    0.0321     60.3      1.60506    1.46085   0.143497                   30.6212           NaN          NaN           NaN   0.981769   0.584852               NaN     0.150769       0.155072   0.0530672     0.0973951               0.183701              0.160389          0.866197                       34.0488                NaN               NaN                NaN         1.97362         1.57998                    NaN           0.859175           0.85552           0.951703          0.911669                     0.819808                    0.844911
+  33 │     40      60  dense    short   uniform01    uniform     6.84487     40.0           NaN     4.40624       NaN       3.68022       3.69647    7.28339  4.87399             3.48638        NaN      NaN           3.80165              150.681     0.0271     60.0      4.38538    3.88502   0.19926                    30.4367           NaN          NaN           NaN   0.497575   0.403989               NaN     0.242557       0.243544   0.106305      0.100681                0.288967              0.222327          0.797093                       30.9154                NaN               NaN                NaN         1.49434         1.40437                    NaN           0.755073           0.758409          0.899752          0.904032                     0.715303                    0.779989
+  34 │     40      60  sparse   short   uniform01    uniform     4.80736     20.0           NaN     3.07014       NaN       2.74825       2.52746    5.24769  3.31741             2.58504        NaN      NaN           2.84533               83.5472    0.0313     60.0      3.11402    2.58134   0.228268                   23.966            NaN          NaN           NaN   0.577539   0.447524               NaN     0.173979       0.248813   0.0645556     0.0803339               0.222167              0.142075          0.778118                       25.1845                NaN               NaN                NaN         1.58186         1.44913                    NaN           0.828434           0.761878          0.93869           0.925463                     0.779235                    0.857695
+  35 │     40      60  dense    long    uniform01    uniform     5.58446     40.0           NaN     3.31734       NaN       2.96483       2.87529    6.6825   3.65893             2.39296        NaN      NaN           2.59617              234.209     0.0135    119.2      3.42415    3.06563   0.163206                   62.864            NaN          NaN           NaN   0.836934   0.52626                NaN     0.19706        0.221277   0.065732      0.101046                0.364566              0.308006          0.837849                       64.0104                NaN               NaN                NaN         1.82635         1.52626                    NaN           0.8103             0.78583           0.935835          0.906643                     0.654007                    0.709544
+  36 │     40      60  sparse   long    uniform01    uniform     4.0051      20.0           NaN     2.3054        NaN       2.01866       1.85095    4.8142   2.53915             1.88227        NaN      NaN           2.03921              121.086     0.017     119.2      2.3796     1.99743   0.220551                   46.1255           NaN          NaN           NaN   0.897808   0.577055               NaN     0.221219       0.2757     0.0694253     0.0990281               0.269535              0.204538          0.786654                       47.6875                NaN               NaN                NaN         1.89599         1.57734                    NaN           0.795012           0.728965          0.937163          0.907939                     0.741297                    0.803106
+  37 │     80     120  dense    short   uniform01    uniform    10.9447      80.0           NaN     6.89016       NaN       6.14209       6.03935   11.7063   7.74642             4.74602        NaN      NaN           4.92527              586.337     0.0106    120.0      6.97373    6.12101   0.210476                   74.734            NaN          NaN           NaN   0.515016   0.416744               NaN     0.208188       0.221649   0.100694      0.112517                0.388573              0.362358          0.790172                       75.6914                NaN               NaN                NaN         1.51119         1.41287                    NaN           0.792893           0.779631          0.900252          0.889463                     0.612673                    0.635812
+  38 │     80     120  sparse   short   uniform01    uniform     7.98127     40.0           NaN     5.00167       NaN       4.24788       4.28315    8.69715  5.42193             3.82694        NaN      NaN           4.32221              949.372     0.0104    120.0      5.09739    4.28633   0.216152                  159.789            NaN          NaN           NaN   0.617441   0.485442               NaN     0.227008       0.219546   0.0628915     0.0810187               0.29953               0.202438          0.790554                      175.098                 NaN               NaN                NaN         1.60407         1.47203                    NaN           0.783463           0.789968          0.940143          0.922488                     0.705826                    0.79717
+  39 │     80     120  dense    long    uniform01    uniform     8.78428     80.0           NaN     5.15197       NaN       4.60142       4.48305   10.2548   5.7808              2.59105        NaN      NaN           2.85853             1132.43      0.0047    263.1      5.22014    4.69681   0.187717                  191.316            NaN          NaN           NaN   0.774839   0.519997               NaN     0.207124       0.225922   0.0990418     0.111645                0.5504                0.503609          0.812484                      195.895                 NaN               NaN                NaN         1.77394         1.51956                    NaN           0.795983           0.775506          0.903012          0.89122                      0.448216                    0.494487
+  40 │     80     120  sparse   long    uniform01    uniform     6.55106     40.0           NaN     3.89482       NaN       3.62582       3.52329    7.82618  4.22346             2.56413        NaN      NaN           2.78241              945.179     0.0045    263.1      4.02419    3.6422    0.140259                  218.835            NaN          NaN           NaN   0.876847   0.568252               NaN     0.145209       0.168374   0.0521657     0.0814712               0.397172              0.341081          0.862373                      223.793                 NaN               NaN                NaN         1.85303         1.55111                    NaN           0.858496           0.834218          0.95282           0.922187                     0.607117                    0.658799┌ Warning: No LP optimizer found (HiGHS/GLPK). LP bounds will be skipped.
+└ @ Main ~/GaTech Dropbox/Rui Gong/Research/dynamic interval scheduling/expected_stab/run_final_experiments_new.jl:14
+

@@ -1,0 +1,936 @@
+%
+% ---- Bibliography ----
+%
+% BibTeX users should specify bibliography style 'splncs04'.
+% References will then be sorted and formatted in the correct style.
+%
+% \bibliographystyle{splncs04}
+% \bibliography{mybibliography}
+%
+
+
+
+@article{HiGHS,
+	abstract = {This paper introduces the design and implementation of two parallel dual simplex solvers for general large scale sparse linear programming problems. One approach, called PAMI, extends a relatively unknown pivoting strategy called suboptimization and exploits parallelism across multiple iterations. The other, called SIP, exploits purely single iteration parallelism by overlapping computational components when possible. Computational results show that the performance of PAMI is superior to that of the leading open-source simplex solver, and that SIP complements PAMI in achieving speedup when PAMI results in slowdown. One of the authors has implemented the techniques underlying PAMI within the FICO Xpress simplex solver and this paper presents computational results demonstrating their value. In developing the first parallel revised simplex solver of general utility, this work represents a significant achievement in computational optimization.},
+	author = {Huangfu, Q. and Hall, J. A. J.},
+	date = {2018/03/01},
+	date-added = {2026-01-21 13:32:44 -0500},
+	date-modified = {2026-01-21 13:32:44 -0500},
+	doi = {10.1007/s12532-017-0130-5},
+	id = {Huangfu2018},
+	isbn = {1867-2957},
+	journal = {Mathematical Programming Computation},
+	number = {1},
+	pages = {119--142},
+	title = {Parallelizing the dual revised simplex method},
+	url = {https://doi.org/10.1007/s12532-017-0130-5},
+	volume = {10},
+	year = {2018},
+	bdsk-url-1 = {https://doi.org/10.1007/s12532-017-0130-5}}
+
+
+@article{Star-Graph-NP-hard,
+	abstract = {Given a finite ground set N and a value vector {\$}{\$}{\{}a {$\backslash$}in {$\backslash$}mathbb{\{}R{\}}\^{}N{\}}{\$}{\$}, we consider optimization problems involving maximization of a submodular set utility function of the form {\$}{\$}{\{}h(S)= f {$\backslash$}left({$\backslash$}sum{\_}{\{}i {$\backslash$}in S{\}} a{\_}i {$\backslash$}right ), S {$\backslash$}subseteq N{\}}{\$}{\$}, where f is a strictly concave, increasing, differentiable function. This utility function appears frequently in combinatorial optimization problems when modeling risk aversion and decreasing marginal preferences, for instance, in risk-averse capital budgeting under uncertainty, competitive facility location, and combinatorial auctions. These problems can be formulated as linear mixed 0-1 programs. However, the standard formulation of these problems using submodular inequalities is ineffective for their solution, except for very small instances. In this paper, we perform a polyhedral analysis of a relevant mixed-integer set and, by exploiting the structure of the utility function h, strengthen the standard submodular formulation significantly. We show the lifting problem of the submodular inequalities to be a submodular maximization problem with a special structure solvable by a greedy algorithm, which leads to an easily-computable strengthening by subadditive lifting of the inequalities. Computational experiments on expected utility maximization in capital budgeting show the effectiveness of the new formulation.},
+	author = {Ahmed, Shabbir and Atamt{\"u}rk, Alper},
+	date = {2011/06/01},
+	date-added = {2025-08-11 13:56:10 -0400},
+	date-modified = {2025-08-11 13:56:10 -0400},
+	doi = {10.1007/s10107-009-0298-1},
+	id = {Ahmed2011},
+	isbn = {1436-4646},
+	journal = {Mathematical Programming},
+	number = {1},
+	pages = {149--169},
+	title = {Maximizing a class of submodular utility functions},
+	url = {https://doi.org/10.1007/s10107-009-0298-1},
+	volume = {128},
+	year = {2011},
+	bdsk-url-1 = {https://doi.org/10.1007/s10107-009-0298-1}}
+
+
+@article{interval_schedule,
+author = {Spieksma, Frits C. R.},
+title = {On the approximability of an interval scheduling problem},
+journal = {Journal of Scheduling},
+volume = {2},
+number = {5},
+pages = {215-227},
+keywords = {interval scheduling, approximability, independent set},
+doi = {https://doi.org/10.1002/(SICI)1099-1425(199909/10)2:5<215::AID-JOS27>3.0.CO;2-Y},
+url = {https://onlinelibrary.wiley.com/doi/abs/10.1002/%28SICI%291099-1425%28199909/10%292%3A5%3C215%3A%3AAID-JOS27%3E3.0.CO%3B2-Y},
+eprint = {https://onlinelibrary.wiley.com/doi/pdf/10.1002/%28SICI%291099-1425%28199909/10%292%3A5%3C215%3A%3AAID-JOS27%3E3.0.CO%3B2-Y},
+abstract = {Abstract In this paper we consider a general interval scheduling problem. The problem is a natural generalization of finding a maximum independent set in an interval graph. We show that, unless ��=����, this maximization problem cannot be approximated in polynomial time within arbitrarily good precision. On the other hand, we present a simple greedy algorithm that delivers a solution with a value of at least 1/2 times the value of an optimal solution. Finally, we investigate the quality of an LP-relaxation of a formulation for the problem, by establishing an upper bound on the ratio between the value of the LP-relaxation and the value of an optimal solution. Copyright © 1999 John Wiley \& Sons, Ltd.},
+year = {1999}
+}
+@ARTICLE{1056072,
+  author={Schrijver, A.},
+  journal={IEEE Transactions on Information Theory}, 
+  title={A comparison of the Delsarte and Lovász bounds}, 
+  year={1979},
+  volume={25},
+  number={4},
+  pages={425-429},
+  keywords={},
+  doi={10.1109/TIT.1979.1056072}}
+
+@article{10.1145/227683.227684,
+author = {Goemans, Michel X. and Williamson, David P.},
+title = {Improved Approximation Algorithms for Maximum Cut and Satisfiability Problems Using Semidefinite Programming},
+year = {1995},
+month = nov,
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+volume = {42},
+number = {6},
+issn = {0004-5411},
+doi = {10.1145/227683.227684},
+journal = {Journal of the ACM},
+pages = {1115–1145},
+numpages = {31},
+keywords = {convex optimization, randomized algorithms, Approximation algorithms, satisfiability}
+}
+
+@article{ellipsoid_MSS,
+	abstract = {L. G. Khachiyan recently published a polynomial algorithm to check feasibility of a system of linear inequalities. The method is an adaptation of an algorithm proposed by Shor for non-linear optimization problems. In this paper we show that the method also yields interesting results in combinatorial optimization. Thus it yields polynomial algorithms for vertex packing in perfect graphs; for the matching and matroid intersection problems; for optimum covering of directed cuts of a digraph; for the minimum value of a submodular set function; and for other important combinatorial problems. On the negative side, it yields a proof that weighted fractional chromatic number is NP-hard.},
+	author = {Gr{\"o}tschel, M. and Lov{\'a}sz, L. and Schrijver, A.},
+	date = {1981/06/01},
+	date-added = {2024-02-27 11:14:15 -0500},
+	date-modified = {2024-02-27 11:14:15 -0500},
+	id = {Gr{\"o}tschel1981},
+	isbn = {1439-6912},
+	journal = {Combinatorica},
+	number = {2},
+	pages = {169--197},
+	title = {The ellipsoid method and its consequences in combinatorial optimization},
+	volume = {1},
+	year = {1981},
+	doi = {10.1007/BF02579273}}
+@article{GROTSCHEL1986330,
+title = {Relaxations of vertex packing},
+journal = {Journal of Combinatorial Theory, Series B},
+volume = {40},
+number = {3},
+pages = {330-343},
+year = {1986},
+issn = {0095-8956},
+doi = {10.1016/0095-8956(86)90087-0},
+author = {M Grötschel and L Lovász and A Schrijver},
+abstract = {A polynomially computable upper bound for the weighted independence number of a graph is studied. This gives rise to a convex body containing the vertex packing polytope of the graph. This body is a polytope if and only if the graph is perfect. As an application of these notions, we show that the maximum weight independent set of an h-perfect graph can be found in polynomial time.}
+}
+@incollection{GROTSCHEL1984325,
+title = {Polynomial Algorithms for Perfect Graphs},
+series = {North-Holland Mathematics Studies},
+publisher = {North-Holland},
+volume = {88},
+pages = {325-356},
+year = {1984},
+booktitle = {Topics on Perfect Graphs},
+issn = {0304-0208},
+doi = {10.1016/S0304-0208(08)72943-8},
+author = {M. Grötschel and L. Lovász and A. Schrijver},
+abstract = {We show that the weighted versions of the stable set problem, the clique problem, the coloring problem and the clique covering problem are solvable in polynomial time for perfect graphs. Our algorithms are based on the ellipsoid method and a polynomial time separation algorithm for a certain class of positive semidefinite matrices related to Lovász's bound θ(G) on the Shannon capacity of a graph. We show that θG) can be computed in polynomial time for all graphs G and also give a new characterization of perfect graphs in terms of this number θ(G). In addition we prove that the problem of verifying that a graph is imperfect is in NP. Moreover, we show that the computation of the stability number and the fractional stability number of a graph are unrelated with respect to hardness (if P ≠NP).}
+}
+
+@book{Grötschel1993,
+author="Gr{\"o}tschel, Martin
+and Lov{\'a}sz, L{\'a}szl{\'o}
+and Schrijver, Alexander",
+title="Geometric Algorithms and Combinatorial Optimization",
+bookTitle="Geometric Algorithms and Combinatorial Optimization",
+year="1993",
+publisher="Springer Berlin Heidelberg",
+address="Berlin, Heidelberg",
+abstract="In 1979 a note of L. G. Khachiyan indicated how an algorithm, the so-called ellipsoid method, originally devised for nonlinear nondifferentiable optimization, can be modified in order to check the feasibility of a system of linear inequalities in polynomial time. This result caused great excitement in the world of mathematical programming since it implies the polynomial time solvability of linear programming problems.",
+isbn="978-3-642-78240-4",
+doi="10.1007/978-3-642-78240-4_4",
+}
+@article{NP-hard,
+author = {Garey, M. R. and Johnson, D. S.},
+title = {`` Strong '' NP-Completeness Results: Motivation, Examples, and Implications},
+year = {1978},
+issue_date = {July 1978},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+volume = {25},
+number = {3},
+issn = {0004-5411},
+doi = {10.1145/322077.322090},
+journal = {Journal of the ACM},
+month = {July},
+pages = {499–508},
+numpages = {10}
+}
+@techreport{sandwich,
+author = {Knuth, Donald E.},
+title = {The Sandwich Theorem},
+year = {1994},
+publisher = {Stanford University},
+address = {Stanford, CA, USA},
+abstract = {This report contains expository notes about a function vartheta(G) that is popularly known as the Lovasz number of a graph G. There are many ways to define vartheta(G), and the surprising variety of different characterizations indicates in itself that vartheta(G) should be interesting. But the most interesting property of vartheta(G) is probably the fact that it can be computed efficiently, although it lies "sandwiched" between other classic graph numbers whose computation is NP-hard. I have tried to make these notes self-contained so that they might serve as an elementary introduction to the growing literature on Lovasz''s fascinating function.}
+}
+
+@inproceedings{sublinear-time-Alizadeh,
+author = {Alizadeh, Farid},
+title = {A sublinear-time randomized parallel algorithm for the maximum clique problem in perfect graphs},
+year = {1991},
+isbn = {0897913760},
+publisher = {Society for Industrial and Applied Mathematics},
+address = {USA},
+booktitle = {Proceedings of the Second Annual ACM-SIAM Symposium on Discrete Algorithms},
+pages = {188–194},
+numpages = {7},
+location = {San Francisco, California, USA},
+url ={https://dl.acm.org/doi/abs/10.5555/127787.127826},
+series = {SODA '91}
+}
+
+
+@article{Yildirim-Fan,
+	abstract = {We study the maximum stable set problem. For a given graph, we establish several transformations among feasible solutions of different formulations of Lov{\'a}sz's theta function. We propose reductions from feasible solutions corresponding to a graph to those corresponding to its induced subgraphs. We develop an efficient, polynomial-time algorithm to extract a maximum stable set in a perfect graph using the theta function. Our algorithm iteratively transforms an approximate solution of the semidefinite formulation of the theta function into an approximate solution of another formulation, which is then used to identify a vertex that belongs to a maximum stable set. The subgraph induced by that vertex and its neighbors is removed and the same procedure is repeated on successively smaller graphs. We establish that solving the theta problem up to an adaptively chosen, fairly rough accuracy suffices in order for the algorithm to work properly. Furthermore, our algorithm successfully employs a warm-start strategy to recompute the theta function on smaller subgraphs. Computational results demonstrate that our algorithm can efficiently extract maximum stable sets in comparable time it takes to solve the theta problem on the original graph to optimality.},
+	author = {Yildirim, E. Alper and Fan-Orzechowski, Xiaofei},
+	date = {2006/03/01},
+	date-added = {2024-02-27 15:24:42 -0500},
+	date-modified = {2024-02-27 15:24:42 -0500},
+	id = {Yildirim2006},
+	isbn = {1573-2894},
+	journal = {Computational Optimization and Applications},
+	number = {2},
+	pages = {229--247},
+	title = {On Extracting Maximum Stable Sets in Perfect Graphs Using Lov{\'a}sz's Theta Function},
+	volume = {33},
+	year = {2006},
+	doi={10.1007/s10589-005-3060-5}}
+
+
+
+@book{AATNGC-Lovasz,
+author="Lov{\'a}sz, L{\'a}szl{\'o}",
+title = {An Algorithmic Theory of Numbers, Graphs and Convexity},
+booktitle = {An Algorithmic Theory of Numbers, Graphs and Convexity},
+doi = {10.1137/1.9781611970203.intro},
+URL = {https://epubs.siam.org/doi/abs/10.1137/1.9781611970203.intro},
+eprint = {https://epubs.siam.org/doi/pdf/10.1137/1.9781611970203.intro},
+    abstract = { There is little doubt that the present explosion of interest in the algorithmic aspects of mathematics is due to the development of computers — even though special algorithms and their study can be traced back all the way through the history of mathematics. Mathematics started out in Egypt and Babylon as a clearly algorithmic science. In ancient Greece the foundations of its “descriptive” or “structural” line were established; but even here we find algorithmic problems — just think of the problem of constructibility of various geometric figures by compass and ruler. I find it amazing that this problem was precisely formulated in the framework of axiomatic geometry (reflecting the current state of devices at the disposal of the Greeks when they were carrying out those constructions). It is unnecessary to say how much this problem contributed to the later development of geometry and to the creation of algebra: both the positive and the negative results inspired fundamental notions and theorems (e.g. the golden ratio on the one hand and the solvability of algebraic equations by radicals, in particular by square roots, on the other). In our day, the development of computers and the theory of algorithms and their complexity have produced a similar situation. In the last centuries, a vast body of “structural” mathematics has evolved. Now that we are interested in the algorithmic aspects of these results, we meet extremely difficult problems. Some of the most elementary results in number theory, geometry, algebra, or calculus become utterly difficult when we ask for algorithms to find those objects whose existence is (at least by now) easily established. Just think of the elementary fact, known to Euclid, that any integer has a unique prime factorization, and contrast it with the apparent intractability of the corresponding algorithmic problem, namely, the problem of finding this decomposition. }
+}
+
+@article{Prömel_Steger_1992, 
+title={Almost all Berge Graphs are Perfect}, 
+volume={1}, 
+DOI={10.1017/S0963548300000079}, 
+number={1}, 
+journal={Combinatorics, Probability and Computing}, 
+author={Prömel, Hans Jürgen and Steger, Angelika}, 
+year={1992}, 
+pages={53–79}}
+
+@article {StrongPerfectGraph,
+    AUTHOR = {Chudnovsky, Maria and Robertson, Neil and Seymour, Paul and
+              Thomas, Robin},
+     TITLE = {The strong perfect graph theorem},
+   JOURNAL = {Annals of Mathematics (2)},
+  FJOURNAL = {Annals of Mathematics. Second Series},
+    VOLUME = {164},
+      YEAR = {2006},
+    NUMBER = {1},
+     PAGES = {51--229},
+      ISSN = {0003-486X,1939-8980},
+   MRCLASS = {05C17},
+  MRNUMBER = {2233847},
+MRREVIEWER = {Carsten\ Thomassen},
+       DOI = {10.4007/annals.2006.164.51},
+}
+@article{thetabody,
+author = {Lov\'{a}sz, L. and Schrijver, A.},
+title = {Cones of Matrices and Set-Functions and 0–1 Optimization},
+journal = {SIAM Journal on Optimization},
+volume = {1},
+number = {2},
+pages = {166-190},
+year = {1991},
+doi = {10.1137/0801013},
+eprint = { 
+    
+        https://doi.org/10.1137/0801013
+    
+    
+
+}
+,
+    abstract = { It has been recognized recently that to represent a polyhedron as the projection of a higher-dimensional, but simpler, polyhedron, is a powerful tool in polyhedral combinatorics. A general method is developed to construct higher-dimensional polyhedra (or, in some cases, convex sets) whose projection approximates the convex hull of 0–1 valued solutions of a system of linear inequalities. An important feature of these approximations is that one can optimize any linear objective function over them in polynomial time.In the special case of the vertex packing polytope, a sequence of systems of inequalities is obtained such that the first system already includes clique, odd hole, odd antihole, wheel, and orthogonality constraints. In particular, for perfect (and many other) graphs, this first system gives the vertex packing polytope. For various classes of graphs, including t-perfect graphs, it follows that the stable set polytope is the projection of a polytope with a polynomial number of facets.An extension of the method is also discussed which establishes a connection with certain submodular functions and the Möbius function of a lattice. }
+}
+
+@Inbook{Pataki2000,
+author="Pataki, G{\'a}bor",
+editor="Wolkowicz, Henry
+and Saigal, Romesh
+and Vandenberghe, Lieven",
+title="The Geometry of Semidefinite Programming",
+bookTitle="Handbook of Semidefinite Programming: Theory, Algorithms, and Applications",
+year="2000",
+publisher="Springer US",
+address="Boston, MA",
+pages="29--65",
+abstract="Consider the primal-dual pair of optimization problems {\$}{\$}{\backslash}begin{\{}gathered{\}}Min  {\backslash}left{\backslash}langle {\{}c,x{\}} {\backslash}right{\backslash}rangle           {\{}{\backslash}rm M{\}}ax  {\backslash}left{\backslash}langle {\{}b,y{\}} {\backslash}right{\backslash}rangle  {\backslash}hfill {\backslash}{\backslash}(P)         s.t.  x {\backslash}in K             s.t.   z {\backslash}in K*      (D) {\backslash}hfill {\backslash}{\backslash}Ax = b                   A*y + z = c {\backslash}hfill {\backslash}{\backslash}{\backslash}end{\{}gathered{\}}{\$}{\$}whereX and Y are Euclidean spaces with dim X ≥ dim Y.A : X {\textrightarrow} Y is a linear operator, assumed to be onto.A* : Y {\textrightarrow} X is its adjoint.K is a closed, convex, facially exposed cone in X.K* := {\{}z|{\textlangle}z,x{\textrangle}≤ 0 ∀x∈K{\}} is the dual of K, also a closed, convex, facially exposed cone.",
+isbn="978-1-4615-4381-7",
+doi="10.1007/978-1-4615-4381-7_3",
+url="https://doi.org/10.1007/978-1-4615-4381-7_3"
+}
+
+
+
+@article{padberg_facial_1973,
+	title = {On the facial structure of set packing polyhedra},
+	volume = {5},
+	issn = {1436-4646},
+	url = {https://doi.org/10.1007/BF01580121},
+	doi = {10.1007/BF01580121},
+	abstract = {In this paper we address ourselves to identifying facets of the set packing polyhedron, i.e., of the convex hull of integer solutions to the set covering problem with equality constraints and/or constraints of the form “⩽”. This is done by using the equivalent node-packing problem derived from the intersection graph associated with the problem under consideration. First, we show that the cliques of the intersection graph provide a first set of facets for the polyhedron in question. Second, it is shown that the cycles without chords of odd length of the intersection graph give rise to a further set of facets. A rather strong geometric property of this set of facets is exhibited.},
+	number = {1},
+	journal = {Mathematical Programming},
+	author = {Padberg, Manfred W.},
+	month = dec,
+	year = {1973},
+	pages = {199--215},
+}
+
+@article{1056798,
+  author={Shannon, C.},
+  journal={IRE Transactions on Information Theory}, 
+  title={The zero error capacity of a noisy channel}, 
+  year={1956},
+  volume={2},
+  number={3},
+  pages={8-19},
+  keywords={Feedback;Decoding;Block codes;Upper bound;Memoryless systems;Telephony;Laboratories;Capacity planning;Information analysis;Filling},
+  doi={10.1109/TIT.1956.1056798}}
+
+@book{theorygraph,
+    author = {Oystein Ore},
+    title = {Theory of Graphs},
+    publisher = {American Mathematical Society Colloquium Publications},
+    volume = {38},
+    year = {1962},
+    address = "Providence, RI"
+}
+
+@Inbook{Karp1972,
+author="Karp, Richard M.",
+editor="Miller, Raymond E.
+and Thatcher, James W.
+and Bohlinger, Jean D.",
+title="Reducibility among Combinatorial Problems",
+bookTitle="Complexity of Computer Computations: Proceedings of a symposium on the Complexity of Computer Computations, held March 20--22, 1972, at the IBM Thomas J. Watson Research Center, Yorktown Heights, New York, and sponsored by the Office of Naval Research, Mathematics Program, IBM World Trade Corporation, and the IBM Research Mathematical Sciences Department",
+year="1972",
+publisher="Springer US",
+address="Boston, MA",
+pages="85--103",
+abstract="A large class of computational problems involve the determination of properties of graphs, digraphs, integers, arrays of integers, finite families of finite sets, boolean formulas and elements of other countable domains. Through simple encodings from such domains into the set of words over a finite alphabet these problems can be converted into language recognition problems, and we can inquire into their computational complexity. It is reasonable to consider such a problem satisfactorily solved when an algorithm for its solution is found which terminates within a number of steps bounded by a polynomial in the length of the input. We show that a large number of classic unsolved problems of covering, matching, packing, routing, assignment and sequencing are equivalent, in the sense that either each of them possesses a polynomial-bounded algorithm or none of them does.",
+isbn="978-1-4684-2001-2",
+doi="10.1007/978-1-4684-2001-2_9",
+}
+
+
+
+@book{nesterov1994interior,
+author = {Nesterov, Yurii and Nemirovskii, Arkadii},
+title = {Interior-Point Polynomial Algorithms in Convex Programming},
+publisher = {Society for Industrial and Applied Mathematics},
+year = {1994},
+doi = {10.1137/1.9781611970791},
+address = {},
+edition   = {},
+eprint = {https://epubs.siam.org/doi/pdf/10.1137/1.9781611970791}
+}
+
+
+@ARTICLE{1055985,
+  author={Lovasz, L.},
+  journal={IEEE Transactions on Information Theory}, 
+  title={On the Shannon capacity of a graph}, 
+  year={1979},
+  volume={25},
+  number={1},
+  pages={1-7},
+  keywords={},
+  doi={10.1109/TIT.1979.1055985}}
+
+@article{doi:10.1137/20M1383732,
+author = {Abrishami, Tara and Chudnovsky, Maria and Pilipczuk, Marcin and Rz{a}\.{z}ewski, Pawe\l{} and Seymour, Paul},
+title = {Induced Subgraphs of Bounded Treewidth and the Container Method},
+journal = {SIAM Journal on Computing},
+volume = {53},
+number = {3},
+pages = {624-647},
+year = {2024},
+doi = {10.1137/20M1383732},
+
+eprint = { 
+    
+        https://doi.org/10.1137/20M1383732
+    
+    
+
+}
+,
+    abstract = { Abstract. A hole in a graph is an induced cycle of length at least 4. A hole is long if its length is at least 5. By \(P\_t\), we denote a path on \(t\) vertices. In this paper, we give polynomial-time algorithms for the following problems: the maximum weight independent set problem in long-hole–free graphs and the feedback vertex set problem in \(P\_5\)-free graphs. Each of the above results resolves a corresponding long-standing open problem. An extended \(C\_5\) is a five-vertex hole with an additional vertex adjacent to one or two consecutive vertices of the hole. Let \(\mathcal{C}\) be the class of graphs excluding an extended \(C\_5\) and holes of length at least 6 as induced subgraphs; \(\mathcal{C}\) contains all long-hole–free graphs and all \(P\_5\)-free graphs. We show that, given an \(n\)-vertex graph \(G \in \mathcal{C}\) with vertex weights and an integer \(k\), one can, in time, \(n^{\mathcal{O}(k)}\) find a maximum-weight induced subgraph of \(G\) of treewidth less than \(k\). This implies both aforementioned results. To achieve this goal, we extend the framework of potential maximal cliques (PMCs) to containers. Developed by Bouchitté and Todinca [SIAM J. Comput., 31 (2001), pp. 212–232] and extended by Fomin, Todinca, and Villanger [SIAM J. Comput., 44 (2015), pp. 54–87], this framework allows us to solve a wide variety of tasks, including finding a maximum-weight induced subgraph of treewidth less than \(k\) for fixed \(k\), in time polynomial in the size of the graph and the number of potential maximal cliques. Further developments, tailored to solve the maximum weight independent set problem within this framework (e.g., for \(P\_5\)-free [Lokshtanov, Vatshelle, and Villanger, SODA 2014, pp. 570–581] or \(P\_6\)-free graphs [Grzesik, Klimošová, Pilipczuk, and Pilipczuk, ACM Trans. Algorithms, 18 (2022), pp. 4:1–4:57]), enumerate only a specifically chosen subset of all PMCs of a graph. In all aforementioned works, the final step is an involved dynamic programming algorithm whose state space is based on the considered list of PMCs. Here, we modify the dynamic programming algorithm and show that it is sufficient to consider only a container for each PMC: a superset of the maximal clique that intersects the sought solution only in the vertices of the PMC. This strengthening of the framework not only allows us to obtain our main result but also leads to significant simplifications of the reasoning in previous papers. }
+}
+
+@article{10.1145/2629600,
+author = {Faenza, Yuri and Oriolo, Gianpaolo and Stauffer, Gautier},
+title = {Solving the Weighted Stable Set Problem in Claw-Free Graphs via Decomposition},
+year = {2014},
+issue_date = {July 2014},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+volume = {61},
+number = {4},
+issn = {0004-5411},
+doi = {10.1145/2629600},
+abstract = {We propose an algorithm for solving the maximum weighted stable set problem on claw-free graphs that runs in O(|V|(|E| + |V| log|V|))-time, drastically improving the previous best known complexity bound. This algorithm is based on a novel decomposition theorem for claw-free graphs, which is also introduced in the present article. Despite being weaker than the structural results for claw-free graphs given by Chudnovsky and Seymour [2005, 2008a, 2008b] our decomposition theorem is, on the other hand, algorithmic, that is, it is coupled with an O(|V||E|)-time algorithm that actually produces the decomposition.},
+journal = {Journal of the ACM},
+month = {July},
+articleno = {20},
+numpages = {41},
+keywords = {Stable sets, claw-free graphs, decomposition}
+}
+
+@inbook{10.5555/2095116.2095218,
+author = {Yuri Faenza and Gianpaolo Oriolo and Gautier Stauffer},
+title = {Separating stable sets in claw-free graphs via Padberg-Rao and compact linear programs},
+booktitle = {Proceedings of the 2012  Annual ACM-SIAM Symposium on Discrete Algorithms (SODA)},
+chapter = {},
+pages = {1298-1308},
+doi = {10.1137/1.9781611973099.102},
+eprint = {https://epubs.siam.org/doi/pdf/10.1137/1.9781611973099.102},
+    abstract = { Abstract In this paper, we provide the first linear programming formulations for the stable set problem in claw-free graphs, together with polynomial time separation routines for those formulations (they are not compact). We then exploit one of those extended formulations and propose a new polytime algorithm for solving the separation problem for the stable set polytope of claw-free graphs. This routine combines a separation algorithm for the matching polytope due to Padberg and Rao and the solution of (moderate size) compact linear programs. Hence, it does not rely on the ellipsoid method and seems to be appropriate to be inserted in branch and cut frameworks for solving real world problems. }
+}
+
+
+@article{2odd-cycle-free,
+	abstract = {Let G be an n-node graph without two disjoint odd cycles. The algorithm of Artmann, Weismantel and Zenklusen (STOC'17) for bimodular integer programs can be used to find a maximum weight stable set in G in strongly polynomial time. Building on structural results characterizing sufficiently connected graphs without two disjoint odd cycles, we construct a size-{\$}{\$}O(n\^{}2){\$}{\$}extended formulation for the stable set polytope of G.},
+	author = {Conforti, Michele and Fiorini, Samuel and Huynh, Tony and Weltge, Stefan},
+	date = {2022/03/01},
+	date-added = {2024-07-30 12:22:25 -0400},
+	date-modified = {2024-07-30 12:22:25 -0400},
+	doi = {10.1007/s10107-021-01635-0},
+	id = {Conforti2022},
+	isbn = {1436-4646},
+	journal = {Mathematical Programming},
+	number = {1},
+	pages = {547--566}, 
+	title = {Extended formulations for stable set polytopes of graphs without two disjoint odd cycles},
+	volume = {192},
+	year = {2022},
+	eprint = {https://doi.org/10.1007/s10107-021-01635-0}}
+
+@article{walteros_why_2020,
+	title = {Why {Is} {Maximum} {Clique} {Often} {Easy} in {Practice}?},
+	volume = {68},
+	issn = {0030-364X, 1526-5463},
+	doi = {10.1287/opre.2019.1970},
+	abstract = {To this day, the maximum clique problem remains a computationally challenging problem. Indeed, despite researchers’ best efforts, there exist unsolved benchmark instances with 1,000 vertices. However, relatively simple algorithms solve real-life instances with millions of vertices in a few seconds. Why is this the case? Why is the problem apparently so easy in many naturally occurring networks? In this paper, we provide an explanation. First, we observe that the graph’s clique number ω is very near to the graph’s degeneracy d in most real-life instances. This observation motivates a main contribution of this paper, which is an algorithm for the maximum clique problem that runs in time polynomial in the size of the graph, but exponential in the gap g ≔ (d + 1) − ω between the clique number ω and its degeneracy-based upper bound d+1. When this gap g can be treated as a constant, as is often the case for real-life graphs, the proposed algorithm runs in time O(dm) O(m1.5). This provides a rigorous explanation for the apparent easiness of these instances despite the intractability of the problem in the worst case. Further, our implementation of the proposed algorithm is actually practical—competitive with the best approaches from the literature.},
+	language = {en},
+	number = {6},
+	urldate = {2024-07-29},
+	journal = {Operations Research},
+	author = {Walteros, Jose L. and Buchanan, Austin},
+	month = {November},
+	year = {2020},
+	keywords = {Max Clique, max stable set},
+	pages = {1866--1895},
+	file = {Walteros and Buchanan - 2020 - Why Is Maximum Clique Often Easy in Practice.pdf:/Users/gongabner/Zotero/storage/6MEIWP9B/Walteros and Buchanan - 2020 - Why Is Maximum Clique Often Easy in Practice.pdf:application/pdf},
+}
+
+
+@article{Gavril1973AlgorithmsFA,
+author = {Gavril, F.},
+title = {Algorithms for a maximum clique and a maximum independent set of a circle graph},
+journal = {Networks},
+volume = {3},
+number = {3},
+pages = {261-273},
+keywords = {Circle graph, transitive graph, interval graph, permutation graph, overlap graph, maximum clique, maximum independent set},
+doi = {10.1002/net.3230030305},
+abstract = {Abstract Consider a family of chords in a circle. A circle graph is obtained by representing each chord by a vertex, two vertices being connected by an edge when the corresponding chords intersect. In this paper, we describe efficient algorithms for finding a maximum clique and a maximum independent set of circle graphs. These algorithms require at most n3 steps, where n is the number of vertices in the graph.},
+year = {1973}
+}
+
+
+
+@article{Gavril1974AlgorithmsOC,
+author = {Gavril, F.},
+title = {Algorithms on circular-arc graphs},
+journal = {Networks},
+volume = {4},
+number = {4},
+pages = {357-369},
+doi = {10.1002/net.3230040407},
+abstract = {Abstract Consider a finite family of non-empty sets. The intersection graph of this family is obtained by representing each set by a vertex, two vertices being connected by an edge if and only if the corresponding sets intersect. The intersection graph of a family of arcs on a circularly ordered set is called a circular-arc graph. In this paper we give a characterization of the circular-arc graph and we describe efficient algorithms for recognizing two subclasses. Also, we describe efficient algorithms for finding a maximum independent set, a minimum covering by cliques and a maximum clique of a circular-arc graph.},
+year = {1974}
+}
+
+
+@article{DBLP:journals/networks/GuptaLL82,
+  author       = {Udaiprakash I. Gupta and
+                  D. T. Lee and
+                  Joseph Y.{-}T. Leung},
+  title        = {Efficient algorithms for interval graphs and circular-arc graphs},
+  journal      = {Networks},
+  volume       = {12},
+  number       = {4},
+  pages        = {459--467},
+  year         = {1982},
+  doi          = {10.1002/NET.3230120410},
+  timestamp    = {Mon, 05 Oct 2020 09:26:18 +0200},
+  biburl       = {https://dblp.org/rec/journals/networks/GuptaLL82.bib},
+  bibsource    = {dblp computer science bibliography, https://dblp.org}
+}
+
+@article{wo_long_odd_cycle,
+	abstract = {The vertex packing problem for a given graph is to find a maximum number of vertices no two of which are joined by an edge. The weighted version of this problem is to find a vertex packingP such that the sum of the individual vertex weights is maximum. LetG be the family of graphs whose longest odd cycle is of length not greater than 2K + 1, whereK is any non-negative integer independent of the number (denoted byn) of vertices in the graph. We present an O(n2K+1) algorithm for the maximum weighted vertex packing problem for graphs inG ≥1. A by-product of this algorithm is an algorithm for piecing together maximum weighted packings on blocks to find maximum weighted packings on graphs that contain more than one block. We also give an O(n2K+3) algorithm for testing membership inG},
+	author = {Hsu, Wen-lian and Ikura, Yoshiro and Nemhauser, George L.},
+	date = {1981/12/01},
+	date-added = {2024-07-31 15:20:55 -0400},
+	date-modified = {2024-07-31 15:20:55 -0400},
+	doi = {10.1007/BF01589347},
+	id = {Hsu1981},
+	isbn = {1436-4646},
+	journal = {Mathematical Programming},
+	number = {1},
+	pages = {225--232},
+	title = {A polynomial algorithm for maximum weighted vertex packings on graphs without long odd cycles},
+	volume = {20},
+	year = {1981},
+	eprint = {https://doi.org/10.1007/BF01589347}}
+
+
+@article{Babel,
+	abstract = {The classical problem of finding a clique of largest cardinality in an arbitrary graph is NP-complete. For that reason earlier work diverges into two directions. The first concerns algorithms solving the problem for arbitrary graphs in reasonable (but exponential) time, the other restricts to special classes of graphs where polynomial methods can be found. Here, the two directions are combined in a way. A branch and bound algorithm is developed treating the general case. Computational experiments on random graphs show that this algorithm compares favorable to the fastest known method. Furthermore, it consumes only polynomial time for quite a few graph classes. For some of them no polynomial solution method is given so far.},
+	author = {Babel, L. },
+	date = {1991/12/01},
+	date-added = {2024-07-31 15:48:11 -0400},
+	date-modified = {2024-07-31 15:48:11 -0400},
+	doi = {10.1007/BF02257777},
+	id = {Babel1991},
+	isbn = {1436-5057},
+	journal = {Computing},
+	number = {4},
+	pages = {321--341},
+	title = {Finding maximum cliques in arbitrary and in special graphs},
+	volume = {46},
+	year = {1991},
+	eprint = {https://doi.org/10.1007/BF02257777}}
+
+
+
+
+@article{Babel_Tinhofer,
+	abstract = {We present a branch and bound algorithm for the maximum clique problem in arbitrary graphs. The main part of the algorithm consists in the determination of upper bounds by graph colorings. Using a modification of a known graph coloring method called DSATUR we simultaneously derive lower and upper bounds for the clique number.},
+	author = {Babel, L. and Tinhofer, G.},
+	date = {1990/05/01},
+	date-added = {2024-10-28 14:26:49 -0400},
+	date-modified = {2024-10-28 14:26:49 -0400},
+	id = {Babel1990},
+	isbn = {1432-5217},
+	journal = {Zeitschrift f{\"u}r Operations Research},
+	number = {3},
+	pages = {207--217},
+	title = {A branch and bound algorithm for the maximum clique problem},
+	volume = {34},
+	year = {1990},
+	doi = {10.1007/BF01415983}}
+
+
+
+@article{doi:10.1137/0215075,
+author = {Balas, Egon and Yu, Chang Sung},
+title = {Finding a Maximum Clique in an Arbitrary Graph},
+journal = {SIAM Journal on Computing},
+volume = {15},
+number = {4},
+pages = {1054-1068},
+year = {1986},
+doi = {10.1137/0215075},
+eprint = { 
+    
+        https://doi.org/10.1137/0215075
+    
+    
+
+}
+,
+    abstract = { We describe a new type of branch and bound procedure for finding a maximum clique in an arbitrary graph \$G = (V,E)\$. The two main ingredients, both of \$O(|V| + |E|)\$ time complexity, are (i) an algorithm for finding a maximal triangulated induced subgraph of G; and (ii) an algorithm for finding a maximal k-chromatic induced subgraph of G. We discuss computational experience on randomly generated graphs with up to 400 vertices and 30,000 edges. }
+}
+@article{FRIDEN1990437,
+title = {Tabaris: An exact algorithm based on tabu search for finding a maximum independent set in a graph},
+journal = {Computers and Operations Research},
+volume = {17},
+number = {5},
+pages = {437-445},
+year = {1990},
+issn = {0305-0548},
+doi = {10.1016/0305-0548(90)90048-C},
+author = {C. Friden and A. Hertz and D. {de Werra}},
+abstract = {A technique for finding in a graph an independent set with maximum cardinality is presented. It consists of an implicit enumeration procedure; the procedure uses at various stages bounds on the independence number of a subgraph. These are obtained by applying an adaptation of Tabu Search. Computational results are given which show that with Tabu Search a competitive algorithm is obtained; the case of randomly generated graphs having up to 450 or 500 nodes (with edge density 0.5) can be handled by this approach.}
+}
+@article{PARDALOS1992363,
+title = {A branch and bound algorithm for the maximum clique problem},
+journal = {Computers and Operations Research},
+volume = {19},
+number = {5},
+pages = {363-375},
+year = {1992},
+issn = {0305-0548},
+doi = {10.1016/0305-0548(92)90067-F},
+author = {Panos M. Pardalos and Gregory P. Rodgers},
+abstract = {A method to solve the maximum clique problem based on an unconstrained quadratic zero-one programming formulation is presented. A branch and bound algorithm for unconstrained quadratic zero-one programming is given that uses a technique to dynamically select variables for the ordering of the branching tree. Dynamic variable selection is equivalent to vertex selection in a similar branch and bound algorithm for the maximum clique problem. In this paper we compare two different rules for selecting a vertex. The first rule selects a variable corresponding to a vertex with high connectivity (a greedy approach) and the second rule selects a variable corresponding to a vertex with low connectivity (a nongreedy approach). We demonstrate that the first rule discovers a maximum clique sooner but it takes significantly longer to verify optimality. Computational results for an efficient vectorizable implementation on an IBM 3090 are provided for randomly generated graphs with up to 1000 vertices and 150,000 edges.}
+}
+@article{CARRAGHAN1990375,
+title = {An exact algorithm for the maximum clique problem},
+journal = {Operations Research Letters},
+volume = {9},
+number = {6},
+pages = {375-382},
+year = {1990},
+issn = {0167-6377},
+doi = {10.1016/0167-6377(90)90057-C},
+author = {Randy Carraghan and Panos M. Pardalos},
+keywords = {maximum clique, enumerative algorithm, test problems, Fortran program},
+abstract = {A partially enumerative algorithm is presented for the maximum clique problem which is very simple to implement. Computational results for an efficient implementation on an IBM 3090 computer are provided for randomly generated graphs with up to 3000 vertices and over one million edges. Also provided are exact specifications for test problems to facilitate future comparisons. In addition, the Fortran 77 code of the proposed algorithm is given.}
+}
+
+
+
+
+@article{Mannino_Sassano,
+	abstract = {We describe a new branch-and-bound algorithm for the exact solution of the maximum cardinality stable set problem. The bounding phase is based on a variation of the standard greedy algorithm for finding a colouring of a graph. Two different node-fixing heuristics are also described. Computational tests on random and structured graphs and very large graphs corresponding to `real-life'problems show that the algorithm is competitive with the fastest algorithms known so far.},
+	author = {Mannino, Carlo and Sassano, Antonio},
+	date = {1994/07/01},
+	date-added = {2024-10-28 14:44:43 -0400},
+	date-modified = {2024-10-28 14:44:43 -0400},
+	doi = {10.1007/BF01299447},
+	id = {Mannino1994},
+	isbn = {1573-2894},
+	journal = {Computational Optimization and Applications},
+	number = {3},
+	pages = {243--258},
+	title = {An exact algorithm for the maximum stable set problem},
+	volume = {3},
+	year = {1994}}
+
+
+
+@article{Balas1991MinimumWC,
+  title={Minimum Weighted Coloring of Triangulated Graphs, with Application to Maximum Weight Vertex Packing and Clique Finding in Arbitrary Graphs},
+  author={Egon Balas and Jue Xue},
+  journal={SIAM Journal on Computing},
+  year={1991},
+  volume={20},
+  pages={209-221},
+  url={https://api.semanticscholar.org/CorpusID:6944931}
+}
+
+@article{NemSigismondi,
+author = {Nemhauser, George and Sigismondi, G.},
+year = {1992},
+month = {05},
+pages = {443-457},
+title = {A Strong Cutting Plane/Branch-and-Bound Algorithm for Node Packing},
+volume = {43},
+journal = {Journal of Operational Research Society},
+doi = {10.1057/jors.1992.71}
+}
+
+
+
+@article{NemTrotter,
+	abstract = {We consider a binary integer programming formulation (VP) for the weighted vertex packing problem in a simple graph. A sufficient ``local''optimality condition for (VP) is given and this result is used to derive relations between (VP) and the linear program (VLP) obtained by deleting the integrality restrictions in (VP). Our most striking result is that those variables which assume binary values in an optimum (VLP) solution retain the same values in an optimum (VP) solution. This result is of interest because variables are (0, 1/2, 1). valued in basic feasible solutions to (VLP) and (VLP) can be solved by a ``good''algorithm. This relationship and other optimality conditions are incorporated into an implicit enumeration algorithm for solving (VP). Some computational experience is reported.},
+	author = {Nemhauser, G. L. and Trotter, L. E.},
+	date = {1975/12/01},
+	date-added = {2024-10-28 14:49:26 -0400},
+	date-modified = {2024-10-28 14:49:26 -0400},
+	doi = {10.1007/BF01580444},
+	id = {Nemhauser1975},
+	isbn = {1436-4646},
+	journal = {Mathematical Programming},
+	number = {1},
+	pages = {232--248},
+	title = {Vertex packings: Structural properties and algorithms},
+	volume = {8},
+	year = {1975}}
+
+
+
+
+@Article{BalasSamuelsson,
+  author={Egon Balas and Haakon Samuelsson},
+  title={{A node covering algorithm}},
+  journal={Naval Research Logistics Quarterly},
+  year=1977,
+  volume={24},
+  number={2},
+  pages={213-233},
+  month={June},
+  keywords={},
+  doi={10.1002/nav.3800240203},
+  abstract={This paper describes a node covering algorithm, i.e., a procedure for finding a smallest set of nodes covering all edges of an arbitrary graph. The algorithm is based on the concept of a dual node‐clique set, which allows us to identify partial covers associated with integer dual feasible solutions to the linear programming equivalent of the node covering problem. An initial partial cover with the above property is first found by a labeling procedure. Another labeling procedure then successively modifies the dual node‐clique set, so that more and more edges are covered, i.e., the (primal) infeasibility of the solution is gradually reduced, while integrality and dual feasibility are preserved. When this cannot be continued, the problem is partitioned and the procedure applied to the resulting subproblems. While the steps of the algorithm correspond to sequences of dual simplex pivots, these are carried out implicitly, by labeling. The procedure is illustrated by examples, and some early computational experience is reported. We conclude with a discussion of potential improvements and extensions.},
+}
+@article{BensonYe,
+author = {Benson,S. and Ye,Yinyu},
+year = {2000},
+month = {July},
+pages = {},
+title = {Approximating Maximum Stable Set And Minimum Graph Coloring Problems With The Positive Semidefinite Relaxation},
+isbn = {978-1-4419-4847-2},
+journal = {Applications and Algorithms of Complementarity},
+doi = {10.1007/978-1-4757-3279-5_1}
+}
+
+
+@article{Bender_Richmond_Wormald_1985, title={Almost all chordal graphs split}, volume={38}, DOI={10.1017/S1446788700023077}, number={2}, journal={Journal of the Australian Mathematical Society. Series A. Pure Mathematics and Statistics}, author={Bender, E. A. and Richmond, L. B. and Wormald, N. C.}, year={1985}, pages={214–221}}
+
+@article{ESCHEN2014195,
+title = {Algorithms for unipolar and generalized split graphs},
+journal = {Discrete Applied Mathematics},
+volume = {162},
+pages = {195-201},
+year = {2014},
+issn = {0166-218X},
+doi = {10.1016/j.dam.2013.08.011},
+author = {Elaine M. Eschen and Xiaoqiang Wang},
+keywords = {Split graph, Clique-split graph, Unipolar graph, Generalized split graph, Minimal triangulation, Perfect code, Efficient dominating set},
+abstract = {A graph G=(V,E) is a unipolar graph if there exists a partition V=V1∪V2 such that V1 is a clique and V2 induces the disjoint union of cliques. The complement-closed class of generalized split graphs contains those graphs G such that either G or the complement of G is unipolar. Generalized split graphs are a large subclass of perfect graphs. In fact, it has been shown that almost all C5-free (and hence, almost all perfect graphs) are generalized split graphs. In this paper, we present a recognition algorithm for unipolar graphs that utilizes a minimal triangulation of the given graph, and produces a partition when one exists. Our algorithm has running time O(nm+nmF), where mF is the number of edges added in a minimal triangulation of the given graph. Generalized split graphs can be recognized via this algorithm in O(n3) time. We give algorithms on unipolar graphs for finding a maximum independent set and a minimum clique cover in O(n+m) time, and for finding a maximum clique and a minimum proper coloring in O(n2.5/logn) time, when a unipolar partition is given. These algorithms yield algorithms for the four optimization problems on generalized split graphs that have the same worst-case time bounds. We also report that the perfect code problem is NP-complete for chordal unipolar graphs.}
+}
+
+
+@misc{monteiro2024lowrankaugmentedlagrangianmethod,
+      title={A low-rank augmented Lagrangian method for large-scale semidefinite programming based on a hybrid convex-nonconvex approach}, 
+      author={Renato D. C. Monteiro and Arnesh Sujanani and Diego Cifuentes},
+      year={2024},
+      eprint={2401.12490},
+      archivePrefix={arXiv},
+      primaryClass={math.OC},
+      url={https://arxiv.org/abs/2401.12490}, 
+}
+
+@article{mcdiarmid2017randomperfectgraphs,
+author = {McDiarmid, Colin and Yolov, Nikola},
+title = {Random perfect graphs},
+journal = {Random Structures \& Algorithms},
+volume = {54},
+number = {1},
+pages = {148-186},
+keywords = {Clique-coloring, edge-coloring, graph limits, Hamiltonian, perfect graphs},
+doi = {10.1002/rsa.20770},
+eprint = {https://onlinelibrary.wiley.com/doi/pdf/10.1002/rsa.20770},
+abstract = {We investigate the asymptotic structure of a random perfect graph Pn sampled uniformly from the set of perfect graphs on vertex set . Our approach is based on the result of Prömel and Steger that almost all perfect graphs are generalised split graphs, together with a method to generate such graphs almost uniformly. We show that the distribution of the maximum of the stability number and clique number is close to a concentrated distribution L(n) which plays an important role in our generation method. We also prove that the probability that Pn contains any given graph H as an induced subgraph is asymptotically 0 or or 1. Further we show that almost all perfect graphs are 2-clique-colorable, improving a result of Bacsó et al. from 2004; they are almost all Hamiltonian; they almost all have connectivity equal to their minimum degree; they are almost all in class one (edge-colorable using Δ colors, where Δ is the maximum degree); and a sequence of independently and uniformly sampled perfect graphs of increasing size converges almost surely to the graphon .},
+year = {2019}
+}
+
+
+@article{DNP,
+	abstract = {We propose a dynamic version of the classical node packing problem, also called the stable set or independent set problem. The problem is defined by a node set, a node weight vector, and an edge probability vector. For every pair of nodes, an edge is present or not according to an independent Bernoulli random variable defined by the corresponding entry in the probability vector. At each step, the decision maker selects an available node that maximizes the expected weight of the final packing, and then observes edges adjacent to this node. We formulate the problem as a Markov decision process and show that it is NP-Hard even on star graphs. Next, we introduce relaxations of the problem's achievable probabilities polytope, analogous to the linear and bilinear edge-based formulations in the deterministic case; we show that these relaxations can be weak, motivating a polyhedral study. We derive classes of valid inequalities arising from cliques, paths, and cycles. For cliques, we completely characterize the polytope and show that it is a submodular polyhedron. For both paths and cycles, we give an implicit representation of the polytope via a cut-generating linear program of polynomial size based on a compact dynamic programming formulation. Our computational results show that our inequalities can greatly reduce the upper bound and improve the linear relaxation's gap, particularly when the instance's expected density is high.},
+	author = {Muir, Christopher and Toriello, Alejandro},
+	date = {2022/11/01},
+	date-added = {2024-10-10 14:52:41 -0400},
+	date-modified = {2024-10-10 14:52:41 -0400},
+	doi = {10.1007/s10107-021-01624-3},
+	id = {Muir2022},
+	isbn = {1436-4646},
+	journal = {Mathematical Programming},
+	number = {1},
+	pages = {875--906},
+	title = {Dynamic node packing},
+	url = {https://doi.org/10.1007/s10107-021-01624-3},
+	volume = {196},
+	year = {2022},
+	bdsk-url-1 = {https://doi.org/10.1007/s10107-021-01624-3}}
+@article{diag_dom_matrices,
+author = {Barker, George and Carlson, David},
+year = {1975},
+month = {March},
+pages = {15-32},
+title = {Cones of diagonally dominant matrices},
+volume = {57},
+journal = {Pacific Journal of Mathematics},
+doi = {10.2140/pjm.1975.57.15}
+}
+
+@article{doi:10.1137/0805002,
+author = {Alizadeh, Farid},
+title = {Interior Point Methods in Semidefinite Programming with Applications to Combinatorial Optimization},
+journal = {SIAM Journal on Optimization},
+volume = {5},
+number = {1},
+pages = {13-51},
+year = {1995},
+doi = {10.1137/0805002},
+eprint = { 
+        https://doi.org/10.1137/0805002
+}
+}
+
+@book{ams1996dimacs,
+  author    = {Johnson, David Stifler and  Trick, Michael A.},
+  title     = {Cliques, Coloring, and Satisfiability},
+  year      = {1996},
+  publisher = {American Mathematical Society},
+  series    = {DIMACS Series in Discrete Mathematics and Theoretical Computer Science},
+  volume    = {26},
+}
+@misc{gset,
+  author       = {Yinyu Ye},
+  title        = {Gset dataset of random graphs},
+  year         = {2003},
+  howpublished = {\url{https://www.cise.ufl.edu/research/sparse/matrices/Gset/}},
+  note         = {Accessed: 2023-10-25}
+}
+@manual{sagemath,
+  Key          = {SageMath},
+  Author       = {{The Sage Developers}},
+  Title        = {{S}ageMath, the {S}age {M}athematics {S}oftware {S}ystem ({V}ersion 10.4)},
+  url         = {https://www.sagemath.org},
+  Year         = {2024},
+}
+@misc{snapnets,
+                    author       = {Jure Leskovec and Andrej Krevl},
+                    title        = {{SNAP Datasets}: {Stanford} Large Network Dataset Collection},
+                    howpublished = {\url{http://snap.stanford.edu/data}},
+                    month        = {June},
+                    year         = 2014
+                  }
+
+@Article{prosser2012exactalgorithmsmaximumclique,
+AUTHOR = {Prosser, Patrick},
+TITLE = {Exact Algorithms for Maximum Clique: A Computational Study },
+JOURNAL = {Algorithms},
+VOLUME = {5},
+YEAR = {2012},
+NUMBER = {4},
+PAGES = {545--587},
+ISSN = {1999-4893},
+ABSTRACT = {We investigate a number of recently reported exact algorithms for the maximum clique problem. The program code is presented and analyzed to show how small changes in implementation can have a drastic effect on performance. The computational study demonstrates how problem features and hardware platforms influence algorithm behaviour. The effect of vertex ordering is investigated. One of the algorithms (MCS) is broken into its constituent parts and we discover that one of these parts frequently degrades performance. It is shown that the standard procedure used for rescaling published results (i.e., adjusting run times based on the calibration of a standard program over a set of benchmarks) is unsafe and can lead to incorrect conclusions being drawn from empirical data.},
+DOI = {10.3390/a5040545}
+}
+
+@article{pjm/1102995572,
+author = {D. R. Fulkerson and O. A. Gross},
+title = {{Incidence matrices and interval graphs.}},
+volume = {15},
+journal = {Pacific Journal of Mathematics},
+number = {3},
+publisher = {Pacific Journal of Mathematics, A Non-profit Corporation},
+pages = {835 -- 855},
+year = {1965},
+}
+
+@book{dimacs10,
+  title        = {Graph Partitioning and Graph Clustering. 10th DIMACS Implementation Challenge Workshop},
+  author        = {David A. Bader and Henning Meyerhenke and Peter Sanders and Dorothea Wagner and editors},
+  series       = {Contemporary Mathematics},
+  volume       = {588},
+  publisher    = {American Mathematical Society},
+  year         = {2013},
+  doi          = {10.1090/conm/588},
+}
+
+@article{WU2015693,
+title = {A review on algorithms for maximum clique problems},
+journal = {European Journal of Operational Research},
+volume = {242},
+number = {3},
+pages = {693-709},
+year = {2015},
+issn = {0377-2217},
+doi = {https://doi.org/10.1016/j.ejor.2014.09.064},
+url = {https://www.sciencedirect.com/science/article/pii/S0377221714008030},
+author = {Qinghua Wu and Jin-Kao Hao},
+keywords = {Maximum clique problems, Exact algorithms, Heuristics, Applications},
+abstract = {The maximum clique problem (MCP) is to determine in a graph a clique (i.e., a complete subgraph) of maximum cardinality. The MCP is notable for its capability of modeling other combinatorial problems and real-world applications. As one of the most studied NP-hard problems, many algorithms are available in the literature and new methods are continually being proposed. Given that the two existing surveys on the MCP date back to 1994 and 1999 respectively, one primary goal of this paper is to provide an updated and comprehensive review on both exact and heuristic MCP algorithms, with a special focus on recent developments. To be informative, we identify the general framework followed by these algorithms and pinpoint the key ingredients that make them successful. By classifying the main search strategies and putting forward the critical elements of the most relevant clique methods, this review intends to encourage future development of more powerful methods and motivate new applications of the clique approaches.}
+}
+@misc{marino2024shortreviewnovelapproaches,
+      title={A Short Review on Novel Approaches for Maximum Clique Problem: from Classical algorithms to Graph Neural Networks and Quantum algorithms}, 
+      author={Raffaele Marino and Lorenzo Buffoni and Bogdan Zavalnij},
+      year={2024},
+      eprint={2403.09742},
+      archivePrefix={arXiv},
+      primaryClass={cs.AI},
+      url={https://arxiv.org/abs/2403.09742}, 
+}
+
+
+@book{Kleinberg+Tardos:06a,
+  added-at = {2009-03-18T13:40:43.000+0100},
+  author = {Kleinberg, Jon and Tardos, \'Eva},
+  interhash = {f4e0ffcd4e9b25e3ec4b305e12785cae},
+  intrahash = {1f85484640a0cdcea4a1fbdd6bbc281d},
+  keywords = {analysis mining opinion sentiment},
+  publisher = {Addison Wesley},
+  timestamp = {2009-03-18T13:41:48.000+0100},
+  title = {Algorithm Design},
+  year = 2006
+}
+@inproceedings{Lipton1994OnlineIS,
+  title={Online interval scheduling},
+  author={Richard J. Lipton and Andrew Tomkins},
+  booktitle={ACM-SIAM Symposium on Discrete Algorithms},
+  year={1994},
+  url={https://api.semanticscholar.org/CorpusID:20204079}
+}
+
+@article{KOBAYASHI2020673,
+title = {Online interval scheduling to maximize total satisfaction},
+journal = {Theoretical Computer Science},
+volume = {806},
+pages = {673-688},
+year = {2020},
+issn = {0304-3975},
+doi = {https://doi.org/10.1016/j.tcs.2019.10.046},
+url = {https://www.sciencedirect.com/science/article/pii/S0304397519306966},
+author = {Koji M. Kobayashi},
+keywords = {Scheduling problem, Interval scheduling, Online algorithm, Competitive analysis, Best-effort service},
+abstract = {The interval scheduling problem is one variant of the scheduling problem. In this paper, we propose a novel variant of the interval scheduling problem, whose definition is as follows: given jobs are specified by their release times, deadlines and profits. An algorithm must start a job at its release time on one of m identical machines, and continue processing until its deadline on the machine to complete the job. All the jobs must be completed and the algorithm can obtain the profit of a completed job as a user's satisfaction. It is possible to process more than one job at a time on one machine. The profit of a job is distributed uniformly between its release time and deadline, that is its interval, and the profit gained from a subinterval of a job decreases in reverse proportion to the number of jobs whose intervals intersect with the subinterval on the same machine. The objective of our variant is to maximize the total profit of completed jobs. This formulation is naturally motivated by best-effort requests and responses to them, which appear in many situations. In best-effort requests and responses, the total amount of available resources for users is always invariant and the resources are equally shared with every user. We study online algorithms for this problem. Specifically, we show that for the case where the profits of jobs are arbitrary, there does not exist an algorithm whose competitive ratio is bounded. Then, we consider the case in which the profit of each job is equal to its length, that is, the time interval between its release time and deadline. For this case, we prove that for m=2 and m≥3, the competitive ratios of a greedy algorithm are at most 4/3 and at most 3, respectively. Also, for each m≥2, we show a lower bound on the competitive ratio of any deterministic algorithm.}
+}
+
+@misc{boyar2025onlineintervalschedulingpredictions,
+      title={Online Interval Scheduling with Predictions}, 
+      author={Joan Boyar and Lene M. Favrholdt and Shahin Kamali and Kim S. Larsen},
+      year={2025},
+      eprint={2302.13701},
+      archivePrefix={arXiv},
+      primaryClass={cs.DS},
+      url={https://arxiv.org/abs/2302.13701}, 
+}
+@article{BRANDA2024106542,
+title = {A Lagrangian relaxation algorithm for stochastic fixed interval scheduling problem with non-identical machines and job classes},
+journal = {Computers \& Operations Research},
+volume = {164},
+pages = {106542},
+year = {2024},
+issn = {0305-0548},
+doi = {https://doi.org/10.1016/j.cor.2024.106542},
+url = {https://www.sciencedirect.com/science/article/pii/S0305054824000145},
+author = {Martin Branda and Monika Matoušková},
+keywords = {Fixed interval scheduling, Uncertain delays, Non-identical machines, Job classes, Lagrangian relaxation},
+abstract = {This paper deals with operational fixed interval scheduling problems under uncertainty caused by random delays. This stochastic programming problem has a deterministic reformulation based on network flow under the assumption that the machines are identical and the multivariate distribution of random delays follows an Archimedean copula. In this paper, we focus on the problem with heterogeneous machines and jobs classes. The deterministic problem with no delays and more than one machine type has been shown to be NP-hard. We generalize the deterministic reformulation of the stochastic problem with random delays for non-identical (heterogeneous) machines. This formulation for more than one machine type loses an important property of total unimodularity that holds for identical machines reformulation using the network flow problem. Therefore, an algorithm based on the Lagrangian relaxation is derived and implemented together with an efficient upper bounding heuristic. Its efficiency is confirmed by solving a large number of simulated instances.}
+}
+@misc{xu2024stochasticschedulingabandonmentsgreedy,
+      title={Stochastic Scheduling with Abandonments via Greedy Strategies}, 
+      author={Yihua Xu and Rohan Ghuge and Sebastian Perez-Salazar},
+      year={2024},
+      eprint={2406.15691},
+      archivePrefix={arXiv},
+      primaryClass={math.OC},
+      url={https://arxiv.org/abs/2406.15691}, 
+}
+@misc{gong2025roundinglovaszthetafunction,
+      title={Rounding the Lov\'asz Theta Function with a Value Function Approximation}, 
+      author={Rui Gong and Diego Cifuentes and Alejandro Toriello},
+      year={2025},
+      eprint={2504.07204},
+      archivePrefix={arXiv},
+      primaryClass={math.OC},
+      url={https://arxiv.org/abs/2504.07204}, 
+}
+
+

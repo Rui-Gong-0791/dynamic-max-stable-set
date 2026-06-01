@@ -1,0 +1,7 @@
+Precompiling HiGHS...
+   1152.1 ms  ✓ Bzip2_jll
+   1486.5 ms  ✓ CodecBzip2
+  27579.1 ms  ✓ MathOptInterface
+   8552.9 ms  ✓ HiGHS
+  4 dependencies successfully precompiled in 39 seconds. 62 already precompiled.
+ok

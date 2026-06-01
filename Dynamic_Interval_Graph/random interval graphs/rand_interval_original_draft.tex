@@ -1,0 +1,1402 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc} % allow utf-8 input
+\usepackage[T1]{fontenc}    % use 8-bit T1 fonts
+\usepackage{hyperref}       % hyperlinks
+\usepackage{url}            % simple URL typesetting
+\usepackage{booktabs}       % professional-quality tables
+\usepackage{amsfonts}       % blackboard math symbols
+\usepackage{nicefrac}       % compact symbols for 1/2, etc.
+\usepackage{microtype}      % microtypography
+\usepackage{graphicx}
+\usepackage{ifthen}
+\usepackage{tikz}
+\usepackage{eso-pic}
+\usepackage{color}
+\usepackage{float}
+\usepackage{multicol}
+\usepackage{setspace}
+\usepackage{mathptmx}
+%\usepackage{mathpazo}
+\usepackage[theorems]{tcolorbox}
+\usepackage{mdframed}
+\usepackage{amsmath,amsthm,amssymb,mathtools,flexisym,bbm}
+\usepackage{xcolor,paralist,hyperref,fancyhdr,etoolbox}
+\usepackage{mathrsfs}
+\usepackage{pgfplots}
+\usepackage{xcolor}
+\usepackage[shortlabels]{enumitem}
+\usepackage{algorithm}
+\usepackage[noend]{algpseudocode}
+\usepackage{cite}
+\usepackage{multirow}
+\usepackage[font=scriptsize]{caption}
+\usepackage{subcaption}
+\usepackage{comment}
+\usepackage{xspace}
+\usepackage{environ}
+\usepackage{longtable}
+% \baselineskip=16pt
+\usepackage{indentfirst,csquotes}
+\usepackage{array}
+
+
+\usepackage[margin=1in]{geometry}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\newtheorem*{claim}{Claim}
+\newtheorem{remark}[theorem]{Remark}
+
+
+\newcolumntype{H}{>{\setbox0=\hbox\bgroup}c<{\egroup}@{}}
+\hypersetup{colorlinks=true, linkcolor=black, filecolor=black, urlcolor=black }
+% \def\proof{\noindent {\it Proof. $\, $}}
+% \def\endproof{\hfill $\Box$ \vskip 5 pt }
+
+
+%Define some symbols
+\DeclarePairedDelimiter\abs{\lvert}{\rvert}%
+\DeclarePairedDelimiter\norm{\lVert}{\rVert}%
+
+\newcommand{\PI}{\textbf{Phase~I}\xspace}
+\newcommand{\PII}{\textbf{Phase~II}\xspace}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\F}{\mathbb{F}}
+\newcommand{\Z}{\mathbb{Z}}
+%\newcommand{\R}{\mathbb{R}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\B}{\mathbb{B}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\T}{\mathbb{T}}
+\newcommand{\barS}{\bar{S}}
+\newcommand{\calU}{\mathcal{U}}
+\newcommand{\tr}{\operatorname{tr}}
+\newcommand{\Diag}{\operatorname{Diag}}
+\newcommand{\TriDiag}{\operatorname{TriDiag}}
+\newcommand{\tridiag}{\operatorname{tridiag}}
+\newcommand{\BiDiag}{\operatorname{BiDiag}}
+\newcommand{\bidiag}{\operatorname{bidiag}}
+\newcommand{\diag}{\operatorname{diag}}
+\newcommand{\vectorize}{\operatorname{vec}}
+\newcommand{\adj}{\operatorname{adj}}
+\newcommand{\svec}{\operatorname{svec}}
+\newcommand{\symm}{\mathbb{S}}
+\renewcommand{\symm}{\mathbb{S}}
+\newcommand{\PSD}{\mathbb{S}_{+}}
+\newcommand{\PD}{\mathbb{S}_{++}}
+\newcommand{\rank}{\operatorname{rank}}
+\newcommand{\proj}{\mathbf{P}}
+\newcommand{\algo}{{\color{red}\emph{algorithm-name} }}
+\newcommand{\calV}{\mathcal{V}}
+\newcommand{\SDP}{\text{SDP}}
+\newcommand{\LP}{\text{LP}}
+\DeclareMathOperator{\Null}{Null}
+\DeclareMathOperator{\range}{Range}
+\DeclareMathOperator{\rint}{rint}
+\DeclareMathOperator{\dom}{dom}
+\DeclareMathOperator{\row}{row}
+\DeclareMathOperator{\spn}{span}
+\DeclareMathOperator{\conv}{conv}
+\DeclareMathOperator{\SM}{SparseMat}
+\DeclareMathOperator{\CLQ}{CLQ}
+\DeclareMathOperator{\thbody}{TH}
+\DeclareMathOperator{\STAB}{STAB}
+\renewcommand{\algorithmicrequire}{\textbf{Input:}}
+\renewcommand{\algorithmicensure}{\textbf{Output:}}
+
+\renewcommand{\subset}{\subseteq}
+\renewcommand{\supset}{\supseteq}
+\DeclareMathOperator*{\argmax}{arg\,max}
+\DeclareMathOperator*{\argmin}{arg\,min}
+
+
+\tikzset{every picture/.style={line width=0.75pt}} %set default line width to 0.75pt        
+%\captionsetup{skip=2pt}
+\captionsetup[subfigure]{aboveskip=0pt}
+\setlength{\textfloatsep}{5pt}
+\setlength{\intextsep}{5pt}  
+
+\newcommand{\dcnote}[1]{{\color{blue} DC: #1}}
+\newcommand{\rgnote}[1]{{\color{magenta} RG: #1}}
+\newcommand{\atnote}[1]{{\color{brown} AT: #1}}
+
+
+\title{Dynamic Random Interval Graphs} %%%%%%%%%%%%
+\author{Rui Gong\thanks{
+\{rgong44,diego.cifuentes,atoriello\}@gatech.edu\\
+\indent~~ Georgia Institute of Technology, Atlanta, GA 30332, USA\\
+\indent~~ The authors' work was partially funded by the U.S.\ Office of Naval Research, N00014-23-1-2631.} \and 
+Diego Cifuentes\footnotemark[1] \and 
+Alejandro Toriello\footnotemark[1]}
+
+\begin{document}
+\maketitle
+\begin{abstract}
+    We consider the model of interval graphs where the starting time and ending time of each task follow independent uniform distribution.
+    After a task is committed, we randomly realize and delete the tasks conflicting with it, then we update the range of uniform distributions of the remaining tasks.
+    We aim to find an optimal policy to dynamically select a stable set with the largest weights.
+\end{abstract}
+\section{Introduction}
+
+\section{Expected Stability Number of Chordal Graphs}
+\subsection{Interval Graphs}
+Consider the clique LP defined below for a graph $G$:
+\begin{multicols}{2}
+\noindent
+\begin{align*}
+\begin{split}
+    \max_{x\geq 0} &\ w^{\top}x\\
+    \text{s.t.} &\ \sum_{i\in C} x_i\leq 1,\forall C\in \mathcal{C}(G),
+\end{split}
+\end{align*}
+\columnbreak
+\begin{align*}
+\begin{split}
+    \min_{\mu\geq 0}&\ \sum_{C\in \mathcal{C}(G)}\mu_{C}\\
+    \text{s.t.} &\ \sum_{C\ni i}\mu_C\geq w_i,\forall i\in N,
+\end{split}
+\end{align*}
+\end{multicols}
+where $\mathcal{C}(G)$ is the set of possible cliques of $G$.
+
+Consider a random interval graph under our settings.
+Let $G_1,\ldots,G_T$ be interval graphs that are realizable with positive probability, and $P_1,\ldots,P_T$ be the probability of them being realized. 
+That is, $\sum_{j=1}^{T}P_j=1$, $P_j>0$ for all $j$.
+
+Let $\mathcal{C}:= \bigcup_{i=1}^{T}\mathcal{C}(G_i)$, which is the set of all realizable cliques of the random graph.
+For every $C\in\mathcal{C}$, let $P_C$ be the probability of $C$ being realized.
+And consider the following primal-dual pair:
+\begin{multicols}{2}
+\noindent
+\begin{align}
+\label{P}
+\tag{P}
+\begin{split}
+    \max_{x\geq 0} &\ w^{\top}x\\
+    \text{s.t.} &\ P_C\sum_{i\in C} x_i\leq P_C,\forall C\in \mathcal{C},
+\end{split}
+\end{align}
+\columnbreak
+\begin{align}
+\label{D}
+\tag{D}
+\begin{split}
+    \min_{\mu\geq 0}&\ \sum_{C\in \mathcal{C}}P_C\mu_{C}\\
+    \text{s.t.} &\ \sum_{C\ni i}P_C\mu_C\geq w_i,\forall i\in N,
+\end{split}
+\end{align}
+\end{multicols}
+Notice that $P_C=\sum_{j=1,G_j\ni C}^{T}P_{j}$.
+Thus, for any optimal solution of~\ref{D}, we have 
+\[
+\sum_{C\ni i}\sum_{j=1,G_j\ni C}^{T}P_j\mu_C
+= \sum_{j=1}^{T}P_j\sum_{G_j\ni C\ni i}\mu_C\geq \sum_{j=1}^{T}P_j w_i
+\]
+\subsection{Lovasz-Theta Function}
+Consider the Lovasz-Theta Function for a deterministic perfect graph.
+\begin{multicols}{2}
+    \noindent
+    \begin{align}
+\label{SDP-P}
+\tag{SDP-P}
+\begin{split}
+    % \max_{x\in\R^{n},X\in\symm^{n}}\quad &w^\top x\\
+    \max\quad &w^\top x\\
+    \text{s.t.}\quad &X_{ii}=x_i, \forall i\in N\\
+    &X_{ij}=0,\forall ij\in E\\
+    % &\begin{psmallmatrix}
+    %     1&x^{\top}\\
+    %     x&X
+    % \end{psmallmatrix}\succeq 0
+    &X-xx^\top\succeq 0
+\end{split}
+\end{align}
+\columnbreak
+\begin{align}
+\label{SDP-D}
+\tag{SDP-D}
+\begin{split}
+    % \min_{t, q, Q}\quad &t\\
+    \min\quad &t\\
+    \text{s.t.}\quad
+    &Q_{ii}=-2q_i-w_i,\forall i \in N\\
+    &Q_{ij}=0,\forall ij\notin E\\
+    % &\begin{psmallmatrix} t&q^{\top}\\ q&Q \end{psmallmatrix}\succeq 0.
+    &tQ-qq^\top\succeq 0
+\end{split}
+\end{align}
+\end{multicols}
+For our model, given $p_{ij}$ being the probability of $ij\in E(G)$, consider
+\begin{align}
+  \label{SDP-P'}
+  \tag{SDP-P'}
+  \begin{split}
+    \max_{x,X}\quad &w^\top x\\
+    \text{s.t.}\quad &0\leq X_{ij}\leq 1-p_{ij},\forall i<j\\
+    &X_{ii}=x_i\\
+    &
+    \begin{pmatrix}
+      1&x^\top\\
+      x&X
+    \end{pmatrix}\succeq 0
+  \end{split}
+\end{align}
+And its dual can be written as
+\begin{align}
+\label{SDP-D'}
+  \tag{SDP-D'}
+  \begin{split}
+    \min\quad &t+\sum_{i<j}\mu_{ij}(1-p_{ij})\\
+    &Q_{ii}=-2q_i-w_i\\
+    &Q_{ij}=\frac{\mu_{ij}-\nu_{ij}}{2}\\
+    &\mu_{ij},\nu_{ij}\geq 0\\
+    &\begin{pmatrix}
+      t&q^\top\\
+      q&Q
+    \end{pmatrix}\succeq 0.
+  \end{split}
+\end{align}
+For~\ref{SDP-D'} above, consider any optimal solution $(t,q,Q)$.
+Now, suppose for some $Q_{ij}>0$, $\mu_{ij}>0$ and $\nu_{ij}>0$.
+Let $\mu'_{ij}=\mu_{ij}-\nu_{ij}$ and $\nu'_{ij}=0$,
+$2Q_{ij} = \mu_{ij}-\nu_{ij}=\mu'_{ij}-\nu'_{ij}$, but $\mu'_{ij}<\mu_{ij}$ and we get a better solution.
+If $Q_{ij}<0$, then similarly, we can set $\mu'_{ij}=0$ and $\nu'_{ij}=\mu_{ij}-\nu_{ij}$.
+
+Thus, without loss of optimality, we can write~\ref{SDP-D'} as 
+\begin{align}
+\label{SDP-DD}
+  \tag{SDP-DD}
+  \begin{split}
+    \min\quad &t+\sum_{i<j}2\max\{0,Q_{ij}\}(1-p_{ij})\\
+    &Q_{ii}=-2q_i-w_i\\
+    % &Q_{ij}=\frac{\mu_{ij}-\nu_{ij}}{2}\\
+    % &\mu_{ij},\nu_{ij}\geq 0\\
+    &\begin{pmatrix}
+      t&q^\top\\
+      q&Q
+    \end{pmatrix}\succeq 0.
+  \end{split}
+\end{align}
+
+Consider the case where $p_{ij}\in\{0,1\}$, that is, the graph is a deterministic perfect graph.
+It is clear that~\ref{SDP-P'} is equivalent to~\ref{SDP-P}(\rgnote{Need to find the references, should be~\cite{1056072}}).
+Consider $X=\frac{1}{2n}I$, $x=\frac{1}{2n}e$, which is feasible to~\ref{SDP-P'} and positive definite. 
+Thus, by the strong duality theorem, there is no duality gap between~\ref{SDP-P'} and~\ref{SDP-D'}.
+Let $\tilde{t}$ be the optimal value of them, which is attained by~\ref{SDP-D'} by the strong duality theorem.
+% Now consider an optimal solution $(t^*,q^*,Q^*)$ of~\ref{SDP-D},
+% which is feasible to~\ref{SDP-DD}.
+% The objective value of $(t^*,q^*,Q^*)$ under~\ref{SDP-DD} is 
+% \[t^*+\sum_{i<j}2\max\{0,Q_{ij}\}(1-p_{ij})
+% =t^*+\sum_{i<j,p_{ij}=0}2\max\{0,Q_{ij}\}
+% =t^*+\sum_{i<j,p_{ij}=0}2\max\{0,0\}
+% =t^*
+% \]
+% Thus, for any deterministic perfect graph, the optimal value of~\ref{SDP-DD}, call it $\tilde{t}$, is at most $t^*$.
+% By equivalence, the optimal value of~\ref{SDP-D'} is also $\tilde{t}$ which is greater than the optimal value of~\ref{SDP-P'}.
+% Since~\ref{SDP-P'} is equivalent to~\ref{SDP-P}, we know 
+% $\tilde{t}\geq t^*, \tilde{t}\leq t^*$, so $\tilde{t}=t^*$ and there is no duality gap between~\ref{SDP-P'} and~\ref{SDP-D'}.
+
+ Now let $G_1,\ldots,G_k$ be all possible realizations of the random graph model, and $P^1,\ldots,P^k$ be the corresponding probability that the graph is realized, so $\sum_{\ell=1}^{k}P^\ell=1$.
+
+Consider $(x^\ell,X^\ell)$ which is an optimal solution of~\ref{SDP-P} for the graph $G_i$.
+Consider 
+\[(x,X)=\sum_{\ell=1}^{k}P^\ell(x^\ell,X^\ell),\]
+where $X_{ij}=\sum_{\ell=1,ij\notin E(G_\ell)}^{k}P^\ell X^\ell_{ij}$.
+Notice that by the linear and PSD constraints of~\ref{SDP-P}, we have $X^\ell_{ii}\geq (X^\ell_{ii})^2$ which implies $X^\ell_{ii}\leq 1$ for any $i$. 
+That is, again by the PSD constraint, $|X^\ell_{ij}|\leq 1$.
+Hence,
+\[X_{ij}=\sum_{\ell=1,ij\notin E(G_\ell)}^{k}P^\ell X^\ell_{ij}\leq \sum_{\ell=1,ij\notin E(G_\ell)}^{k}P^\ell = 1-p_{ij}.\]
+\rgnote{The last equality probably needs more assumptions, for example, the realization of edges are independent.
+Or, under some other assumptions, we can have it as less than which is enough for our proof.}
+Thus, $(x,X)$ is feasible for~\ref{SDP-P'}.
+That is, the $\tilde{t}\geq \E[\alpha(G)]$. 
+% \rgnote{This proof is not really necessary because Theorem 1 of the paper by Kevin Shu, Diego Cifuentes and Alejandro Toriello includes this inequality.}
+
+
+
+Consider a similar SDP primal-dual pair:
+\begin{align}
+  \label{SDP-P''}
+  \tag{SDP-P''}
+  \begin{split}
+    \max_{x,X}\quad &w^\top x\\
+    \text{s.t.}\quad &X_{ij}\leq 1-p_{ij},\forall i<j\\
+    &X_{ii}=x_i\\
+    &
+    \begin{pmatrix}
+      1&x^\top\\
+      x&X
+    \end{pmatrix}\succeq 0
+  \end{split}
+\end{align}
+And its dual can be written as
+\begin{align}
+\label{SDP-D''}
+  \tag{SDP-D''}
+  \begin{split}
+    \min\quad &t+\sum_{i<j}2Q_{ij}(1-p_{ij})\\
+    &Q_{ii}=-2q_i-w_i\\
+    &Q_{ij}\geq 0\\
+    &\begin{pmatrix}
+      t&q^\top\\
+      q&Q
+    \end{pmatrix}\succeq 0.
+  \end{split}
+\end{align}
+First,~\ref{SDP-P''} satisfies Slater condition by considering $X=\frac{1}{2n}I,x=\frac{1}{2n}e$. 
+Thus~\ref{SDP-D''} always attains the optimal value for any $1\geq p_{ij}\geq 0$.
+For any realization $G_\ell$, we can define $p_{ij}=1$ if $ij\in E$ and $0$ otherwise.
+Then~\ref{SDP-P''} is equivalent to the Lovasz-Theta function\rgnote{See later}.
+That is, there exists $(t^\ell, q^\ell, Q^\ell)$ which is optimal to~\ref{SDP-D''} and $t^\ell+\sum_{i<j}2Q^{\ell}_{ij}(1-p_{ij}) = \alpha(G^\ell)$.
+Consider such optimal solutions for each realization of the random graph.
+Define
+\[(t,q,Q):=\sum_{\ell=1}^{k}P^\ell(t^\ell,q^\ell,Q^\ell),\]
+which is feasible to~\ref{SDP-D''} (and~\ref{SDP-DD}) because $\sum_{\ell=1}^{k}P^\ell Q_{ii}^\ell=\sum_{\ell=1}^{k}P^\ell(-2q^{\ell}_i-w_i)=-2\sum_{\ell=1}^{k}P^\ell q^{\ell}_i-w_i$.
+
+Then, its objective value to~\ref{SDP-DD} is 
+\[t+\sum_{i<j}2\max\{0,Q_{ij}\}(1-p_{ij})=t+\sum_{i<j}2\max\{0,\sum_{\ell=1}^{k}P^\ell Q^{\ell}_{ij}\}(1-p_{ij}).\]
+By the fact that $P^\ell\geq 0, Q_{ij}^{\ell}\geq 0$, we have 
+\[t+\sum_{i<j}2\max\{0,Q_{ij}\}(1-p_{ij}) =\sum_{\ell=1}^{k}P^\ell (t^\ell+\sum_{i<j}2Q_{ij}(1-p_{ij}))=\sum_{\ell=1}^{k}P^\ell \alpha(G^\ell)=\E[\alpha(G)],\]
+by the fact that $Q_{ij}=\sum_{\ell=1}^{k}P^\ell Q^{\ell}_{ij}\geq 0$.
+That is, $\tilde{t}\leq \E[\alpha(G)]$.
+Combine with what is above, we have $\tilde{t}=\E[\alpha(G)]$.
+
+In order to derive~\ref{SDP-D''}.
+Write~\ref{SDP-P''} as:
+\begin{align}
+  \begin{split}
+    -\min_{x,X}\quad &-w^\top x\\
+    \text{s.t.}\quad &X_{ij}+Y_{ij}= 1-p_{ij},\forall i<j\\
+    &X_{ii}=x_i\\
+    &
+    \begin{pmatrix}
+      1&x^\top\\
+      x&X
+    \end{pmatrix}\succeq 0\\
+    &Y_{ij}\geq 0, \forall i<j
+  \end{split}
+\end{align}
+Since the above SDP is in the standard SDP form, it is easy to see that the corresponding dual is 
+\begin{align}
+  \begin{split}
+    -\max\quad &-t-\sum_{i<j}2Q_{ij}(1-p_{ij})\\
+    &Q_{ii}=-2q_i-w_i\\
+    &Q_{ij}\geq 0\\
+    &\begin{pmatrix}
+      t&q^\top\\
+      q&Q
+    \end{pmatrix}\succeq 0.
+  \end{split}
+\end{align}
+~\ref{SDP-P'} and~\ref{SDP-D'} are derived in the same way.
+
+Consider~\ref{SDP-P''} for a deterministice graph $G^\ell=(N,E)$, where $p_{ij}=1$ if $ij\in E$ and $0$ otherwise.
+Then we have the following primal-dual pair:
+\begin{align}
+  \begin{split}
+    \max_{x,X}\quad &w^\top x\\
+    \text{s.t.}\quad &X_{ij}\leq 0,ij\in E\\
+    &X_{ij}\leq 1,ij\notin E\\
+    &X_{ii}=x_i\\
+    &
+    \begin{pmatrix}
+      1&x^\top\\
+      x&X
+    \end{pmatrix}\succeq 0
+  \end{split}
+\end{align}
+\begin{align}
+  \begin{split}
+    \min\quad &t+\sum_{i<j}2Q_{ij}(1-p_{ij})\\
+    &Q_{ii}=-2q_i-w_i\\
+    &Q_{ij}\geq 0\\
+    &\begin{pmatrix}
+      t&q^\top\\
+      q&Q
+    \end{pmatrix}\succeq 0.
+  \end{split}
+\end{align}
+For the maximization problem, it is clear that optimal solution of the Lovasz-Theta function is feasible to it.
+For the minimization problem, consider the construction of an optimal solution to it from the dual of the clique LP in the paper by Rui Gong, Diego Cifuentes and Alejandro Toriello.
+That is, let $\mu^*_C$ for $C\in\mathcal{C}(G^\ell)$ be an optimal solution of the dual of the clique LP, and define
+\begin{equation}
+b_{i}=
+\begin{cases}
+    0,&\text{ if } i =0\\
+    \sum_{C\ni i}\mu^*_C-w_i,&\text{ if }i > 0
+\end{cases}
+\quad\text{ and }\quad
+    [p_C]_i:=\begin{cases}
+    \sqrt{\mu^*_C},&\text{ if }i=0\\
+    -\sqrt{\mu^*_C},&\text{ if }i\in C\\
+    0,&\text{ otherwise}
+\end{cases}
+\end{equation}
+then
+\(
+M := \sum_{C\in \mathcal{C}(G)}p_C p_C^\top+ \Diag(b)
+\)
+is optimal for~\eqref{SDP-D}.
+Notice that $M_{ij}=\sum_{C\in\mathcal{C}(G),ij\in C}\mu_{C}^*\geq 0$,
+so $M$ is feasible to the dual above.
+Then, we find feasible solutions to the primal and the dual with the same objective value, $\alpha(G^\ell)$.
+\section{Random Discrete Unit Length Interval Graph}
+Consider $N=[n]$ jobs and $K=[k]$ positions.
+For each $j\in [n]$, $p^j\in \Delta^K$, $w_j\geq 0$.
+Every time we select a job $j$ then it is assigned to a position following $p^j$. 
+Once a position is taken, it is not available to the remaining jobs. 
+We aim to find a policy maximizing $\E[\sum_{i\in S}w_i]$, where $S$ is the selected jobs under the policy.
+
+For the state $(S,L)\subseteq (N,K)$, the model transits as 
+\begin{enumerate}
+    \item choose $j\in S$
+    \item collect $w_j$
+    \item realize a position $g\in L$ with probability \(\frac{p^j_g}{\sum_{\ell\in L}p_\ell^j}:=\hat{p}^j_g\)
+    \item eliminate some members $i$ of $S\setminus j$ with probability $\hat{p}^i_g$.
+\end{enumerate}
+Notice that the probability that $i,j$ conflict is \(p_{ij}=\sum_{\ell\in K}\hat{p}^i_\ell\hat{g}^j_\ell\).
+
+In this way, let $(J, Q)$ be the selected jobs and the corresponding positions of some realization.
+It can be written as $M\in\{0,1\}^{n\times k}$.
+That is $M_{jg} = 1$ if job $j$ is selected and assigned to position $g$, $M_{jg}=0$ otherwise.
+Let $u_j$ be the $j$-th row of $M$ and $v_g$ be the $g$-th column of $M$.
+Then, we have the following valid inequalities:
+\begin{align*}
+    v_g^\top v_g&\leq 1\\
+    u_iu_i^\top&\leq 1\\
+    \text{or }\sum_{g\in K}u_{jg}&\leq 1\\
+    % u_iu_j^\top&= 0\\
+        u_iu_j^\top&=0,\quad \forall j.
+    % \sum_{g}u_{ig}\sum_{\ell\neq g}u_{j\ell}&\leq 1-p_{ij} \forall i,j(?)
+    % u_iu_j^\top&\leq p_{ij} \forall j(?)\\
+    % \sum_{g}u_{ig}\sum_{\ell\neq g}u_{j\ell}&\leq 1-p_{ij} \forall i,j(?)
+\end{align*}
+Consider an arbitrary optimal policy $\pi^*$, let $\Omega$ be the set of its all possible $(J,Q)$, and let $P$ be the vector where $P^\omega$ is the probability that $\pi^*$ returns the selected jobs and positions $(J^\omega,Q^\omega)$.
+Consider
+\[\bar{M}=\sum_{\omega\in\Omega}P^\omega M^\omega.\]
+$M_{ij}$ can then be interpreted as the probability of job $i$ selected by $\pi^*$ and assigned at $j$. Then the above inequalities can be translated into
+\begin{align*}
+    \sum_{i}\bar{M}_{ij}&\leq 1\\
+    \sum_{j}\bar{M}_{ij}&\leq 1\\
+    % \bar{u}_i\bar{u}_j^\top&\leq p_{ij} \forall j(?)\\
+    \sum_{g}u_{ig}\sum_{\ell\neq g}u_{j\ell}&\leq 1-p_{ij} \forall i,j(?)
+\end{align*}
+where the third inequality can be interpreted as the probability that $i,j$ do not conflict is at least the probability that $\pi^*$ select $i,j$ and they are assigned into different positions.
+
+Such inequalities can be put into an SDP relaxation where $MM^\top$ are feasible.
+
+
+\subsection{Complexities}
+Consider the case where both the weights and distributions of the jobs are general.
+\begin{proposition}
+    The greedy policy is optimal.
+\end{proposition}
+\begin{proof}
+    We do an adversarial argument.
+    Imagine an adversary places jobs $[n]$ into $[k]$ positions in advance according to their distributions $p^j$ for each $j\in[n]$.
+    If the positions of the jobs are known, then it is optimal to pick the largest weighted job of each position.
+    Let the weights of the largest weighted job of each position be $w_1\geq w_2\geq \ldots w_k\geq 0$.
+    Without knowing the positions, the greedy policy would pick $w_1,w_2,\ldots, w_k$ which is equivalent to the case where positions are known.
+
+    Thus, for any realization, the greedy policy gives returns the set of non-conflicting jobs with the maximum weights.
+\end{proof}
+
+The same argument applies when either the weights or distributions are the same for all jobs.
+
+Now, without loss of generality, assume that $w_1\geq w_2\geq\ldots\geq w_n.$
+Then the achievable probabilities:
+$x_i = \sum_{t=1}^{\min\{n,k\}}x_i^t$.
+ Under the greedy policy,
+\[x_1 = 1, x_2 = (1-p_{12}), x_3 = (1-p_{13})(p_{12}+(1-p_{12})(1-p_{23})),\ldots\]
+
+
+We consider a more general case.
+\begin{proposition}
+    If jobs can take possibly several non-contigugous positions, the problem is NP-hard.
+\end{proposition}
+\begin{proof}
+    Suppose there are $n+1$ jobs and $2n$ positions.
+    Let $0$ be a job taking positions $1,\ldots,n$ with probability $1$, and job $i$ taking position $i$ with probability $p_i$ and $n+i$ with probability $(1-p_i)$.
+    Then this problem is equivalent to the dynamic maximum stable set problem over a star graph, where $0$ is the center.
+    Such problem is NP-hard when $w_i,p_i$ are general~\cite{DNP}.
+\end{proof}
+If we want to consider a model that is general enough, then non-contiguous assumption is necessary.
+Instead of random starting time and ending time of an interval, consider the random starting time and processing time.
+
+For the starting time, we should allow the start time of a job to be distributions like $p_1^j = p_3^j=1/2$ and $p_i^j=3$ for $i\in [m]\setminus\{1,3\}$. 
+Thus, consider a problem with $n+1$ jobs where the jobs $1,\ldots,n$ take length $l_1,\ldots,l_n$ respectively and start at $\sum_{j=1}^{i-1}l_{j}+1$ with probability $p_i$ or $n+\sum_{j=1}^{i-1}l_{j}+1$ otherwise.
+For job $0$, it starts at $1$, ends at $n$ with certainty.
+Then similar to the above proposition, each job $i$ has probability $p_i$ to intersect job $0$ and none of them intersect each other. 
+When the weights of jobs are general, this problem become NP-hard.
+\begin{proposition}
+    When all jobs have length at most 3, the problem is NP-hard.
+\end{proposition}
+\begin{proof}
+    We derive a reduction from 3-SAT problem to our problem.
+    Let $x_1,\ldots,x_n, \neg x_1,\ldots,\neg x_n$ be the literals and $C_1,\ldots, C_k$ be the clauses, where each clause has exactly $3$ literals.
+    Let $m_i$ be the number of clauses containing $x_i$ or $\neg x_i$.
+    Consider $2m_i$ deterministic intervals with length $3$ starting at $1,3,5,7,\ldots,4m_i-1$ respectively, where the ones starting at $1,5,9,\ldots, 4m_i-3$ represent $\neg x_i$ for each clause and $3,7,\ldots, 4m_i-1$ represent the ones for $x_i$; see Figure~\ref{fig:3-SAT}. 
+    Call such paths $P_i$.
+    The set of all slots is made of concatenating all $P_i$, so $P_i$ are pairwise disjoint.
+    Let $C$ be a clause $(\neg x_i\lor x_j \lor x_k)$. 
+    Without loss of generality, let the first two intervals in $P_i,P_j,P_k$ represent the variables in $C$, then let $C$ be a unit length interval with probability $1/3$ to land on the middle slot of the intervals representing $\neg \neg x_i, \neg x_j,\neg x_k$ respectively; see the red squared slots in~\ref{fig:3-SAT}.
+    Suppose that all intervals corresponding to the TRUE intervals are selected.
+    If any of the literal is TRUE, $C$ is not deleted and vice versa.
+
+    Let the weight of each interval representing the variable $x_i$ be $\epsilon_i$, and the weight of each clause be $\vartheta$ large enough.
+    Then for each path $P_i$, with $2m_i$ intervals, the largest sets of non-intersecting intervals have size $\epsilon_im_i$ which are made of either all intervals representing $\neg x_i$ or all intervals representing $x_i$.
+    Hence, the dynamic selection problem has the optimal value bounded by $\sum_{i=1}^{n}\epsilon_im_i+k\vartheta$.
+
+    Now we show that the 3-SAT problem is satisfiable if and only if the optimal value of this problem is $\sum_{i=1}^{n}\epsilon_im_i+k\vartheta$.
+    Assume that the 3-SAT problem is satisfiable, and consider the corresponding assignment.
+    If $x_i$ is TRUE, then select all intervals representing the literal $x_i$ and delete the ones representing $\neg x_i$ from $P_i$, similar if $\neg x_i$ is TRUE. 
+    By our definition, for each clause, there is at least an available position which do not intersect with any other interval, thus we can select all intervals representing clauses, the returned value is $\sum_{i=1}^{n}\epsilon_im_i+k\vartheta$.
+    Assume that the optimal value of this problem is $\sum_{i=1}^{n}\epsilon_im_i+k\vartheta$.
+    For $\vartheta$ large enough, all intervals representing clauses are selected.
+    By the previous argument, the largest weight can be selected from $P_i$ is $\epsilon_im_i$ and either all intervals representing $x_i$ or $\neg x_i$ are selected.
+    For each variable $i$, let the $P_i$ determines the assignment. That is,
+    if all $x_i$ intervals are selected, let $x_i$ be TRUE, otherwise, let $\neg x_i$ be TRUE.
+    For each clause, since it can be selected, by the definition, it has at least one available position after all intervals corresponding $x_i$ or $\neg x_i$ are selected, so one of its literal is TRUE.
+    Thus, the 3-SAT problem is satisfiable.
+    \rgnote{The proof needs to be modified to consider the expectation (which should be large enough if and only if there is a satisfying assignment. In fact, what was proven above was that the 3-SAT is satisfiable if and only if the probability of selecting a set of intervals with weights $\sum_{i=1}^{n}\epsilon_im_i+k\vartheta$ is not $0$}.
+\begin{figure}[htb]
+    \centering
+    \includegraphics[width=0.8\textwidth]{random interval graphs/diagram-20250620.png}
+
+    \caption{3-SAT to Dynamic Interval}
+    \label{fig:3-SAT}
+\end{figure}
+\end{proof}
+
+We consider the \emph{job selection problem}.
+One is given $n$ jobs, each with $k$ choices of intervals. 
+The problem is to select as many as intervals as possible such that 1. no intervals intersect. 2. at most one interval of each job is selected. 
+It is called $\text{JIP}_k$.
+It is proven that $\text{JIP}_k$ is Max-SNP-hard when $k\geq 2$ and when all intervals have length exactly $2$~\cite[Theorem 3.1]{interval_schedule}.
+
+\begin{proposition}
+    When all jobs have length exactly 2, the problem is Max-SNP-hard.
+\end{proposition}
+\begin{proof}
+    We consider a setting where each job has two possible starting position, each with probability $1/2$.
+    Assume that the weights of all jobs are the same.
+    We show the equivalence of a $\text{JIP}_2$ problem whose intervals have length $2$ to our problem.
+    We show this by showing that a policy can have expected value at least $T$ if and only if the optimal value of this $\text{JIP}_2$ is at least $T$.
+\end{proof}
+
+Consider the following SDP relaxation for the problem:
+\begin{align*}
+    \max\quad~&\sum_{i=1}^{n}w_iA_{ii}\\
+    &\begin{pmatrix}
+        M & D^\top &\Diag(M)\\
+        D & A &\Diag(A)\\
+        \Diag(M)^\top &\Diag(A)^\top &1
+    \end{pmatrix}\succeq 0\\
+    &M_{(i,t),(i,t)}\leq J_{(i,t)},~\forall (i,t)\in [n]\times [m]\\
+    &M_{(i,t),(j,g)}\leq M_{(i,t),(i,t)},~\forall (i,t)\in [n]\times [m],~\forall (j,g)\in [n]\times [m]\\
+    &M_{(i,t),(j,t)}=0,~\forall (i,t)\in [n]\times [m],~\forall j\neq i\\
+    &M_{(i,t),(i,g)}=0,~\forall (i,t)\in [n]\times [m],~\forall g\neq t\\
+    &D_{i,(j,g)} = \sum_{t=1,t\neq g}^{m}M_{(i,t),(j,g)},~\forall i,~\forall j,g = \sum_{t=1}^{m}M_{(i,t),(j,g)},~\forall i,~\forall j,g\\
+    &A_{ii}+A_{jj}\leq 2-P_{ij},~\forall i,j\in [n], i\neq j\\
+    &A_{ij}=\sum_{t=1}^{m}D_{i,(j,t)},~\forall i,j\in [n], i\neq j\\
+    &A_{ij}\leq 1-P_{ij},~\forall i,j\in [n], i\neq j
+\end{align*}
+where $J,P$ are given, $M\in\symm^{n*m}, D\in \R^{n\times n*m}, A\in\symm^{n}$.
+Notice that $M_{(i,t),(i,g)}=0$ is only valid when each job only takes one position.
+
+Time relaxation:
+\begin{align*}
+    \max~&\sum_{t\in [m]}\sum_{S\subseteq[n]}\sum_{L\subseteq[m]}\sum_{j\in S}w_j x(t,S',L',j)\\
+    &\sum_{j\in S}x(t,S,L,j)-\sum_{S\supset S'}\sum_{L\supset L'}\sum_{a\in S}\Pr(S',L'|S,L,a)x(t-1,S,L,a)\leq 0,\forall S'\neq [n], L'\neq [m], 1< t\leq m\\
+    &\sum_{j\in[n]}x(1,[n],[m],j)\leq 1\\
+    &x\geq 0
+\end{align*}
+
+Consider a small instance where $m=n=3$ and weights for each job are $1,2,1$; the distributions of each job are: fixing on $1$; starting time uniformly on $\{1,2\}$, ending time uniformly on $\{2,3\}$; fixed on $3$.
+For this instance, it is not hard to see that the optimal policy is selecting job $2$ first and picking all the remaining vertices.
+Consider the convex hull of the feasible region of this instance on $x_{i}^t:=\sum_{S,L}x(t,S,L,i)$.
+We consider three interesting inequalities:
+\begin{align*}
+    &x_1^2+x_2^2+x_3^2\leq x_1^1+\frac{3}{4}x_2^1+x_3^1\\
+    &x_1^2+x_1^3/0.5\leq x_3^1+\frac{3}{4}x_2^1\\
+    &x_3^2+x_3^3/0.5\leq x_1^1+\frac{3}{4}x_2^1.
+\end{align*}
+For the first one, it means that the probability of selecting a job at time $2$ implies that a job is selected at time $1$ and there is still a job left.
+For the second one, picking job 1 at time $2$ implies that either $3$ is picked at time $1$ or $2$ at time one and job $1$ not deleted, which implies $2$ at time one and at least one job not deleted.
+Picking job $1$ at time $3$ given that it is not deleted by job $2$ implies that either job $3$ pick at time $1$ or $2$ is picked at time $1$ and both $1,3$ are not deleted.
+
+Indeed, if we consider the SDP above and treat $M_{(i,t),(i,t)}$ as the probability of selecting job $i$ at time $t$, most constraints can be kept and get:
+\begin{align*}
+    \max\quad~&\sum_{i=1}^{n}w_iA_{ii}\\
+    &\begin{pmatrix}
+        M & D^\top &\Diag(M)\\
+        D & A &\Diag(A)\\
+        \Diag(M)^\top &\Diag(A)^\top &1
+    \end{pmatrix}\succeq 0\\
+    &\sum_{i=1}^{n}M_{(i,t),(i,t)} \leq 1,\forall t\in[m]\\
+    &\sum_{t=1}^{m}M_{(i,t),(i,t)} \leq 1,\forall i\in[n]\\
+    &M_{(i,t),(j,g)}\leq M_{(i,t),(i,t)},~\forall (i,t)\in [n]\times [m],~\forall (j,g)\in [n]\times [m]\\
+    &M_{(i,t),(j,t)}=0,~\forall (i,t)\in [n]\times [m],~\forall j\neq i\\
+    &M_{(i,t),(i,g)}=0,~\forall (i,t)\in [n]\times [m],~\forall g\neq t\\
+    &D_{i,(j,g)} = \sum_{t=1,t\neq g}^{m}M_{(i,t),(j,g)},~\forall i,~\forall j,g = \sum_{t=1}^{m}M_{(i,t),(j,g)},~\forall i,~\forall j,g\\
+    &A_{ij}=\sum_{t=1}^{m}D_{i,(j,t)},~\forall i,j\in [n], i\neq j\\
+    &A_{ii}=\sum_{t=1}^{m}M_{(i,t),(i,t)},~\forall i\in[n]\\
+    &A_{ij}\leq 1-P_{ij},~\forall i,j\in [n], i\neq j\\
+    &A_{ii}+A_{jj}\leq 2-P_{ij},~\forall i,j\in [n], i\neq j\\
+    &\sum_{i=1}^{n}M_{(i,t),(i,t)}\geq\sum_{i=1}^{n}M_{(i,t+1),(i,t+1)}~\forall t\\
+    & M_{(i,t),(i,t)}\leq 1-\sum_{\tau = 1}^{t-1}M_{(i,\tau),(i,\tau)}~\forall i,t\\
+    &M_{(i,t),(i,t)} = \sum_{j\neq i}M_{(i,t),(i,\tau)}~\forall i\in[n],t = 2,\ldots,m, \tau = 1,\ldots,t-\\
+    &M_{(i,t),(i,t)}\leq \sum_{j\neq i}M_{(j,t-1),(j,t-1)}(1-P_{ij})~\forall i,t\\
+    &\sum_{j\neq i}M_{(i,1),(i,1)}(1-\prod_{j\neq i}P_{ij}) = \sum_{j\neq i}M_{(i,2),(i,2)}
+\end{align*}
+
+After checking convex hull of small instances over $x_{i}^{t}$, the inequatilies that might be used to most cases are:
+\[\sum_{i\in J}x_{i}^{t}\leq\Pr[\text{at least one job in $J$ survived at t}]\]
+\[\sum_{\tau=t+1}^{m}x_i^t\leq \Pr[\text{$i$ is not selected in $1,\ldots,t$ and not deleted.}]\]
+However, similar inequalities does not improve the bound, the most improvements are from $A_{ij}\leq 1-p_{ij}$ and $A_{ii}+A_{jj}\leq 2-p_{ij}$.
+However, another inequality bringing drastic improvements is
+\[\sum_{i}x_i J_{ik}\leq \max_i J_{ik}\forall k\in [m]\]
+where $J_{ik}$ represents the probability of $i$ occupying $k$ if selected at first (using the original distribution).
+This inequality directly improves the optimal value of an instance from $30$ to $14.65$ where the actual optimal value to the dynamic programming problem is $14.4$.
+However, notice that this is not a valid inequality in general.
+It means that the probability of occupying position $k$ is bounded by the largest probability it would be occupied when a job is picked.
+For our setting, when the distributions of a job is updated, the probability of it occupying $k$ decreases.
+Thus, the actually probability of occupying position $k$ is 
+\[\sum_{i}\sum_{L\subseteq [m], S\subseteq [n]}\sum_t x_{(i,S,L,t)} J_{(i,S,L,t),k}\Pr[S,L,t]\leq \sum_{i}\sum_{L\subseteq [m], S\subseteq [n]}\sum_t x_{(i,S,L,t)} J_{ik}\Pr[S,L,t]\]
+Indeed, the update of distributions is always an obstacle to derive inequalities as it is decreasing when $L$ gets smaller.
+A possible approach is to change our settings to: a job is deleted whenever the realization occupies its support.
+This problem is still NP-hard by reducing its instances to the dynamic star graph problem and modify the proof a little bit.
+
+
+Consider another two probabilities:
+\[\Pr[\text{position $k$ being the ending time of a job}]\]
+and 
+\[\Pr[\text{position $k$ being the starting time of a job}].\]
+where 
+\begin{align*}
+&\Pr[\text{position $k$ being the ending time of a job}]\\
+=&\sum_{i=1}^{n}\Pr[\text{position $k$ being the ending time of job $i$}]\\
+=&\sum_{i=1}^{n}\Pr[\text{the ending time of job $i$ is $k$}|\text{job $i$ is picked}]*\Pr[\text{job $i$ is picked}]\\
+=&\sum_{i=1}^{n}\Pr[\text{the ending time of job $i$ is $k$}|\text{job $i$ is picked}]*x_i\\
+=&\sum_{i=1}^{n}P^e_{ik}x_i.
+\end{align*}
+Also,
+\begin{align*}
+    &\Pr[\text{position $k$ being the ending time of a selected job}]\\
+   =& \Pr[\text{position $k$ being the ending time of the job, a job is selected}]\\
+   =&\Pr[\text{position $k$ being the ending time of the job$|$ a job is selected}]*\Pr[\text{a job is selected}].
+\end{align*}
+Also, for any policy, the probability of selecting at least a job is either $0$ or $1$. 
+Also
+\begin{align*}
+&\Pr[\text{position $k$ being the ending time of the job$|$ a job is selected}]\\    
+=&\sum_{i=1}^{n}\Pr[\text{position $k$ being the ending time of the job$|$ a job is selected, the selected job is $i$}]*\Pr[\text{the selected job is $i| $ a job is selected}]\\
+\leq &\max_{i}\Pr[\text{position $k$ being the ending time of the job$|$ a job is selected, the selected job is $i$}]
+\end{align*}
+
+Thus, 
+\[\Pr[\text{position $k$ being the ending time of a job}]\leq \max_{i}P_{ik}^e.\]
+\begin{proof}[proof of the validity of the above inequalities]
+Suppose I have an arbitrary policy $\Phi$ of the problem, 
+and let $x_i$ be the probability of $\Phi$ successfully scheduling job $i$.
+
+We consider an adversarial argument. 
+For the adversarial, suppose it samples the starting time and ending time of each job according to the distributions.
+Suppose we are following the policy $\Phi$.
+Every time we schedule a job, the starting time and ending time are revealed by the adversary. 
+In addition, the adversary tells us which remaining jobs are conflicting with the scheduled job.
+Notice that under this setting, the probability of we ever schedule job $i$ is exactly $x_i$, because the state, actions and transition probabilities are exactly the same as our original settings.
+
+However, the probability of job $i$ ending at $k$ is independent from the policy $\Phi$ as it is completely sampled by the adversary before the scheduling process.
+Thus, $P_{ik}^e x_i$ is indeed the probability of we successfully schedule $i$ and the adversary puts its end at $k$.
+Also, notice that the above events are disjoint for $i\neq j$.
+
+Thus, the inequality is equivalent to:
+\begin{align*}
+    &\Pr[\text{schedule a job and the adversary sample the ending time of the job at $k$}]\\
+    =&\sum_{i=1}^{n}\Pr[\text{schedule job $i$ and the adversary sample the ending time of $i$ at $k$}]\\
+    =&\sum_{i=1}^{n}\Pr[\text{schedule job $i$}]*\Pr[\text{the adversary sample the ending time of $i$ at $k$}]\\
+    =&\sum_{i=1}^{n}P_{ik}^e x_i \leq 1
+\end{align*}
+\end{proof}
+
+
+
+By the law of total probability,
+\begin{align*}
+    &\Pr[\text{the ending time of job $i$ is $k$}|\text{job $i$ is picked}]\\
+   =&\sum_{Q\subseteq \mathcal{S}^e}\Pr[\text{the ending time of job $i$ is $k$}|\text{job $i$ is picked, the support of the ending time when $i$ is picked is $Q$}]\\
+   &*\Pr[\text{the support of the ending time when $i$ is picked is $Q|$ job $i$ is picked}]
+\end{align*}
+
+
+
+
+% $P^e_{ik}$ is the given probability of the ending time of $i$ being $k$. Consider the original support of the ending time of $i$ which is $L$.
+% and suppose that $i$ is picked when the support is $k\in S\subseteq L$, then the probability of the $i$ being 
+
+With inequalities above, the LP relaxation in just $x_i$ already gives very good bounds.
+At this moment, we conjecture that simply considering the SDP over $A$ would be good enough.
+
+
+Indeed, if we consider 
+\begin{align*}
+    \max\quad~&\sum_{i=1}^{n}w_iA_{ii}\\
+    &\begin{pmatrix}
+        M & D^\top &\Diag(M)\\
+        D & A &\Diag(A)\\
+        \Diag(M)^\top &\Diag(A)^\top &1
+    \end{pmatrix}\succeq 0\\
+    &\sum_{i=1}^{n}M_{(i,t),(i,t)} \leq 1,\forall t\in[m]\\
+    &\sum_{t=1}^{m}M_{(i,t),(i,t)} \leq 1,\forall i\in[n]\\
+    &M_{(i,t),(j,g)}\leq M_{(i,t),(i,t)},~\forall (i,t)\in [n]\times [m],~\forall (j,g)\in [n]\times [m]\\
+    &M_{(i,t),(j,t)}=0,~\forall (i,t)\in [n]\times [m],~\forall j\neq i\\
+    &M_{(i,t),(i,g)}=0,~\forall (i,t)\in [n]\times [m],~\forall g\neq t\\
+    &D_{i,(j,g)} = \sum_{t=1,t\neq g}^{m}M_{(i,t),(j,g)},~\forall i,~\forall j,g = \sum_{t=1}^{m}M_{(i,t),(j,g)},~\forall i,~\forall j,g\\
+    &A_{ij}=\sum_{t=1}^{m}D_{i,(j,t)},~\forall i,j\in [n], i\neq j\\
+    &A_{ii}=\sum_{t=1}^{m}M_{(i,t),(i,t)},~\forall i\in[n]\\
+    &A_{ij}\leq 1-P_{ij},~\forall i,j\in [n], i\neq j\\
+    &A_{ii}+A_{jj}\leq 2-P_{ij},~\forall i,j\in [n], i\neq j\\
+    &\sum_{i=1}^{n}M_{(i,t),(i,t)}\geq\sum_{i=1}^{n}M_{(i,t+1),(i,t+1)}~\forall t\\
+    & M_{(i,t),(i,t)}\leq 1-\sum_{\tau = 1}^{t-1}M_{(i,\tau),(i,\tau)}~\forall i,t\\
+    &M_{(i,t),(i,t)} = \sum_{j\neq i}M_{(i,t),(i,\tau)}~\forall i\in[n],t = 2,\ldots,m, \tau = 1,\ldots,t-\\
+    &M_{(i,t),(i,t)}\leq \sum_{j\neq i}M_{(j,t-1),(j,t-1)}(1-P_{ij})~\forall i,t\\
+    &\sum_{j\neq i}M_{(i,1),(i,1)}(1-\prod_{j\neq i}P_{ij}) = \sum_{j\neq i}M_{(i,2),(i,2)}\\
+    & \sum_{i=1}^{n}P_{ik}^e x_i<=1\\
+    & \sum_{i=1}^{n}P_{ik}^s x_i<=1\\
+    & \sum_{i=1}^{n}P_{ik}^o x_i<=1\\
+    &1\geq A,D,M\geq 0
+\end{align*}
+where $P_{ik}^e,P_{ik}^s,P_{ik}^o$ represents the probability of job $i$ ending, starting and occupying $k$ respectively.
+From experiments, its performance is almost the same as:
+\begin{align*}
+    \max\quad~&\sum_{i=1}^{n}w_iX_{ii}\\
+    &\begin{pmatrix}
+        X &\Diag(X)\\
+        \Diag(X)^\top &1
+    \end{pmatrix}\succeq 0\\
+    &X_{ii}+X_{jj}\leq 2-P_{ij}~\forall i,j\\
+    &X_{ij}\leq 1-P_{ij}~\forall i,j\\
+    & \sum_{i=1}^{n}P_{ik}^e x_i\leq1\\
+    & \sum_{i=1}^{n}P_{ik}^s x_i\leq1\\
+    & \sum_{i=1}^{n}P_{ik}^o x_i\leq1\\
+    &X\geq 0.
+\end{align*}
+Also from experiments, the above SDP performs much better than the LP:
+\begin{align*}
+        \max\quad~&\sum_{i=1}^{n}w_ix_{i}\\
+    &x_{i}+x_{j}\leq 2-P_{ij}~\forall i,j\\
+    & \sum_{i=1}^{n}P_{ik}^e x_i\leq1\\
+    & \sum_{i=1}^{n}P_{ik}^s x_i\leq1\\
+    & \sum_{i=1}^{n}P_{ik}^o x_i\leq1\\
+    &1\geq x\geq 0.
+\end{align*}
+For the idea of having $x_{ik}^e$ variables, the variables representing the probability of job $i$ selected and ends at $k$, is not as good as expected.
+Notice that the inequalities we can have on these variables are $\sum_{i=1}^{n}x_{ik}^e\leq 1$ for every $k$.
+This inequality is tight if we consider the instance:
+Given $n$ jobs and $n+1$ positions, each job has $1/2$ to be at $i$ and $1/2$ to be at $n+1$.
+Consider the policy of scheduling jobs from $1$ to $n$ if possible.
+The probability of job $1$ ends at $n+1$ is $1/2$, the probability of $2$ ends at $n+1$ is the probability of job $1$ ends at $1$ and job $2$ ends at $n+1$ which is $1/4$, similarly, $x_{i(n+1)}^e = (1/2)^i$, so
+$\sum_{i=1}^{n}x_{i(n+1)}^e\to 1$ as $n\to\infty$.
+\newpage
+Consider:
+\begin{align*}
+    \max\quad~&\sum_{i=1}^{n}w_iX_{ii}\\
+    &\begin{pmatrix}
+        X &\Diag(X)\\
+        \Diag(X)^\top &1
+    \end{pmatrix}\succeq 0\\
+    &X_{ii}+X_{jj}\leq 2-P_{ij}~\forall i,j\\
+    &X_{ij}\leq 1-P_{ij}~\forall i,j\\
+    & \sum_{i=1}^{n}P_{ik}^e x_i\leq1\\
+    & \sum_{i=1}^{n}P_{ik}^s x_i\leq1\\
+    & \sum_{i=1}^{n}P_{ik}^o x_i\leq1\\
+    &X\geq 0.
+\end{align*}
+and its dual:
+\begin{align*}
+    \min\quad~& t+\sum_{i<j}\beta_{ij}(2-P_{ij})+\sum_{i<j}\gamma_{ij}(1-P_{ij})+\sum_{k=1}^{m}\lambda_{k}^e+\lambda_{k}^s+\lambda_{k}^o\\
+    &-w_i-Y_{ii}-2y_i+\sum_{j<i}\beta_{ij}+\sum_{j<i}\beta_{ji}+\sum_{k}\lambda_{k}^e P_{ik}^e+\lambda_k^s P_{ik}^s+\lambda_k^o P_{ik}^o\geq 0~\forall i\\
+    &\gamma_{ij}\geq 2Y_{ij}~\forall i<j\\
+    &\beta,\gamma,\lambda\geq 0\\
+    &\begin{pmatrix}
+        Y&y\\
+        y^\top &1
+    \end{pmatrix}\succeq 0.
+\end{align*}
+Notice that for the dual, its optimal value $d^*\leq \E[\alpha(G)]$.
+Consider any realization $\tilde{G}$ of $G$, and its $\theta'(\tilde{G})$ which is $\alpha(\tilde{G})$ by $G$ being perfect.
+The optimal solution of the dual of $\theta'(\tilde{G})$ function satisfies $-w_i-Y_{ii}-2y_i = 0~\forall i$ and $Y_{ij}\leq 0$ for all $i<j$.
+Thus, by considering the probability of realizing $\tilde{G}$, $P_{\tilde{G}}$, we have
+\[\E[\alpha(G)] = \sum_{\tilde{G}}P_{\tilde{G}}\theta'(\tilde{G})=\sum_{\tilde{G}}P_{\tilde{G}}~t(\tilde{G})\]
+Consider the convex combination of optimal dual solutions of each realization $\tilde{G}$ with respect to $P_{\tilde{G}}$ and get $Y^*,y^*,t^*$.
+By setting $\beta,\gamma,\lambda$ to be $0$, we see that $(Y^*,y^*,t^*,0,0,0)$ is a feasible solution to the dual above whose objective value is $t^*=\E[\alpha(G)]$.
+
+Also, from the primal, it is not hard to see that for any DP policy, for each possible realization, let $x$ be the indicator vector of scheduled jobs, and consider $\begin{psmallmatrix} xx^\top &x\\x^\top &1
+\end{psmallmatrix}$
+Take their convex combination with respect to the DP probability of the realizations.
+We have $X_{ij}$ being the probability of scheduling both $i$ and $j$, $X_{ii}$ being the probability of scheduling $i$ under the policy. 
+Thus the resulting matrix is feasible to the primal, that is:
+\[\operatorname{OPTDP}\leq \operatorname{OPTSDP}\leq \E[\alpha(G)].\]
+
+\section{Delete a Job whenever a support is occupied}
+Consider another model similar to the above but deletes a job whenever its support set is occupied, that is, the "flip coin" is always tossed to "conflict".
+\begin{theorem}
+    This problem is still NP-hard.
+\end{theorem}
+\begin{proof}[\cite{DNP}]
+    Consider the instance with $n+1$ jobs and $2n$ slots. 
+    Job $0$ takes slots $1,\ldots,n$ and job $i$ takes slot $i$ with probability $p_i$ and $n+i$ with $q_i:=1-p_i$.
+    Analogous to the proof in~\cite{DNP}, any policy of this problem is determined by when to select Job $0$, what is selected before trying to select job $0$.
+    Then the problem can be formulated as:
+    \begin{equation}
+    \label{Conserv-JS}
+    \tag{Conserv-JS}
+    \max_{S\subseteq N}\left\{\sum_{i\in S}w_i+(1-\prod_{i\in S}q_i)\sum_{j\notin S}w_j+\prod_{i\in S}q_iw_o\right\}.
+    \end{equation}
+    By rearranging, we get 
+    \[\max_{S\subseteq N}\left\{\sum_{i\in N}w_i+\prod_{i\in S}q_i(w_0-\sum_{j\notin S}w_j)\right\}.\]
+    and by dropping constant terms and applying natural logarithm, we get 
+    \[\max_{S\subseteq N}\left\{\sum_{i\in S}\ln q_i+\ln(w_0-\sum_{j\notin S}w_j)\right\}.\]
+    Given a set of numbers $N$ with positive weights $a_i$ , $i \in N$ , the partitioning problem asks for a subset $S \subseteq N$ such that $\sum_{i\in S}a_i = \sum_{j\notin S} a_j$; without loss of generality, we assume that $\sum_{i\in N} a_i = 2$.
+    By setting parameters of the problem above as $q_i = e^{-a_i}$, $p_i = 1-e^{-a_i}$, $w_i =a_i$,and $w_0 = \sum_{i\in N} a_i$,
+    \[\max_{S\subseteq N}\left\{-\sum_{i\in S}a_i+\ln(\sum_{i \in S}a_i).\right\}\]
+    Proceeding similarly to~\cite{Star-Graph-NP-hard}, a set $S \subseteq N$ with $\sum_{i\in S}a_i=1$ if and only if 
+optimal solution to the above problem is $-1$.
+\end{proof}
+Consider the relaxation below:
+\begin{align*}
+    \max\quad~&\sum_{i=1}^{n}w_iX_{ii}\\
+    &\begin{pmatrix}
+        X &\Diag(X)\\
+        \Diag(X)^\top &1
+    \end{pmatrix}\succeq 0\\
+    &X_{ii}+X_{jj}\leq 2-P_{ij}~\forall i,j\\
+    &X_{ij}\leq 1-P_{ij}~\forall i,j\\
+    & \sum_{i=1}^{n}P_{ik}^e x_i\leq1\\
+    & \sum_{i=1}^{n}P_{ik}^s x_i\leq1\\
+    & \sum_{i=1}^{n}P_{ik}^o x_i\leq1\\
+    &X\geq 0.
+\end{align*}
+We show that $\sum_{i=1}^{n}P_{ik}^* x_i\leq 1$ is valid.
+For any policy, let $x_i$ be the probability of $i$ being scheduled.
+\[
+\begin{aligned}
+1\geq &\Pr[\text{$k$ being $*$ of a scheduled job}]\\
+= &\sum_{i=1}^{n}\Pr[\text{$k$ being $*$ of scheduled $i$}]\\
+= &\sum_{i=1}^{n}\Pr[\text{$k$ being $*$ of scheduled $i\ |$ i is scheduled}]\Pr[\text{$i$ being scheduled}]\\
+= &\sum_{i=1}^{n}P_{ik}^* x_i
+ \end{aligned}
+\]
+where $*$ is either starting point, ending point or occupied point.
+
+This inequalities are also tight in general, consider the previous example:
+Given $n$ jobs and $n+1$ positions, each job has $1/2$ to be at $i$ and $1/2$ to be at $n+1$.
+Consider the policy of scheduling jobs from $1$ to $n$ if possible.
+The probability of job $1$ ends at $n+1$ is $1/2$, the probability of $2$ ends at $n+1$ is the probability of job $1$ ends at $1$ and job $2$ ends at $n+1$ which is $1/4$, similarly, $\Pr[\text{$k$ being the ending time of scheduled $i$}] = (1/2)^i$, so
+$\sum_{i=1}^{n}\Pr[\text{$k$ being the ending time of scheduled $i$}]\to 1$ as $n\to\infty$.
+
+
+\subsection{Facet Defining}
+Notice that, since $P_{ik}^o\geq P_{ik}^e, P_{ik}^s$ for any $i,k$, only $\sum_{i=1}^{n}P_{ik}^o x_i\leq 1$ is needed.
+As above, this inequality is tight.
+This inequality could be facet defining for some instances.
+Consider the instance with $n$ jobs and $n$ positions.
+Job $i$ starts at $1$ and ends at $i$ with certainty.
+Then the probability of occupying position $1$ of each job is $1$.
+And the inequality becomes:
+\[\sum_{i=1}^{n}x_i\leq 1\]
+With the general inequalities we had: $0\leq x_i\leq 1, x_i+x_j\leq 2-p_{ij}$. 
+We can see that any $e_i$ is an feasible solution, which corresponding to selecting job $i$, is feasible to the problem.
+Also, all $e_i$ are active at $\sum_{i=1}^{n}x_i = 1$.
+Thus, this inequality is facet defining for this problem.
+Also, notice that the inequalities:
+\[\max \sum_{i=1}^{n}w_ix_i\text{ s.t. }0\leq x_i\leq 1, \sum_{i=1}^{n}x_i\leq 1\]
+is indeed a tight relaxation to the original problem because in the original problem only one job can be selected.
+
+\subsection{Modification to the inequalities}
+Consider the two general inequalities $x_i+x_j\leq 2-P_{ij}$ and $X_{ij}\leq 1-P_{ij}$.
+Under the new setting, $P_{ij}\neq P_{ji}$.
+That is, the probability of picking $i$ and deleting $j$ is not equivalent to picking $j$ and deleting $i$.
+For example, suppose that the ending time of $i$ is uniformly distributed on $\{3,4,5\}$ and the starting time of $j$ is uniformly distributed on $\{5,6,7,8\}$.
+Then $P_{ij}= 1/3$ but $P_{ji}= 1/4$. 
+Thus, the two inequalities need to be reformulated as:
+\[x_i+x_j\leq 2-\min\{P_{ij},P_{ji}\}, X_{ij}\leq 1- \min\{P_{ij},P_{ji}\}.\]
+For convenience, define $P^*_{ij} := \min{P_{ij},P_{ji}}$.
+We then have the relaxation:
+\begin{align*}
+    \max\quad~&\sum_{i=1}^{n}w_iX_{ii}\\
+    &\begin{pmatrix}
+        X &\Diag(X)\\
+        \Diag(X)^\top &1
+    \end{pmatrix}\succeq 0\\
+    &X_{ii}+X_{jj}\leq 2-P^*_{ij}~\forall i,j\\
+    &X_{ij}\leq 1-P^*_{ij}~\forall i,j\\
+    & \sum_{i=1}^{n}P_{ik}^o x_i\leq1\\
+    &X\geq 0.
+\end{align*}
+whose dual is:
+\begin{align*}
+    \min\quad~&t+\sum_{k=1}^{m}\gamma_k+\sum_{i\neq j}(1-p^*_{ij})\beta_{ij}+\sum_{i\neq j}(2-p^*_{ij})\alpha_{ij}\\
+    &Q_{ii} = -w_i - 2q_i + \sum_{j\neq i}\alpha_{ij}+\sum_{j\neq i}\alpha_{ji}+\sum_{k=1}^{m}p_{ik}^{o}\gamma_k \\
+    &Q_{ij}\leq \beta_{ij}\\
+    &\begin{pmatrix}
+        Q&q\\
+        q^\top&t
+    \end{pmatrix}\succeq 0,~\alpha,\beta,\gamma\geq 0
+\end{align*}
+\subsection{Approximation Ratio}
+Consider an arbitrary optimal policy of the dynamic problem, let $x\in \{0,1\}^{\min\{n,m\}}$ be a returned realization of it, and let the set of scheduled jobs be $S$.
+Consider $G=(N,E)$ where $\{i,j\}\in E$ if either $i\notin S$ or $j\notin S$.
+Consider the corresponding Lovasz-Theta function:
+\begin{multicols}{2}
+    \noindent
+    \begin{align}
+\label{SDP-P}
+\tag{SDP-P}
+\begin{split}
+    % \max_{x\in\R^{n},X\in\symm^{n}}\quad &w^\top x\\
+    \max\quad &w^\top x\\
+    \text{s.t.}\quad &X_{ii}=x_i, \forall i\in N\\
+    &X_{ij}=0,\forall ij\in E\\
+    % &\begin{psmallmatrix}
+    %     1&x^{\top}\\
+    %     x&X
+    % \end{psmallmatrix}\succeq 0
+    &X-xx^\top\succeq 0
+\end{split}
+\end{align}
+\columnbreak
+\begin{align}
+\label{SDP-D}
+\tag{SDP-D}
+\begin{split}
+    % \min_{t, q, Q}\quad &t\\
+    \min\quad &t\\
+    \text{s.t.}\quad
+    &Q_{ii}=-2q_i-w_i,\forall i \in N\\
+    &Q_{ij}=0,\forall ij\notin E\\
+    % &\begin{psmallmatrix} t&q^{\top}\\ q&Q \end{psmallmatrix}\succeq 0.
+    &tQ-qq^\top\succeq 0.
+\end{split}
+\end{align}
+\end{multicols}
+It is clear that $G$ is a perfect graph and thus the optimal value $t$ of this pair of SDP is $t:=\max\{\max_{i\notin S}\{w_i\}, \sum_{i\in S}w_i\}$.
+For the dual, we have 
+\[-q_i^2+t(-2q_i-w_i)\geq 0 \iff (q_i+t)^2+tw_i-t^2\leq 0 \implies |q_i+t|\leq\sqrt{t(t-w_i)}\leq t.\]
+Thus, we have 
+\[|q_i|\leq t+\sqrt{t(t-w_i)}\leq 2t,\]
+which implies 
+\[Q_{ii} = -2q_i-w_i\leq 2t+2\sqrt{t(t-w_i)}-w_i\leq 4t-w_i\leq 4t,\forall i\]
+and 
+\[|Q_{ij}|\leq \sqrt{Q_{ii}Q_{jj}}\leq \sqrt{4t^2+4t\sqrt{(t-w_i)(t-w_j)}+4t^{3/2}(\sqrt{t-w_i}+\sqrt{t-w_j})-2t(w_i+w_j)-2t^{1/2}(w_j\sqrt{t-w_i}+w_i\sqrt{t-w_j})+w_iw_j}\]
+or simply,
+$|Q_{ij}|\leq 4t.$
+For each realization $x$, we consider the corresponding probability $p^G$ and the optimal value $t^G$ from the above.
+For the optimal dual solution of each $G$ realization of the realization $x$, we take the convex combination with respect to $p^G$, we get $(t^*,Q^*,q^*)$, where $t^*=\sum_G p^Gt^G$.
+We see that $Q^*_{ii}=-2q_i^*-w_i$ and $t^*Q^*-q^*{q^*}^\top\succeq 0.$
+By setting $\alpha, \gamma$ to $0$ and $\beta_{ij} = \max\{Q^*_{ij}, 0\}$, we see that $(t^*,Q^*, q^*)$ is feasible to the dual problem of our relaxation.
+We see that the objective value of it is:
+\[\sum_{G}p^G t^G + \sum_{i\neq j}(1-p^*_{ij})\max\{0, Q^*_{ij}\}\leq \sum_{G}p^G t^G+\sum_{i\neq j}(1-p^*_{ij})|(\sum_{G}p^G Q^G_{ij})|\leq \sum_{G}p^G t^G+4\sum_{i\neq j}(1-p^*_{ij})\sum_{G}p^G t^G.\]
+
+
+\subsubsection{Approximation Ratio of both LP and SDP}
+Define $p^*:=\min\{P^o_{ik}: P^o_{ik}>0\},\ell^*:\min_j\{\E[\ell(j)]\}$.
+Consider a basic LP relaxation and its dual:
+\begin{align*}
+    \max\quad~&\sum_{i=1}^{n}w_ix_i\\
+    & \sum_{i=1}^{n}P_{ik}^o x_i\leq1\\
+    &x\geq 0.
+\end{align*}
+whose dual is:
+\begin{align*}
+    \min~&\sum_{k=1}^{m}\gamma_k\\
+    &\sum_{k=1}^{m}P^o_{ik}\gamma_k\geq w_i\\
+    &\gamma\geq 0.
+\end{align*}
+Consider any optimal policy whose expected returned value is $\operatorname{OPT}$ and let $\gamma_k = \sum_{i=1}^{n}w_i\Pr[i\text{ starts at }k, i\text{ is scheduled}]/p^*$.
+Then
+\begin{align*}
+    &\sum_{k=1}^{m}P_{ik}^o\gamma_k\\
+    =&\sum_{k=1}^m\sum_{j=1}^{n}P_{ik}^o w_j\Pr[j\text{ starts at }k, j\text{ is scheduled}]/p^*\\
+    \geq &\sum_{j=1}^n w_j\sum_{k=1}^{m}P_{ik}^o \Pr[j\text{ starts at }k, j\text{ is scheduled}]/p^*\\
+    \geq &\sum_{j=1}^n w_j\sum_{k=1}^{m}\Pr[j\text{ starts at }k, j\text{ is scheduled}]\\
+    \geq &\sum_{j=1}^{n} w_j\Pr[j\text{ is scheduled}]\\
+    \geq &w_i
+\end{align*}
+So $\gamma$ is feasible, also,
+\begin{align*}
+    &\sum_{k=1}^{m}\gamma_k\\
+    =&\sum_{k=1}^{m}\sum_{i=1}^{n}w_i\Pr[i\text{ starts at }k, i\text{ is scheduled}]/p^*\\
+    =&\frac{1}{p^*}\sum_{i=1}^{n}w_i\sum_{k=1}^{m}\Pr[i\text{ starts at }k, i\text{ is scheduled}]\\
+    =&\frac{1}{p^*}\sum_{i=1}^{n}w_i\Pr[i\text{ is scheduled}]\\
+    \geq &\frac{1}{p^*}\operatorname{OPT}
+\end{align*}
+For the primal, let $x_i$ be the probability of $i$ being scheduled, then 
+$\operatorname{OPT}\leq u^*\leq \frac{1}{p}\operatorname{OPT}$, where $u^*$ is the optimal value of the LP pair.
+
+\section{Proportional Probability distribution}
+We consider the model where the deletion of a job depends on flipping a coin.
+Let $x_{ik}^{t,o}$ be the
+$\Pr[\text{$i$ being selected at $t$ and $i$ occupies $k$}]$.
+
+Consider the original set of supports of job $i$, WLOG, let it be $\{1,\ldots,g\}$.
+Then  for $k<g$,
+\[x_{ik}^{t,o}-x_{i(k+1)}^{t,o}=x_{i(k+1)}^{t,s},\]
+and 
+\[x_{ig}^{t,o}\geq P_{ig}^{s}x_i^t.\]
+Notice that for the inequality above, if the instances has consecutive support of starting time, and the ending time is independent from the starting time, then 
+\[x_{ig}^{t,o}=x_i^t.\]
+If not, like the instance for NP-hardness, we can only have 
+\[x_{ik}^{t,o}\geq P_{ik}^{s}x_i^t.\]
+
+Consider the probabilities $x_{i(k+1)}^{t,s}$ that are the probabilities of job $i$ starting at position $k+1$ and selected at time $t$.
+According to the way of updating probabilities, at any stage $t$, the probabilities of starting at available positions $k<\ell$ are proportional to the original $P_{ik}^{s},P_{i\ell}^{s}$.
+That is, suppose that both $k,\ell$ are available when $i$ is selected at stage $t$.
+Then
+\[\Pr[\text{$i$ starts $k$}|\text{$i$ selected at $t$}]/\Pr[\text{$i$ starts $\ell$}|\text{$i$ selected at $t$}]=P_{ik}^{s}/P_{i\ell}^{s}= x_{ik}^{s,t}/x_{i\ell}^{s,t}.\]
+If some of them is not available, then $k$ is not available, that is, $x_{ik}^{s}=0$, so we always have 
+\[P_{ik}^{s}x_{i\ell}^{s,t}\geq x_{ik}^{s,t}P_{i\ell}^{s}.\]
+\subsection{Other constraints}
+\[\sum_{i}x_{ik}^{t,o}=\Pr[\text{$k$ occupied at $t$}].\]
+Thus 
+\[\sum_{t}\sum_{i}x_{ik}^{t,o}=\Pr[\text{$k$ occupied}]\leq 1.\]
+For $t=1$, we have
+\[\sum_{i}x_{ik}^{1,o}=\sum_{i}P_{ik}^{o}x_i^1.\]
+Also,
+\[\sum_{t}x_{ik}^{t,o}=\Pr[\text{$i$ occupies $k$}]\leq x_i;\]
+we can also have, 
+\[\E[\text{length of $i$}|\text{$i$ is selected}]=\sum_{k}\sum_{t}x_{ik}^{t,o}/x_i\leq \E[\text{length of $i$|\text{$i$ is selected at time $1$}}].\]
+Again, to avoid the problem of $x_i=0$, we can have
+\[\sum_{k}\sum_{t}x_{ik}^{t,o}\leq \E[\text{length of $i$|\text{$i$ is selected at time $1$}}]*x_i.\]
+
+Of course,$\sum_{t}x_i^t = x_i\leq 1$;
+$x_{ik}^{t,o}\leq 1$.
+
+\subsection{Bound on the Relaxation}
+Consider the relaxations and using the constraints above, we have 
+\[\sum_{t}\sum_{i}x_{ik}^{to}\leq 1\]
+By the constraints above, we have 
+\begin{align*}
+&\sum_{t}\sum_{i}x_{ik}^{to}\\
+=&\sum_{t} \left(\sum_{i,a[i]\leq k\leq b[i]}x_{ik}^{to}+\sum_{i,c[i]\leq k\leq d[i]}x_{ik}^{to}+\sum_{i,b[i]\leq k\leq c[i]}x_{ik}^{to}\right)\\
+=&\sum_{t} \left(\sum_{i,a[i]\leq k\leq b[i]}(x_{i}^{t}-\sum_{\ell = k+1}^{b[i]}x_{i\ell}^{ts})+\sum_{i,c[i]\leq k\leq d[i]}(x_i^t-\sum_{\ell =c[i]}^{k-1}x_{i\ell}^{te})+\sum_{i,b[i]\leq k\leq c[i]}x_{i}^{t}\right)\\
+=&\sum_{t}\sum_{i, P_{ik}^o> 0} x_i^t-\sum_t \left(\sum_{i,a[i]\leq k\leq b[i]}\sum_{\ell = k+1}^{b[i]}x_{i\ell}^{ts}+\sum_{i,c[i]\leq k\leq d[i]}\sum_{\ell =c[i]}^{k-1}x_{i\ell}^{te}\right)\leq 1
+\end{align*}
+Then we get, for any $k = 1,\ldots, m$:
+\begin{align*}
+   \sum_{t}\sum_{i} x_i^t &\leq 1 + \sum_t \left(\sum_{i,a[i]\leq k\leq b[i]}\sum_{\ell = k+1}^{b[i]}x_{i\ell}^{ts}+\sum_{i,c[i]\leq k\leq d[i]}\sum_{\ell =c[i]}^{k-1}x_{i\ell}^{te}\right)+\sum_{t}\sum_{i, P_{ik}^o = 0} x_i^t\\
+   &= 1+\sum_{i,a[i]\leq k\leq b[i]}\sum_{\ell = k+1}^{b[i]}x_{i\ell}^{s}+\sum_{i,c[i]\leq k\leq d[i]}\sum_{\ell =c[i]}^{k-1}x_{i\ell}^{e}+\sum_{t}\sum_{i, P_{ik}^o = 0} x_i^t\\
+   &\leq 1+\sum_{i,a[i]\leq k\leq b[i]}\sum_{\ell = k+1}^{b[i]}P_{i\ell}^{s}+\sum_{i,c[i]\leq k\leq d[i]}\sum_{\ell =c[i]}^{k-1}P_{i\ell}^{e}+\sum_{t}\sum_{i, P_{ik}^o = 0} x_i^t
+\end{align*}
+
+
+Consider the LP:
+\begin{align*}
+    \max~&\sum_t \sum_i x_{i}^{t}\\
+    &x_i^t =\sum_{k=1}^{m}x_{ik}^{ts}=\sum_{k=1}^{m}x_{ik}^{te}, \forall i,\forall t\\
+    &x_{ik}^{ts}=0,\forall t,\forall k\notin [a[i],b[i]]\\
+    &x_{ik}^{te}=0,\forall t,\forall k\notin [c[i],d[i]]\\
+    &\sum_{t}\sum_{i, a[i]\leq k\leq d[i]} x_i^t-\sum_t \left(\sum_{i,a[i]\leq k\leq b[i]}\sum_{\ell = k+1}^{b[i]}x_{i\ell}^{ts}+\sum_{i,c[i]\leq k\leq d[i]}\sum_{\ell =c[i]}^{k-1}x_{i\ell}^{te}\right)\leq 1\\
+    &\sum_{t}x_{ik}^{ts}\leq P_{ik}^{s},\forall i,\forall k\\
+    &\sum_{t}x_{ik}^{te}\leq P_{ik}^{e},\forall i,\forall k\\
+    &0\leq x_{i}^{t}\leq 1\\
+    &0\leq x_{ik}^{ts},x_{ik}^{te}\leq 1
+\end{align*}
+where $i = 1,\ldots, n$, $k = 1,\ldots,m$, $t = 1,\ldots T$, $T:=\min\{n,m\}$, and $P^{s},P^{e}$ are given matrices whose entries are between $0$ and $1$, and each row sum is $1$.
+And the dual is:
+\[
+\begin{aligned}
+\min\quad 
+& \sum_{r=1}^{m} \pi_r
+  + \sum_{i=1}^{n}\sum_{k\in S_i} P^s_{ik}\,\mu^s_{ik}
+  + \sum_{i=1}^{n}\sum_{k\in E_i} P^e_{ik}\,\mu^e_{ik}
+  + \sum_{i=1}^{n}\sum_{t=1}^{T} u_{it}
+  + \sum_{i=1}^{n}\sum_{t=1}^{T}\sum_{k\in S_i} v^s_{ikt}
+  + \sum_{i=1}^{n}\sum_{t=1}^{T}\sum_{k\in E_i} v^e_{ikt} \\[4pt]
+\text{s.t.}\quad 
+& \alpha_{it} + \beta_{it} + u_{it} + \sum_{r\in K_i} \pi_r \;\ge\; 1,
+&& \forall\, i=1,\ldots,n,\ \forall\, t=1,\ldots,T, \\[4pt]
+& -\,\alpha_{it} \;-\! \sum_{r=a_i}^{k-1} \pi_r \;+\; \mu^s_{ik} \;+\; v^s_{ikt} \;\ge\; 0,
+&& \forall\, i=1,\ldots,n,\ \forall\, t=1,\ldots,T,\ \forall\, k\in S_i, \\[4pt]
+& -\,\beta_{it} \;-\! \sum_{r=k+1}^{d_i} \pi_r \;+\; \mu^e_{ik} \;+\; v^e_{ikt} \;\ge\; 0,
+&& \forall\, i=1,\ldots,n,\ \forall\, t=1,\ldots,T,\ \forall\, k\in E_i, \\[6pt]
+& \pi_r,\ \mu^s_{ik},\ \mu^e_{ik},\ u_{it},\ v^s_{ikt},\ v^e_{ikt} \;\ge\; 0,
+&& \\[2pt]
+& \alpha_{it},\ \beta_{it} \in \mathbb{R},
+&& 
+\end{aligned}
+\]
+where 
+\[
+S_i:=\{a_i,\ldots,b_i\},\qquad
+E_i:=\{c_i,\ldots,d_i\},\qquad
+K_i:=\{a_i,\ldots,d_i\},\qquad
+T:=\min\{n,m\}.
+\]
+Consider the dual where setting all $\alpha,\beta, u,v$ to be $0$, then the problem becomes:
+\[
+\begin{aligned}
+\min\quad 
+& \sum_{r=1}^{m} \pi_r
+  + \sum_{i=1}^{n}\sum_{k\in S_i} P^s_{ik}\,\mu^s_{ik}
+  + \sum_{i=1}^{n}\sum_{k\in E_i} P^e_{ik}\,\mu^e_{ik}
+ \\[4pt]
+\text{s.t.}\quad 
+& \sum_{r\in K_i} \pi_r \;\ge\; 1,
+&& \forall\, i=1,\ldots,n,\\[4pt]
+&-\sum_{r=a_i}^{k-1} \pi_r +\mu^s_{ik}\geq 0,
+&& \forall\, i=1,\ldots,n,\ \forall\, t=1,\ldots,T,\ \forall\, k\in S_i, \\[4pt]
+& -\sum_{r=k+1}^{d_i} \pi_r \;+\; \mu^e_{ik} \geq 0,
+&& \forall\, i=1,\ldots,n,\ \forall\, t=1,\ldots,T,\ \forall\, k\in E_i, \\[6pt]
+& \pi_r,\ \mu^s_{ik},\ \mu^e_{ik},\geq 0.
+&&
+\end{aligned}
+\]
+It is clear that for this problem, we can set $
+\mu^s_{ik}=\sum_{r=a_i}^{k-1} \pi_r;~ 
+\mu^e_{ik} = \sum_{r=k+1}^{d_i} \pi_r$.
+Again, we can simplify the problem as 
+\[
+\begin{aligned}
+\min\quad 
+& \sum_{r=1}^{m} \pi_r
+ \\[4pt]
+\text{s.t.}\quad 
+& \sum_{r\in K_i} \pi_r \;\ge\; 1,
+&& \forall\, i=1,\ldots,n,\\[4pt]
+& \pi_r\geq 0.
+&&
+\end{aligned}
+\]
+Then, it is indeed the dual of the clique LP of the graph of each job realized as taking all its support positions.
+We let $\hat{\gamma}$ be the optimal value of this LP.
+We also have:
+\[\sum_{i=1}^{n}\sum_{k\in S_i} P^s_{ik}\,\mu^s_{ik} = \sum_{i=1}^{n}\sum_{k\in S_i} P^s_{ik}\, \sum_{r=a_i}^{k-1}\pi_r = \sum_{r}\pi_r\sum_{i}\sum_{k,r\in S_i, k>r}P_{ik}^s=\sum_r \pi_r \sum_{i\text{ s.t. }r\in S_i} (1-P_{ik}^o)\]
+Similar for the other term, we have 
+\[\sum_{i=1}^{n}\sum_{k\in E_i} P^e_{ik}\,\mu^e_{ik} = \sum_{r}\pi_r\sum_{i}\sum_{k,r\in E_i, k<r}P_{ik}^e\]
+Thus, the optimal value of the original is less than 
+\[3\hat{\gamma}*\max\left\{1,\max_r\left\{\sum_{i}\sum_{k,r\in S_i, k>r}P_{ik}^s, \sum_{i}\sum_{k,r\in E_i, k<r}P_{ik}^e\right\}\right\}\]
+
+However, notice that $\sum_{r=a_i}^{k-1}\pi_r\leq \sum_{r=a_i}^{b_i-1}\pi_r$ for $k\in S_i$; similarly, $\sum_{r=k+1}^{d_i}\pi_r\leq \sum_{r=c_i+1}^{d_i}\pi_r$ for $k\in E_i$.
+Thus, we have 
+\[\sum_{i=1}^{n}\sum_{k\in S_i} P^s_{ik}\, \sum_{r=a_i}^{k-1}\pi_r \leq  \sum_{i=1}^{n}\sum_{k\in S_i} P^s_{ik}\, \sum_{r=a_i}^{b_i-1}\pi_r = \sum_{i=1}^{n}\sum_{r=a_i}^{b_i-1}\pi_r,\]
+by $\sum_{k\in S_i}P_{ik}^{s}=1.$ Similarly, we have 
+\[\sum_{i=1}^{n}\sum_{k\in E_i} P^e_{ik}\, \sum_{r=k+1}^{d_i}\pi_r \leq  \sum_{i=1}^{n}\sum_{k\in E_i} P^e_{ik}\, \sum_{r=c_i+1}^{d_i}\pi_r = \sum_{i=1}^{n}\sum_{r=c_i+1}^{d_i}\pi_r\]
+Hence, the objective value is upper bounded by
+\begin{align*}
+&\sum_{r=1}^{m}\pi_r+\sum_{i=1}^{n}\sum_{r=a_i}^{b_i-1}\pi_r+\sum_{i=1}^{n}\sum_{r=c_i+1}^{d_i}\pi_r\\
+=&\sum_{r=1}^{m}\pi_r+\sum_{i=1}^{n}\left(\sum_{r=a_i}^{b_i-1}\pi_r+\sum_{r=c_i+1}^{d_i}\pi_r\right)\\
+\leq &(\theta+1)\hat{\gamma}
+\end{align*}
+where 
+\[\theta:=\max_{k=1,\ldots,m}\left\{\text{ number of jobs such that $k$ is in its support but might not be included}\right\}\]
+\subsection{Bounds for Uniform Weights Case }
+Consider the case where the weights of all jobs are uniform. 
+Without loss of generality, let $w_i=1$ for every job.
+Let $\alpha_{pes}$ be the optimal value of the pessimistic case, i.e., the realization where each job occupies as many slots as possible.
+Because of the uniform weights, there is a set $\mathcal{J}\subseteq [m]$ with $|\mathcal{J}|=\alpha_{pes}$ such that each job covers exactly one element in $\mathcal{J}$.
+
+From above, we have for each $k\in\mathcal{J}$,
+\begin{align*}
+   \sum_i x_i = \sum_{t}\sum_{i} x_i^t &\leq 1 + \sum_t \left(\sum_{i,a[i]\leq k\leq b[i]}\sum_{\ell = k+1}^{b[i]}x_{i\ell}^{ts}+\sum_{i,c[i]\leq k\leq d[i]}\sum_{\ell =c[i]}^{k-1}x_{i\ell}^{te}\right)+\sum_{t}\sum_{i, P_{ik}^o = 0} x_i^t\\
+   &= 1+\sum_{i,a[i]\leq k\leq b[i]}\sum_{\ell = k+1}^{b[i]}x_{i\ell}^{s}+\sum_{i,c[i]\leq k\leq d[i]}\sum_{\ell =c[i]}^{k-1}x_{i\ell}^{e}+\sum_{i, P_{ik}^o = 0} x_i\\
+   &\leq 1+\sum_{i,a[i]\leq k\leq b[i]}\sum_{\ell = k+1}^{b[i]}P_{i\ell}^{s}+\sum_{i,c[i]\leq k\leq d[i]}\sum_{\ell =c[i]}^{k-1}P_{i\ell}^{e}+\sum_{i, P_{ik}^o = 0} x_i
+\end{align*}
+Let $k[i]$ be the element in $\mathcal{J}$ covered by $i\in[n]$.
+Let $\alpha$ be the optimal value of the above LP relaxation, and sum over both sides over $\mathcal{J}$, we get
+\begin{align*}
+    \alpha*\alpha_{pes}&\leq \alpha_{pes}+\sum_{k\in\mathcal{J}}\left(\sum_{i,a[i]\leq k\leq b[i]}\sum_{\ell = k+1}^{b[i]}x_{i\ell}^{s}+\sum_{i,c[i]\leq k\leq d[i]}\sum_{\ell =c[i]}^{k-1}x_{i\ell}^{e}\right)+(\alpha_{pes}-1)\sum_{i}x_i\\
+    \iff&\\
+    \alpha &\leq \alpha_{pes}+\sum_{k\in\mathcal{J}}\left(\sum_{i,a[i]\leq k\leq b[i]}\sum_{\ell = k+1}^{b[i]}x_{i\ell}^{s}+\sum_{i,c[i]\leq k\leq d[i]}\sum_{\ell =c[i]}^{k-1}x_{i\ell}^{e}\right)\\
+    &=\alpha_{pes}+\sum_{i}\sum_{\ell=k[i]+1}^{b[i]}x_{i\ell}^{s}+\sum_{\ell=c[i]}^{k[i]-1}x_{i\ell}^{e}\\
+    &\leq \alpha_{pes}+\sum_i (1-P_{ik[i]}^o)
+   % &\leq 1+\sum_{i,a[i]\leq k\leq b[i]}\sum_{\ell = k+1}^{b[i]}P_{i\ell}^{s}+\sum_{i,c[i]\leq k\leq d[i]}\sum_{\ell =c[i]}^{k-1}P_{i\ell}^{e}+\sum_{i, P_{ik}^o = 0} x_i
+\end{align*}
+where the first inequality is from the fact that each $i$ covers exactly one element in $\mathcal{J}$, so it does not cover exactly $(\alpha_{pes}-1)$ element in $\mathcal{J}$. 
+The first equality is from the same fact that each $i$ covers exactly one $k[i]\in\mathcal{J}$. 
+And the last inequality is from the constraint $\sum_{t}x_{i\ell}^{ts}\leq P_{i\ell}^s$, same for $x_{i\ell}^e$.
+Comparing to the previous bound, notice that now for each $i$, we only consider on $k[i]\in[a[i],d[i]]$ while the previous bound needs to consider all of them.
+
+Notice that for the conservative case (where we need to delete every jobs when its support is occupied), we have 
+$x_{i\ell}^{s}=x_i P_{i\ell}^s $ and $x_{i\ell}^{e}=x_i P_{i\ell}^e$.
+Thus we have,
+\[\alpha\leq \alpha_{pes}+\sum_{i}\sum_{\ell=k[i]+1}^{b[i]}x_{i\ell}^{s}+\sum_{\ell=c[i]}^{k[i]-1}x_{i\ell}^{e} = \alpha_{pes}+\sum_{i}(1-P_{ik[i]}^o)x_i\leq \alpha_{pes}+\alpha*(1-P_{i^*k[i^*]}^{o}),\]
+where $P_{i^*k[i^*]}^{o}=\min_i \{P_{ik[i]}^o\}>0$, so 
+\[\alpha\leq \frac{1}{P_{i^*k[i^*]}^{o}}\alpha_{pes}.\]
+
+Notice that for~\eqref{Conserv-JS}, weights are not uniform, 
+and, in the above formulation, we assume that all the supports of a job are consecutive, it still works for~\eqref{Conserv-JS}, and it turns out that, let $\alpha$ be the optimal value of the LP above, 
+and let $\beta$ be the optimal value of the realization where each $i=1,\ldots,n$ is realize at the position $i$ if $P_{i}\geq 1/2$ and $n+i$ otherwise, then 
+we have
+\[\alpha\leq 2\beta,\]
+where $\alpha$ is the optimal value of~\eqref{Conserv-JS}.
+Thus, a partition does not exist if $\ln(2\beta-2) = \ln(2)+\ln(\beta-1)< -1$, which is equivalent to 
+\[\ln(\beta-1)<-1-\ln(2)\iff \beta <(2e)^{-1}+1\].
+
+\newpage
+Notice that the above LP pair has the main inequality derived with respect to the pessimistic realization, we also derive the same inequality for the optimistic realization, which is:
+\begin{align*}
+&\sum_{t}\sum_{i}x_{ik}^{to}\\
+=&\sum_{t} \left(\sum_{i,a[i]\leq k\leq b[i]}x_{ik}^{to}+\sum_{i,c[i]\leq k\leq d[i]}x_{ik}^{to}+\sum_{i,b[i]\leq k\leq c[i]}x_{ik}^{to}\right)\\
+=&\sum_{t} \left(\sum_{i,a[i]\leq k\leq b[i]-1}\sum_{\ell = a[i]}^{k}x_{i\ell}^{ts}+\sum_{i,c[i]+1\leq k\leq d[i]}\sum_{\ell =k}^{d[i]}x_{i\ell}^{te}+\sum_{i,b[i]\leq k\leq c[i]}x_{i}^{t}\right)\\
+=&\sum_{t}\sum_{i, b[i]\leq k\leq c[i]} x_i^t+\sum_t \left(\sum_{i,a[i]\leq k\leq b[i]-1}\sum_{\ell = a[i]}^{k}x_{i\ell}^{ts}+\sum_{i,c[i]+1\leq k\leq d[i]}\sum_{\ell =k}^{d[i]}x_{i\ell}^{te}\right)\leq 1
+\end{align*}
+And the primal is:
+\begin{align*}
+    \max~&\sum_t \sum_i x_{i}^{t}\\
+    &x_i^t =\sum_{k=1}^{m}x_{ik}^{ts}=\sum_{k=1}^{m}x_{ik}^{te}, \forall i,\forall t\\
+    &x_{ik}^{ts}=0,\forall t,\forall k\notin [a[i],b[i]]\\
+    &x_{ik}^{te}=0,\forall t,\forall k\notin [c[i],d[i]]\\
+    &\sum_{t}\sum_{i, b[i]\leq k\leq c[i]} x_i^t+\sum_t \left(\sum_{i,a[i]\leq k\leq b[i]-1}\sum_{\ell = a[i]}^{k}x_{i\ell}^{ts}+\sum_{i,c[i]+1\leq k\leq d[i]}\sum_{\ell =k}^{d[i]}x_{i\ell}^{te}\right)\leq 1\\
+    &\sum_{t}x_{ik}^{ts}\leq P_{ik}^{s},\forall i,\forall k\\
+    &\sum_{t}x_{ik}^{te}\leq P_{ik}^{e},\forall i,\forall k\\
+    &0\leq x_{i}^{t}\leq 1\\
+    &0\leq x_{ik}^{ts},x_{ik}^{te}\leq 1
+\end{align*}
+and the dual is:
+\[
+\begin{aligned}
+\min\quad 
+& \sum_{r=1}^{m} \pi_r
+  + \sum_{i=1}^{n}\sum_{k\in S_i} P^s_{ik}\,\mu^s_{ik}
+  + \sum_{i=1}^{n}\sum_{k\in E_i} P^e_{ik}\,\mu^e_{ik}
+  + \sum_{i=1}^{n}\sum_{t=1}^{T} u_{it}
+  + \sum_{i=1}^{n}\sum_{t=1}^{T}\sum_{k\in S_i} v^s_{ikt}
+  + \sum_{i=1}^{n}\sum_{t=1}^{T}\sum_{k\in E_i} v^e_{ikt} \\[4pt]
+\text{s.t.}\quad 
+& \alpha_{it} + \beta_{it} + u_{it} + \sum_{b[i]\leq r\leq c[i]} \pi_r \;\ge\; 1,
+&& \forall\, i=1,\ldots,n,\ \forall\, t=1,\ldots,T, \\[4pt]
+& -\,\alpha_{it} \;+\! \sum_{r=k}^{b[i]-1} \pi_r \;+\; \mu^s_{ik} \;+\; v^s_{ikt} \;\ge\; 0,
+&& \forall\, i=1,\ldots,n,\ \forall\, t=1,\ldots,T,\ \forall\, k\in S_i, \\[4pt]
+& -\,\beta_{it} \;+\! \sum_{r=c[i]+1}^{k} \pi_r \;+\; \mu^e_{ik} \;+\; v^e_{ikt} \;\ge\; 0,
+&& \forall\, i=1,\ldots,n,\ \forall\, t=1,\ldots,T,\ \forall\, k\in E_i, \\[6pt]
+& \pi_r,\ \mu^s_{ik},\ \mu^e_{ik},\ u_{it},\ v^s_{ikt},\ v^e_{ikt} \;\ge\; 0,
+&& \\[2pt]
+& \alpha_{it},\ \beta_{it} \in \mathbb{R},
+&& 
+\end{aligned}
+\]
+\newpage
+Consider the problem where $\alpha_{ij},\beta_{ij}$ are not set to zero, then the problem becomes
+\[
+\begin{aligned}
+\min\quad 
+& \sum_{r=1}^{m} \pi_r
+  + \sum_{i=1}^{n}\sum_{k\in S_i} P^s_{ik}\,\mu^s_{ik}
+  + \sum_{i=1}^{n}\sum_{k\in E_i} P^e_{ik}\,\mu^e_{ik}\\[4pt]
+\text{s.t.}\quad 
+& \alpha_{it} + \beta_{it} + \sum_{r\in K_i} \pi_r \;\ge\; 1,
+&& \forall\, i=1,\ldots,n,\ \forall\, t=1,\ldots,T, \\[4pt]
+& \mu^s_{ik} \; \ge\; \,\alpha_{it} \;+\! \sum_{r=a_i}^{k-1} \pi_r,
+&& \forall\, i=1,\ldots,n,\ \forall\, t=1,\ldots,T,\ \forall\, k\in S_i, \\[4pt]
+& \mu^e_{ik} \;\ge\; \,\beta_{it} \;+\! \sum_{r=k+1}^{d_i} \pi_r,
+&& \forall\, i=1,\ldots,n,\ \forall\, t=1,\ldots,T,\ \forall\, k\in E_i, \\[6pt]
+& \pi_r,\ \mu^s_{ik},\ \mu^e_{ik},
+&& \\[2pt]
+& \alpha_{it},\ \beta_{it} \in \mathbb{R},
+&& 
+\end{aligned}
+\]
+Since $\alpha_{it}$ is fixed for $\mu_{ik}^{s}$ for every $k$ (same for $\mu^e_{ik}$), it is not hard to see that 
+\[\mu_{ik}^{s} = \max_{t}\alpha_{it} + \sum_{r=a_i}^{k-1}\pi_r.\]
+Thus, if $\pi_r$ is an optimal solution for some clique LP for any realization, we have the following LP for $\alpha,\beta$
+\begin{align*}
+    \min~&\alpha^*+\beta^*\\
+    \text{ s.t. }&\alpha_{it}+\beta_{it}\geq 1-\sum_{r\in K_i}\pi_r\\
+    &\alpha^*\geq \alpha_{it}\\
+    &\beta^*\geq \beta_{it}
+\end{align*}
+whose dual is
+\begin{align*}
+    \max~&\sum_i \left(1-\sum_{r\in K_i}\pi_r\right)u_i\\
+    &\sum_{i}u_i = 1\\
+    &u_i\geq 0,~\forall i.
+\end{align*}
+Since $\pi_r$ is a solution to a realization, we have 
+\[1\leq \sum_{r\in K_i}\pi_r;\quad \max_{i}1-\sum_{r\in K_i}\pi_r = 0\]
+Thus, $\alpha^*+\beta^*=0$
+
+
+% Updated dual after adding  \sum_t x_i^t \le 1  (one per i)
+\[
+\begin{aligned}
+\min\quad 
+& \sum_{r=1}^{m} \pi_r
+  + \sum_{i=1}^{n} \gamma_i
+  + \sum_{i=1}^{n}\sum_{k\in S_i} P^s_{ik}\,\mu^s_{ik}
+  + \sum_{i=1}^{n}\sum_{k\in E_i} P^e_{ik}\,\mu^e_{ik}
+  + \sum_{i=1}^{n}\sum_{t=1}^{T} u_{it}
+  + \sum_{i=1}^{n}\sum_{t=1}^{T}\sum_{k\in S_i} v^s_{ikt}
+  + \sum_{i=1}^{n}\sum_{t=1}^{T}\sum_{k\in E_i} v^e_{ikt} \\[4pt]
+\text{s.t.}\quad 
+& \alpha_{it} + \beta_{it} + u_{it} + \gamma_i + \sum_{r\in K_i} \pi_r \;\ge\; 1,
+&& \forall\, i=1,\ldots,n,\ \forall\, t=1,\ldots,T, \\[4pt]
+& -\,\alpha_{it} \;-\! \sum_{r=a_i}^{k-1} \pi_r \;+\; \mu^s_{ik} \;+\; v^s_{ikt} \;\ge\; 0,
+&& \forall\, i=1,\ldots,n,\ \forall\, t=1,\ldots,T,\ \forall\, k\in S_i, \\[4pt]
+& -\,\beta_{it} \;-\! \sum_{r=k+1}^{d_i} \pi_r \;+\; \mu^e_{ik} \;+\; v^e_{ikt} \;\ge\; 0,
+&& \forall\, i=1,\ldots,n,\ \forall\, t=1,\ldots,T,\ \forall\, k\in E_i, \\[6pt]
+& \pi_r,\ \mu^s_{ik},\ \mu^e_{ik},\ u_{it},\ v^s_{ikt},\ v^e_{ikt},\ \gamma_i \;\ge\; 0,
+&& \\[2pt]
+& \alpha_{it},\ \beta_{it} \in \mathbb{R}.
+&& 
+\end{aligned}
+\]
+% Dual (both start/end "supply" rows are equalities)
+\[
+\begin{aligned}
+\min\quad 
+& \sum_{r=1}^{m} \pi_r
+  + \sum_{i=1}^{n}\sum_{t=1}^{T} u_{it}
+  + \sum_{i=1}^{n}\sum_{t=1}^{T}\sum_{k\in S_i} v^s_{ikt}
+  + \sum_{i=1}^{n}\sum_{t=1}^{T}\sum_{k\in E_i} v^e_{ikt} \\[4pt]
+\text{s.t.}\quad 
+& \alpha_{it} + \beta_{it} + u_{it}
+  - \sum_{k\in S_i} P^s_{ik}\,\eta^s_{ik}
+  - \sum_{k\in E_i} P^e_{ik}\,\eta^e_{ik}
+  + \sum_{r\in K_i} \pi_r \;\ge\; 1,
+&& \forall\, i=1,\ldots,n,\ \forall\, t=1,\ldots,T, \\[6pt]
+& -\,\alpha_{it} \;-\! \sum_{r=a_i}^{k-1} \pi_r \;+\; \eta^s_{ik} \;+\; v^s_{ikt} \;\ge\; 0,
+&& \forall\, i=1,\ldots,n,\ \forall\, t=1,\ldots,T,\ \forall\, k\in S_i, \\[4pt]
+& -\,\beta_{it} \;-\! \sum_{r=k+1}^{d_i} \pi_r \;+\; \eta^e_{ik} \;+\; v^e_{ikt} \;\ge\; 0,
+&& \forall\, i=1,\ldots,n,\ \forall\, t=1,\ldots,T,\ \forall\, k\in E_i, \\[6pt]
+& \pi_r,\ u_{it},\ v^s_{ikt},\ v^e_{ikt} \;\ge\; 0,\qquad
+  \eta^s_{ik},\ \eta^e_{ik},\ \alpha_{it},\ \beta_{it} \in \mathbb{R}.
+\end{aligned}
+\]
+\newpage
+
+Consider the LP:
+\begin{align*}
+    \max~&\sum_t \sum_i x_{i}^{t}\\
+    &x_i^t =\sum_{k=1}^{m}x_{ik}^{ts}=\sum_{k=1}^{m}x_{ik}^{te}, \forall i,\forall t\\
+    &x_{ik}^{ts}=0,\forall t,\forall k\notin [a[i],b[i]]\\
+    &x_{ik}^{te}=0,\forall t,\forall k\notin [c[i],d[i]]\\
+    &\sum_{t}\sum_{i, a[i]\leq k\leq d[i]} x_i^t-\sum_t \left(\sum_{i,a[i]\leq k\leq b[i]}\sum_{\ell = k+1}^{b[i]}x_{i\ell}^{ts}+\sum_{i,c[i]\leq k\leq d[i]}\sum_{\ell =c[i]}^{k-1}x_{i\ell}^{te}\right)\leq 1\\
+        &\sum_{t}\sum_{i, b[i]\leq k\leq c[i]} x_i^t+\sum_t \left(\sum_{i,a[i]\leq k\leq b[i]-1}\sum_{\ell = a[i]}^{k}x_{i\ell}^{ts}+\sum_{i,c[i]+1\leq k\leq d[i]}\sum_{\ell =k}^{d[i]}x_{i\ell}^{te}\right)\leq 1\\
+    &\sum_{t}x_{ik}^{ts}\leq P_{ik}^{s},\forall i,\forall k\\
+    &\sum_{t}x_{ik}^{te}\leq P_{ik}^{e},\forall i,\forall k\\
+    &\sum_{i}x_i^t\leq 1~\forall t\\
+    &0\leq x_{i}^{t}\\
+    &0\leq x_{ik}^{ts},x_{ik}^{te}
+\end{align*}
+where $i = 1,\ldots, n$, $k = 1,\ldots,m$, $t = 1,\ldots T$, $T:=\min\{n,m\}$, and $P^{s},P^{e}$ are given matrices whose entries are between $0$ and $1$, and each row sum is $1$.
+\newpage
+
+\[\sum_{t}x_{ik}^{ts}\leq P_{ik}^{s}x_i\]
+
+% Or, to be more precise, we can let $g,h$ be the vector such that
+% $[g]_r=\sum_{i}\sum_{k,r\in S_i, k>r}P_{ik}^s, [h]_r = \sum_{i}\sum_{k,r\in E_i, k<r}P_{ik}^e$, and have the bound:
+
+\bibliographystyle{siam}
+\bibliography{SDPVFA}
+
+
+\end{document}
